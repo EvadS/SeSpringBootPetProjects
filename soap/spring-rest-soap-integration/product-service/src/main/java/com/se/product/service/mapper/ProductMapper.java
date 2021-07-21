@@ -16,7 +16,6 @@ public interface ProductMapper {
 
     ProductMapper MAPPER = Mappers.getMapper(ProductMapper.class);
 
-
     @Mappings({
             @Mapping(target = "name", source = "name"),
             @Mapping(target = "prices", source = "priceSet")
