@@ -98,6 +98,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.js").permitAll()
                 .antMatchers("/**/api/auth/**").permitAll()
                 .antMatchers("/**/ws/**").permitAll()
+                .antMatchers("/price/**").permitAll()
                 //TODO: temporary solution to test ws
                 .anyRequest().authenticated();
 

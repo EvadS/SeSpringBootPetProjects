@@ -31,9 +31,8 @@ public class PriceController implements PriceControllerBase {
         this.priceService = priceService;
     }
 
+    @Override
     @PostMapping
-    @ApiOperation(value = "Creat price.", nickname = "update-price",
-            notes = "Create price.", tags = {})
     public ResponseEntity<PriceResponse> create(@Valid @RequestBody PriceRequest request) {
 
         logger.debug("handle create price request {}", request);
@@ -41,13 +40,10 @@ public class PriceController implements PriceControllerBase {
         return new ResponseEntity<>(pricResponse, HttpStatus.CREATED);
     }
 
+    @Override
     @PutMapping("/{id}")
-    @ApiOperation(value = "Update price.", nickname = "update-price",
-            notes = "Update price.", tags = {})
     public ResponseEntity<?> update(
-            @ApiParam(value = "ID of price", required = true, example = "123")
             @PathVariable(value = "id") @NotNull Long priceId,
-            @ApiParam(value = "Price  details for update", required = true)
             @Valid @RequestBody PriceRequest requestModel) {
 
         logger.debug("handle update price, id:{}, model: {}",priceId , requestModel );
@@ -56,23 +52,18 @@ public class PriceController implements PriceControllerBase {
         return new ResponseEntity<>(articleResponse, HttpStatus.ACCEPTED);
     }
 
+    @Override
     @DeleteMapping(value = "/{id}")
-    @ApiOperation(value = "Delete price.", nickname = "delete",
-            notes = "Delete price by id.",
-            tags = {})
     public ResponseEntity<?> deletePrice(
-            @ApiParam(value = "ID of price to return", required = true, example = "123")
             @PathVariable(value = "id") @NotNull Long id) {
         logger.debug("handle delete price request, id:{}",id);
         priceService.deletePrice(id);
         return ResponseEntity.accepted().build();
     }
 
+    @Override
     @GetMapping(value = "/{id}")
-    @ApiOperation(value = "Price.", nickname = "price-get",
-            notes = "Get price by id.",tags = {})
     public ResponseEntity<PriceResponse> getById(
-            @ApiParam(value = "ID of price to return", required = true, example = "123")
             @PathVariable(value = "id") Long priceId) {
         logger.debug("handle get price by id: {}",priceId);
 
@@ -80,9 +71,8 @@ public class PriceController implements PriceControllerBase {
         return ResponseEntity.ok(priceResponse);
     }
 
+    @Override
     @GetMapping(value = "/list")
-    @ApiOperation(value = "Current prices", nickname = "list",
-            notes = "Prices list.",tags = {})
     public ResponseEntity<?> list() {
         logger.debug("handle list of price request");
 
@@ -91,6 +81,7 @@ public class PriceController implements PriceControllerBase {
     }
 
 
+    @Override
     @RequestMapping(value = "/paged", method = RequestMethod.GET)
     public ResponseEntity<Page<PriceResponse>> getPaged(
             @RequestParam(required = false, defaultValue = "0") Integer page,
