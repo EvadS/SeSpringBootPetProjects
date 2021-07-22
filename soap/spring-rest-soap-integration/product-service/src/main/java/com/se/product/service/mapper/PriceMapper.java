@@ -12,6 +12,7 @@ public interface PriceMapper {
 
     PriceMapper MAPPER = Mappers.getMapper(PriceMapper.class);
 
+
     Price toPrice(PriceRequest priceRequest);
 
     PriceResponse toPriceResponse(Price price);

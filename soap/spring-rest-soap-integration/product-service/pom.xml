@@ -38,8 +38,8 @@
         <jacoco.version>0.8.2</jacoco.version>
         <jjwt.version>0.9.1</jjwt.version>
 
-        <lombok.version>1.18.12</lombok.version>
-        <mapstruct.version>1.3.1.Final</mapstruct.version>
+        <lombok.version>1.18.18</lombok.version>
+        <mapstruct.version>1.4.2.Final</mapstruct.version>
         <m2e.apt.activation>jdt_apt</m2e.apt.activation>
     </properties>
 
@@ -119,6 +119,13 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>2.6.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <version>${mapstruct.version}</version>
+
         </dependency>
 
         <dependency>
@@ -218,6 +225,12 @@
                             <groupId>org.mapstruct</groupId>
                             <artifactId>mapstruct-processor</artifactId>
                             <version>${mapstruct.version}</version>
+                        </path>
+                        <!-- For JPA static metamodel generation -->
+                        <path>
+                            <groupId>org.hibernate</groupId>
+                            <artifactId>hibernate-jpamodelgen</artifactId>
+                            <version>${hibernate.version}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
