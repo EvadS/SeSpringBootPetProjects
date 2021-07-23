@@ -99,6 +99,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**/ws/**").permitAll()
                 .antMatchers("/price/**").permitAll()
                 .antMatchers("/api/**").permitAll()
+                .antMatchers("/api/product**").permitAll()
+
 
                 //TODO: temporary solution to test ws
                 .anyRequest().authenticated();

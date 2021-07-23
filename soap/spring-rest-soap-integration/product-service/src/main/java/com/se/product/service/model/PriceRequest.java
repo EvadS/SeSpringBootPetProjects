@@ -8,7 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Min;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
 @Data
@@ -17,7 +17,8 @@ import javax.validation.constraints.NotNull;
 @Builder(toBuilder = true)
 @ApiModel(description = "Provide model to create new price item")
 public class PriceRequest {
-    @Min(0)
+
+    @DecimalMin(value = "0.01", message = "The price const must be more zero")
     @ApiModelProperty(name = "cost", notes = "price value",
             required = true)
     private double cost;
