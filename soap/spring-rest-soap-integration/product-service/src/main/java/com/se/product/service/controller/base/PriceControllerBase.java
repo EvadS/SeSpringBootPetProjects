@@ -20,17 +20,18 @@ public interface PriceControllerBase {
 
 
     @ApiResponses(value = {
-
-            @ApiResponse(code = 201, message = "Successfully create price"),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 201, message = "Successfully create price",
+                    response = PriceResponse.class),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource",
+                    response = ErrorResponse.class),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden",
+                    response = ErrorResponse.class),
             @ApiResponse(code = 409, message = "Incorrect request param", response = ErrorResponse.class),
             @ApiResponse(code = 422, message = "Incorrect model to create", response = ErrorResponse.class),
             @ApiResponse(code = 415, message = "Incorrect model type to create ", response = ErrorResponse.class)
 
     })
-
-    @ApiOperation(value = "Creat price.", nickname = "update-price",
+    @ApiOperation(value = "Create price.", nickname = "update-price",
             notes = "Create price.", tags = {})
     ResponseEntity<PriceResponse> create(@Valid @RequestBody PriceRequest request);
 

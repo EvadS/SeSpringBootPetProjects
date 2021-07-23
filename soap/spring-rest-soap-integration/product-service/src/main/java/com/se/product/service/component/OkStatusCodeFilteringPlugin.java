@@ -1,7 +1,6 @@
 package com.se.product.service.component;
 
 
-
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -26,17 +25,9 @@ public class OkStatusCodeFilteringPlugin implements OperationBuilderPlugin {
                     .build()
                     .getResponseMessages()
                     .removeIf(responseMessage -> Arrays.asList(
-                            HttpStatus.UNAUTHORIZED.value(),
-                            HttpStatus.ACCEPTED.value(),
-                            HttpStatus.CREATED.value(),
-                            HttpStatus.FORBIDDEN.value(),
                             HttpStatus.NOT_FOUND.value(),
-                            HttpStatus.OK.value(),
-                            HttpStatus.BAD_REQUEST.value(),
-                            HttpStatus.CONFLICT.value(),
-                            HttpStatus.UNPROCESSABLE_ENTITY.value(),
-                            HttpStatus.UNPROCESSABLE_ENTITY.value())
-                            .contains(responseMessage.getCode()));
+                            HttpStatus.CONFLICT.value()
+                    ).contains(responseMessage.getCode()));
         }
     }
 

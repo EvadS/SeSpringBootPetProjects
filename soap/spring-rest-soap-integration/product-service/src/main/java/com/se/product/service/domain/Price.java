@@ -15,16 +15,21 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 @Entity
+
+@Table(indexes = {
+        @Index(name = "uniqueMulitIndex", columnList = "currency_type, cost", unique = true)
+})
 public class Price extends DateAudit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(name = "currency_type")
     @Convert(converter = CurrencyConverter.class)
     private CurrencyType currencyType;
 
+    @Column(name = "cost")
     private Double cost;
 
     @ManyToOne

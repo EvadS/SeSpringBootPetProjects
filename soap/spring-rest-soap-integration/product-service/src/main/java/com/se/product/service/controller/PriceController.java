@@ -4,8 +4,6 @@ import com.se.product.service.controller.base.PriceControllerBase;
 import com.se.product.service.model.PriceRequest;
 import com.se.product.service.model.PriceResponse;
 import com.se.product.service.service.PriceService;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -34,7 +32,6 @@ public class PriceController implements PriceControllerBase {
     @Override
     @PostMapping
     public ResponseEntity<PriceResponse> create(@Valid @RequestBody PriceRequest request) {
-
         logger.debug("handle create price request {}", request);
         PriceResponse pricResponse = priceService.create(request);
         return new ResponseEntity<>(pricResponse, HttpStatus.CREATED);
