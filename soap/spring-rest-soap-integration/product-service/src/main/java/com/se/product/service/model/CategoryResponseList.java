@@ -15,6 +15,5 @@ import java.util.List;
 @Builder(toBuilder = true)
 @ApiModel(description = "Provide model with current categories")
 public class CategoryResponseList {
-    private List<CategoryResponse>  categories = new ArrayList<>();
-
- }
+    private List<CategoryResponse> categories = new ArrayList<>();
+}

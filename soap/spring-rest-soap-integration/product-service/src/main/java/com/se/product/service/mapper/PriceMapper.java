@@ -17,7 +17,6 @@ public interface PriceMapper {
     @Mappings({
             @Mapping(target = "currencyType", source = "currencyType"),
             @Mapping(target = "cost", source = "cost")
-//            @Mapping(target = "price.currencyType", source = "currencyType")
     })
     Price toPrice(PriceRequest priceRequest);
 

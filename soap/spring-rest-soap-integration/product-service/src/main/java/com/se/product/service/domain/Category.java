@@ -4,6 +4,7 @@ import com.se.product.service.validation.annotation.NullOrNotBlank;
 
 import javax.persistence.*;
 
+// TODO: move to lombook
 @Entity
 public class Category {
     @Id
@@ -13,7 +14,6 @@ public class Category {
     @Column(unique = true)
     @NullOrNotBlank(message = "Category name can not be blank")
     private String name;
-
 
     @Column(unique = true)
     @NullOrNotBlank(message = "Category code can not be blank")
@@ -56,5 +56,11 @@ public class Category {
         this.code = code;
     }
 
+    public Long getBaseCategory() {
+        return baseCategory;
+    }
 
+    public void setBaseCategory(Long baseCategory) {
+        this.baseCategory = baseCategory;
+    }
 }

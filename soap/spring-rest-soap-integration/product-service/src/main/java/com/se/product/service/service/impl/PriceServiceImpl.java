@@ -69,7 +69,6 @@ public class PriceServiceImpl implements PriceService {
                 .orElseThrow(() -> new ResourceNotFoundException("Price", "id", priceId));
     }
 
-
     @Override
     public List<PriceResponse> getAll() {
         return priceRepository.findAll()

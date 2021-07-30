@@ -8,6 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PriceRepository extends JpaRepository<Price, Long> {
-
     boolean existsByCostAndCurrencyType(Double cost, CurrencyType currencyType);
 }
