@@ -20,6 +20,10 @@ public class Category {
     private String code;
 
 
+    @Column(unique = true)
+    @NullOrNotBlank(message = "Base cade  can not be blank")
+    private Long baseCategory;
+
     // TODO: move to many-to-many
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = true)

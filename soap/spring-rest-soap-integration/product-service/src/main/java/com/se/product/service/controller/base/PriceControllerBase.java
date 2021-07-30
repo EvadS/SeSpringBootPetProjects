@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-@Api(value = "PriceControllerBase",
+@Api(value = "Price API",
         description = "REST APIs related to price Entity")
 public interface PriceControllerBase {
 
@@ -35,17 +35,16 @@ public interface PriceControllerBase {
             notes = "Create price.", tags = {})
     ResponseEntity<PriceResponse> create(@Valid @RequestBody PriceRequest request);
 
-    @ApiOperation(value = "Update price.", nickname = "update-price",
-            notes = "Update price.", tags = {})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully updated price"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
-            @ApiResponse(code = 400, message = "Incorrect request parameters")
-            ,@ApiResponse(code = 400, message = "Incorrect request parameters"),
-
+            @ApiResponse(code = 400, message = "Incorrect request parameters"),
+            @ApiResponse(code = 400, message = "Incorrect request parameters"),
     })
+    @ApiOperation(value = "Update price.", nickname = "update-price",
+            notes = "Update price.", tags = {})
     ResponseEntity<?> update(
             @ApiParam(value = "ID of price", required = true, example = "123")
             @PathVariable(value = "id") @NotNull Long priceId,
@@ -53,7 +52,7 @@ public interface PriceControllerBase {
             @Valid @RequestBody PriceRequest requestModel);
 
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully deleted price"),
+            @ApiResponse(code = 202, message = "Successfully deleted price"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),

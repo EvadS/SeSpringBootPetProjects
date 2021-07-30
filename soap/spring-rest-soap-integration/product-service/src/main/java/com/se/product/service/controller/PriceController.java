@@ -33,8 +33,8 @@ public class PriceController implements PriceControllerBase {
     @PostMapping
     public ResponseEntity<PriceResponse> create(@Valid @RequestBody PriceRequest request) {
         logger.debug("handle create price request {}", request);
-        PriceResponse pricResponse = priceService.create(request);
-        return new ResponseEntity<>(pricResponse, HttpStatus.CREATED);
+        PriceResponse priceResponse = priceService.create(request);
+        return new ResponseEntity<>(priceResponse, HttpStatus.CREATED);
     }
 
     @Override
