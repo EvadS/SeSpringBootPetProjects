@@ -1,6 +1,7 @@
 package com.se.product.service.service.impl;
 
 import com.se.product.service.domain.Category;
+import com.se.product.service.exception.AlreadyExistException;
 import com.se.product.service.exception.model.ResourceNotFoundException;
 import com.se.product.service.mapper.CategoryMapper;
 import com.se.product.service.model.CategoryRequest;
@@ -29,12 +30,62 @@ public class CategoryServiceImpl implements CategoryService {
     // AlreadyExistException
     @Override
     public CategoryResponse create(CategoryRequest request) {
-        return null;
+        validateCategoryName(request.getName());
+        validateCategoryCode(request.getCode());
+        validateBaseCategory(request.getBaseCategory());
+
+        Category category = CategoryMapper.MAPPER.toCategory(request);
+
+        category = categoryRepository.save(category);
+
+        return CategoryMapper.MAPPER.toCategoryResponse(category);
+
+    }
+
+    private void validateCategoryCode(String categoryCode) {
+
+        boolean exists = categoryRepository.existsAllByCode(categoryCode);
+
+        if (exists)
+            throw new AlreadyExistException("Category", "code", categoryCode);
+    }
+
+    private void validateCategoryName(String categoryName) {
+        boolean exists = categoryRepository.existsAllByName(categoryName);
+
+        if (exists)
+            throw new AlreadyExistException("Category", "name", categoryName);
+    }
+
+    private void validateBaseCategory(Long baseCategoryId) {
+        boolean exists;
+        if (baseCategoryId != null && baseCategoryId > 0) {
+            exists = categoryRepository.existsById(baseCategoryId);
+
+            if (exists) {
+                throw new ResourceNotFoundException("Category", "base category id", baseCategoryId);
+            }
+        }
     }
 
     @Override
-    public CategoryResponse updateItem(Long id, CategoryRequest requestModel) {
-        return null;
+    public CategoryResponse updateItem(Long id, CategoryRequest request) {
+
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Category", "id", id));
+
+        validateCategoryName(request.getName());
+        validateCategoryCode(request.getCode());
+        validateBaseCategory(request.getBaseCategory());
+
+        category.setBaseCategory(request.getBaseCategory());
+        category.setCode(request.getCode());
+        category.setName(request.getName());
+
+        categoryRepository.save(category);
+
+        return CategoryMapper.MAPPER.toCategoryResponse(category);
+
     }
 
     @Override

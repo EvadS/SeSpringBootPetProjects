@@ -13,7 +13,7 @@ import springfox.documentation.annotations.ApiIgnore;
 public class IndexController {
 
     @GetMapping(value = "/")
-    public String index() {
-        return "redirect:swagger-ui.html";
+    public String greeting() {
+        return "redirect:/swagger-ui.html";
     }
 }

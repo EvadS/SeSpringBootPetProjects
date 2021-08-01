@@ -41,6 +41,10 @@
         <lombok.version>1.18.18</lombok.version>
         <mapstruct.version>1.4.2.Final</mapstruct.version>
         <m2e.apt.activation>jdt_apt</m2e.apt.activation>
+
+        <apache.commons>3.11</apache.commons>
+
+
     </properties>
 
 
@@ -75,6 +79,15 @@
             <groupId>wsdl4j</groupId>
             <artifactId>wsdl4j</artifactId>
         </dependency>
+
+
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${apache.commons}</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

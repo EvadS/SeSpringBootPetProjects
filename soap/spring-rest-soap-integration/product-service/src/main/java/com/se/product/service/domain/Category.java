@@ -21,7 +21,6 @@ public class Category {
 
 
     @Column(unique = true)
-    @NullOrNotBlank(message = "Base cade  can not be blank")
     private Long baseCategory;
 
     // TODO: move to many-to-many

@@ -19,11 +19,9 @@ public class ProductController implements ProductControllerBase {
     private final ProductService productService;
 
 
-
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
-
 
     @ApiOperation(value = "Add a product")
     @RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json")

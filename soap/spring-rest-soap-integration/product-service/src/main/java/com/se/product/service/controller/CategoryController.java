@@ -81,6 +81,5 @@ public class CategoryController implements CategoryBase {
     public ResponseEntity<CategoryResponseList> list() {
         CategoryResponseList categories = categoryService.getAll();
         return ResponseEntity.ok(categories);
-
     }
 }
