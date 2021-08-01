@@ -15,5 +15,6 @@ import java.util.Set;
 @ApiModel(description = "Product information")
 public class ProductRequest {
     private String name;
-    private Set<PriceRequest> priceSet = new HashSet<>();
+    private  Set<Long> categoriesIds = new HashSet<>();
+    private  Set<Long> pricesIds = new HashSet<>();
 }
