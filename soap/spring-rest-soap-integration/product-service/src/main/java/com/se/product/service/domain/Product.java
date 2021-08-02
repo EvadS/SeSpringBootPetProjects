@@ -35,6 +35,9 @@ public class Product  extends DateAudit {
     private Set<Category> categories = new HashSet<>();
 
     public void addCategory(Category category) {
+        if(categories==null){
+            categories  = new HashSet<>();
+        }
         categories.add(category);
         category.setProduct(this);
     }
@@ -45,6 +48,9 @@ public class Product  extends DateAudit {
     }
 
     public void addPrice(Price price) {
+        if(prices  ==null){
+            prices = new HashSet<>();
+        }
         prices.add(price);
         price.setProduct(this);
     }

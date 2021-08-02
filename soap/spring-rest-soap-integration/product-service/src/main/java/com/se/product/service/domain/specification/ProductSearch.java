@@ -11,7 +11,9 @@ public class ProductSearch {
     private String code;
     private String name;
     private String cost;
+    //Category
     private String categoryCode;
+    private String categoryName;
 
     private long dateFrom;
     private long dateTo;

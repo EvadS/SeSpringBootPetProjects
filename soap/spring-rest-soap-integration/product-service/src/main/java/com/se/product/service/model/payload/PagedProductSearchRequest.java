@@ -17,7 +17,10 @@ public class PagedProductSearchRequest {
     private String price;
     private String name;
     private String cost;
+
     private String categoryCode;
+    private String categoryName;
+
     private long dateFrom;
     private long dateTo;
 }

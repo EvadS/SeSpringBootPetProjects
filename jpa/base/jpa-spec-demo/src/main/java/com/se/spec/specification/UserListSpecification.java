@@ -25,7 +25,9 @@ public class UserListSpecification extends BaseSpecification<User, UserListReque
         return (root, query, cb) -> {
             query.distinct(true);
             return where(
-                    where(firstNameContains(request.search)).or(lastNameContains(request.search)).or(emailContains(request.search))
+                    where(firstNameContains(request.search))
+                            .or(lastNameContains(request.search))
+                            .or(emailContains(request.search))
             )
                     .and(streetContains(request.street))
                     .and(cityContains(request.city))

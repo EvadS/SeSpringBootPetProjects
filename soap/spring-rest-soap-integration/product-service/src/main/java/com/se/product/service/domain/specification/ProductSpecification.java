@@ -1,9 +1,12 @@
 package com.se.product.service.domain.specification;
 
+import com.se.product.service.domain.Category;
 import com.se.product.service.domain.Product;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.ListJoin;
 import java.util.BitSet;
 import java.util.Date;
 import java.util.Optional;
@@ -26,10 +29,15 @@ public class ProductSpecification extends SearchSpecification<Product, ProductSe
             //                .and(dateLessSpec("createdAt", request.getDateTo()))
           //                  .and((walletFrom).or(walletTo))
 
-                    (attributeEqual("name", request.getName())))
+                    (attributeEqual("name", request.getName()))
+                            .and(codeContains(request.getCategoryCode()))
+                            .and(categoryNameContains(request.getCategoryName()))
+            )
             .toPredicate(root, query, cb);
         };
     }
+
+
 
     private Specification<Product> attributeEqual(String attribute, String name) {
         return (root, query, cb) -> {
@@ -39,6 +47,30 @@ public class ProductSpecification extends SearchSpecification<Product, ProductSe
             return cb.equal(root.get(attribute), name);
         };
     }
+
+    private Specification<Product> codeContains(String code) {
+        return categoryAttributeContains("code", code);
+    }
+
+    private Specification<Product> categoryNameContains(String categoryName) {
+        return categoryAttributeContains("name", categoryName);
+    }
+
+    private Specification<Product> categoryAttributeContains(String attribute, String value) {
+        return (root, query, cb) -> {
+            if(value == null) {
+                return null;
+            }
+
+            ListJoin<Product, Category> addresses = root.joinList("categories", JoinType.INNER);
+
+            return cb.like(
+                    cb.lower(addresses.get(attribute)),
+                    containsLowerCase(value)
+            );
+        };
+    }
+
 
     private Specification<Product> dateGreaterThenSpec(String attribute, long startedPeriod) {
         return dateGreaterThanOrEqualTo(attribute, startedPeriod);
