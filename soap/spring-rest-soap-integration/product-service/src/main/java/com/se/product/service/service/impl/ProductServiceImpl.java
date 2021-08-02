@@ -1,18 +1,25 @@
 package com.se.product.service.service.impl;
 
 import com.se.product.service.domain.Product;
+import com.se.product.service.domain.specification.ProductSearch;
 import com.se.product.service.domain.specification.ProductSpecification;
 import com.se.product.service.exception.AlreadyExistException;
 import com.se.product.service.exception.model.ResourceNotFoundException;
 import com.se.product.service.mapper.ProductMapper;
 import com.se.product.service.model.CategoriesRequest;
 import com.se.product.service.model.PricesRequest;
+import com.se.product.service.model.ProductItemResponse;
 import com.se.product.service.model.payload.ProductRequest;
 import com.se.product.service.model.payload.ProductResponse;
+import com.se.product.service.model.payload.ProductSearchRequest;
 import com.se.product.service.repository.CategoryRepository;
 import com.se.product.service.repository.PriceRepository;
 import com.se.product.service.repository.ProductRepository;
 import com.se.product.service.service.ProductService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -84,25 +91,20 @@ public class ProductServiceImpl implements ProductService {
         return null;
     }
 
-    /*
-     @Override
-    public Page<WalletTransactionItemResponse> getPagged(UserBalanceSearchRequest userBalanceSearchRequest,
-                                                         WalletId walletId) {
+    @Override
+    public Page<ProductItemResponse> getPagged(ProductSearchRequest searchRequest) {
 
         Pageable pageable = PageRequest.of(
-                userBalanceSearchRequest.getPage(),
-                userBalanceSearchRequest.getCount(),
+                searchRequest.getPage(),
+                searchRequest.getCount(),
                 Sort.by("createdAt").descending());
 
-        TransactionSearch transactionSearch = UserBalanceSearchRequestMapper.INSTANCE
-                .searchRequestToUserBalanceSearch(userBalanceSearchRequest, walletId.getPaymentCurrency(),
-                        walletId.getAccountId());
+        ProductSearch productSearch = ProductMapper.MAPPER.toProductSearch(searchRequest);
 
-        Page<WalletTransactionItemResponse> transactionPage = transactionRepo.findAll(transactionSpecification
-                .getFilter(transactionSearch), pageable)
-                .map(WalletTransactionResponseMapper.INSTANCE::transactionToWalletTransactionResponse);
+        Page<ProductItemResponse> productItemResponses = productRepository.findAll(productSpecification
+                .getFilter(productSearch), pageable)
+                .map(ProductMapper.MAPPER::toProductItemResponse);
 
-        return transactionPage;
+        return productItemResponses;
     }
-     */
 }

@@ -1,8 +1,11 @@
 package com.se.product.service.mapper;
 
 import com.se.product.service.domain.Product;
+import com.se.product.service.domain.specification.ProductSearch;
+import com.se.product.service.model.ProductItemResponse;
 import com.se.product.service.model.payload.ProductRequest;
 import com.se.product.service.model.payload.ProductResponse;
+import com.se.product.service.model.payload.ProductSearchRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -26,4 +29,7 @@ public interface ProductMapper {
 
     ProductResponse toProductRepository(Product product);
 
+    ProductSearch toProductSearch(ProductSearchRequest searchRequest);
+
+    ProductItemResponse toProductItemResponse(Product product);
 }

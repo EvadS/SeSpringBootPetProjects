@@ -14,4 +14,9 @@ public class ProductSearch {
     private String cost;
 
     private String categoryCode;
+
+
+
+    private long dateFrom;
+    private long dateTo;
 }

@@ -15,7 +15,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 @Entity
-
 @Table(indexes = {
         @Index(name = "uniqueMulitIndex", columnList = "currency_type, cost", unique = true)
 })
