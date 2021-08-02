@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class ProductResponse {
     private Long id;
 
-    private Product body;
+    private Product product;
 }

@@ -30,7 +30,7 @@ public interface ProductMapper {
 
     // TODO: implement full product response
     @Mappings({
-            @Mapping(target = "name", source = "name"),
+            @Mapping(target = "product.name", source = "name"),
     })
     ProductResponse toProductRepository(Product product);
 
@@ -45,5 +45,9 @@ public interface ProductMapper {
     })
     ProductSearch toProductSearch(PagedProductSearchRequest searchRequest);
 
+
+    @Mappings({
+            @Mapping(target = "name", source = "name"),
+      })
     ProductItemResponse toProductItemResponse(Product product);
 }

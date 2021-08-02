@@ -22,12 +22,21 @@ public class ProductSpecification extends SearchSpecification<Product, ProductSe
         //    Specification<Transaction> walletTo = walletFromAttributeEqual("walletTo", request.getUserId(), request.getPaymentCurrency());
 
             return where(
-                    dateGreaterThenSpec("createdAt", request.getDateFrom())
-                            .and(dateLessSpec("createdAt", request.getDateTo()))
+            //        dateGreaterThenSpec("createdAt", request.getDateFrom())
+            //                .and(dateLessSpec("createdAt", request.getDateTo()))
           //                  .and((walletFrom).or(walletTo))
 
+                    (attributeEqual("name", request.getName())))
+            .toPredicate(root, query, cb);
+        };
+    }
 
-            ).toPredicate(root, query, cb);
+    private Specification<Product> attributeEqual(String attribute, String name) {
+        return (root, query, cb) -> {
+            if (name == null) {
+                return null;
+            }
+            return cb.equal(root.get(attribute), name);
         };
     }
 

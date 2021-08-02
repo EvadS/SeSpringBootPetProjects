@@ -154,7 +154,7 @@ public class ProductServiceImpl implements ProductService {
 
 
     private void updateProductCategories(CategoriesRequest categoriesRequest, Product product) {
-        Optional.of(product.getCategories()).ifPresent(
+        Optional.ofNullable(product.getCategories()).ifPresent(
                 i -> product.getCategories()
                         .forEach(product::removeCategory));
 
@@ -174,7 +174,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private void updateProductPrices(PricesRequest pricesRequest, Product product) {
-        Optional.of(product.getPrices()).ifPresent(
+
+        Optional.ofNullable(product.getPrices()).ifPresent(
                 i -> product.getPrices()
                         .forEach(product::removePrice));
 

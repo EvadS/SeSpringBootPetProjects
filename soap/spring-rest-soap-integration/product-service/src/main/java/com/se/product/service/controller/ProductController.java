@@ -7,10 +7,13 @@ import com.se.product.service.model.ProductItemResponse;
 import com.se.product.service.model.payload.PagedProductSearchRequest;
 import com.se.product.service.model.payload.ProductRequest;
 import com.se.product.service.model.payload.ProductResponse;
+import com.se.product.service.repository.ProductRepository;
 import com.se.product.service.service.ProductService;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -84,5 +87,15 @@ public class ProductController implements ProductControllerBase {
 
         Page<ProductItemResponse> paged = productService.getPaged(searchRequest);
         return ResponseEntity.ok(paged);
+    }
+
+    @Autowired
+    ProductRepository productRepository;
+
+    @GetMapping("/list")
+    public  ResponseEntity<?> getAll(){
+        return ResponseEntity.ok(productRepository.findAll());
+
+
     }
 }

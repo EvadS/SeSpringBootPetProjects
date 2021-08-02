@@ -1,5 +1,6 @@
 package com.se.product.service.domain;
 
+import com.se.product.service.domain.audit.DateAudit;
 import com.se.product.service.validation.annotation.NullOrNotBlank;
 import lombok.*;
 
@@ -15,7 +16,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "product")
-public class Product {
+public class Product  extends DateAudit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
