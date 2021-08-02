@@ -1,6 +1,7 @@
 package com.se.product.service.model.payload;
 
-import com.se.product.service.model.PriceRequest;
+import com.se.product.service.model.CategoriesRequest;
+import com.se.product.service.model.PricesRequest;
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,6 +16,6 @@ import java.util.Set;
 @ApiModel(description = "Product information")
 public class ProductRequest {
     private String name;
-    private  Set<Long> categoriesIds = new HashSet<>();
-    private  Set<Long> pricesIds = new HashSet<>();
+    private CategoriesRequest categories;
+    private PricesRequest prices;
 }
