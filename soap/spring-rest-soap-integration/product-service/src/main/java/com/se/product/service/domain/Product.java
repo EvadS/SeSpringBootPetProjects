@@ -1,17 +1,14 @@
 package com.se.product.service.domain;
 
 import com.se.product.service.validation.annotation.NullOrNotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
@@ -29,15 +26,29 @@ public class Product {
     private String name;
 
     @OneToMany(mappedBy = "product"
-            ,fetch = FetchType.LAZY )
-    private Set<Price> prices = new HashSet<Price>();
+            ,fetch = FetchType.EAGER )
+    private Set<Price> prices = new HashSet<>();
 
-    public void addChild(Price price) {
+    @OneToMany(mappedBy = "product"
+            ,fetch = FetchType.EAGER )
+    private Set<Category> categories = new HashSet<>();
+
+    public void addCategory(Category category) {
+        categories.add(category);
+        category.setProduct(this);
+    }
+
+    public void removeCategory(Category category) {
+        categories.remove(category);
+        category.setProduct(null);
+    }
+
+    public void addPrice(Price price) {
         prices.add(price);
         price.setProduct(this);
     }
 
-    public void removeChild(Price comment) {
+    public void removePrice(Price comment) {
         prices.remove(comment);
         comment.setProduct(null);
     }

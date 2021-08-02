@@ -21,6 +21,6 @@ public interface ProductService {
 
     ProductResponse updatePrices(Long id, PricesRequest pricesRequest);
 
-    Page<ProductItemResponse> getPagged(ProductSearchRequest searchRequest);
+    Page<ProductItemResponse> getPaged(ProductSearchRequest searchRequest);
 
 }

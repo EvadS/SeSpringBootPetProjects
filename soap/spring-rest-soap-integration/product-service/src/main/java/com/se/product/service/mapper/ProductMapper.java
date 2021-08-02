@@ -14,17 +14,17 @@ import org.mapstruct.factory.Mappers;
 /**
  *
  */
-@Mapper(uses = { PriceMapper.class })
+@Mapper(uses = {PriceMapper.class})
 public interface ProductMapper {
 
     ProductMapper MAPPER = Mappers.getMapper(ProductMapper.class);
 
     @Mappings({
             @Mapping(target = "name", source = "name"),
-            @Mapping(target = "prices", source = "priceSet")
+            @Mapping(target = "prices", ignore = true),
+            @Mapping(target = "categories", ignore = true)
     })
     Product toProduct(ProductRequest productRequest);
-
 
 
     ProductResponse toProductRepository(Product product);
