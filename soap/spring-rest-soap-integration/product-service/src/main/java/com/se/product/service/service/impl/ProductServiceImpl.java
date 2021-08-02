@@ -11,9 +11,9 @@ import com.se.product.service.mapper.ProductMapper;
 import com.se.product.service.model.CategoriesRequest;
 import com.se.product.service.model.PricesRequest;
 import com.se.product.service.model.ProductItemResponse;
+import com.se.product.service.model.payload.PagedProductSearchRequest;
 import com.se.product.service.model.payload.ProductRequest;
 import com.se.product.service.model.payload.ProductResponse;
-import com.se.product.service.model.payload.ProductSearchRequest;
 import com.se.product.service.repository.CategoryRepository;
 import com.se.product.service.repository.PriceRepository;
 import com.se.product.service.repository.ProductRepository;
@@ -65,8 +65,7 @@ public class ProductServiceImpl implements ProductService {
 
         logger.info("Product with name:{} created", product.getName());
 
-        ProductResponse productResponse = ProductMapper.MAPPER.toProductRepository(product);
-        return productResponse;
+        return ProductMapper.MAPPER.toProductRepository(product);
     }
 
 
@@ -92,8 +91,7 @@ public class ProductServiceImpl implements ProductService {
 
         logger.info("Product with name:{} updated", product.getName());
 
-        ProductResponse productResponse = ProductMapper.MAPPER.toProductRepository(product);
-        return productResponse;
+        return ProductMapper.MAPPER.toProductRepository(product);
     }
 
     @Override
@@ -102,19 +100,16 @@ public class ProductServiceImpl implements ProductService {
                 () -> new ResourceNotFoundException("Product", "id", id));
 
         logger.debug("Delete product: {}", id);
-        Optional.ofNullable(product.getCategories()).ifPresent(categories -> {
-            categories.stream().forEach(it -> {
-                product.removeCategory(it);
-                logger.debug("Removed category: {} ", it.getId());
-            });
-        });
+        Optional.ofNullable(product.getCategories()).ifPresent(categories ->
+                categories.forEach(it -> {
+                    product.removeCategory(it);
+                    logger.debug("Removed category: {} ", it.getId());
+                }));
 
-        Optional.ofNullable(product.getPrices()).ifPresent(prices -> {
-            prices.stream().forEach(it -> {
-                product.removePrice(it);
-                logger.debug("Removed price: {} ", it.getId());
-            });
-        });
+        Optional.ofNullable(product.getPrices()).ifPresent(prices -> prices.forEach(it -> {
+            product.removePrice(it);
+            logger.debug("Removed price: {} ", it.getId());
+        }));
 
         logger.info("Product, id:{} removed", id);
     }
@@ -127,8 +122,8 @@ public class ProductServiceImpl implements ProductService {
 
         updateProductCategories(categoriesRequest, product);
 
-        logger.debug("Updated categories on product: ", id);
-        return  ProductMapper.MAPPER.toProductRepository(product);
+        logger.debug("Updated categories on product: {}", id);
+        return ProductMapper.MAPPER.toProductRepository(product);
     }
 
     @Override
@@ -138,12 +133,12 @@ public class ProductServiceImpl implements ProductService {
 
         updateProductPrices(pricesRequest, product);
 
-        logger.debug("Updated prices on product: ", id);
-        return  ProductMapper.MAPPER.toProductRepository(product);
+        logger.debug("Updated prices on product: {}", id);
+        return ProductMapper.MAPPER.toProductRepository(product);
     }
 
     @Override
-    public Page<ProductItemResponse> getPaged(ProductSearchRequest searchRequest) {
+    public Page<ProductItemResponse> getPaged(PagedProductSearchRequest searchRequest) {
 
         Pageable pageable = PageRequest.of(
                 searchRequest.getPage(),
@@ -152,27 +147,23 @@ public class ProductServiceImpl implements ProductService {
 
         ProductSearch productSearch = ProductMapper.MAPPER.toProductSearch(searchRequest);
 
-        Page<ProductItemResponse> productItemResponses = productRepository.findAll(productSpecification
+        return productRepository.findAll(productSpecification
                 .getFilter(productSearch), pageable)
                 .map(ProductMapper.MAPPER::toProductItemResponse);
-
-        return productItemResponses;
     }
 
 
     private void updateProductCategories(CategoriesRequest categoriesRequest, Product product) {
-       Optional.of(product.getCategories()).ifPresent(
-                i -> {
-                    product.getCategories().stream()
-                            .forEach(it -> product.removeCategory(it));
-                });
+        Optional.of(product.getCategories()).ifPresent(
+                i -> product.getCategories()
+                        .forEach(product::removeCategory));
 
         logger.debug("Removed current categories to product");
 
-        if (categoriesRequest == null )
+        if (categoriesRequest == null)
             return;
 
-        categoriesRequest.getCategories().stream()
+        categoriesRequest.getCategories()
                 .forEach(item -> {
                     Category category = categoryRepository.findById(item).orElseThrow(
                             () -> new ResourceNotFoundException("Category", "id", item));
@@ -183,18 +174,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private void updateProductPrices(PricesRequest pricesRequest, Product product) {
-          Optional.of(product.getPrices()).ifPresent(
-                i -> {
-                    product.getPrices().stream()
-                            .forEach(it -> product.removePrice(it));
-                });
+        Optional.of(product.getPrices()).ifPresent(
+                i -> product.getPrices()
+                        .forEach(product::removePrice));
 
         logger.debug("Removed all current prices of product");
 
         if (pricesRequest == null)
             return;
 
-        pricesRequest.getPrices().stream()
+        pricesRequest.getPrices()
                 .forEach(item -> {
                     Price price = priceRepository.findById(item).orElseThrow(
                             () -> new ResourceNotFoundException("Price", "id", item));

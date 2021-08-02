@@ -3,12 +3,15 @@ package com.se.product.service.controller;
 import com.se.product.service.controller.base.ProductControllerBase;
 import com.se.product.service.model.CategoriesRequest;
 import com.se.product.service.model.PricesRequest;
+import com.se.product.service.model.ProductItemResponse;
+import com.se.product.service.model.payload.PagedProductSearchRequest;
 import com.se.product.service.model.payload.ProductRequest;
 import com.se.product.service.model.payload.ProductResponse;
 import com.se.product.service.service.ProductService;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,36 +47,42 @@ public class ProductController implements ProductControllerBase {
         logger.debug("update product. id:{}, model:{}", id, product);
         ProductResponse response = productService.update(id, product);
 
-        return new ResponseEntity<ProductResponse>(response, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }
 
-    @DeleteMapping("/id")
-    public  ResponseEntity delete(@PathVariable(value = "id") @NotNull Long id)
-    {
-        logger.debug("Handle delete product request, id: {}" , id);
+    @DeleteMapping("/{id}")
+    public ResponseEntity delete(@PathVariable(value = "id") @NotNull Long id) {
+        logger.debug("Handle delete product request, id: {}", id);
         productService.delete(id);
         return ResponseEntity.accepted().build();
     }
 
     @PutMapping("/{id}/category")
-    public  ResponseEntity<ProductResponse> updateCategory(
+    public ResponseEntity<ProductResponse> updateCategory(
             @PathVariable(value = "id") @NotNull Long id,
-            @RequestBody @Valid CategoriesRequest categoriesRequest){
+            @RequestBody @Valid CategoriesRequest categoriesRequest) {
 
         logger.debug("Handle change product categories request, id: {}, categories: {}", id, categoriesRequest);
 
         ProductResponse productResponse = productService.updateCategories(id, categoriesRequest);
-        return new ResponseEntity<ProductResponse>(productResponse, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(productResponse, HttpStatus.ACCEPTED);
     }
 
     @PutMapping("/{id}/price")
-    public  ResponseEntity<ProductResponse> updatePrices(
+    public ResponseEntity<ProductResponse> updatePrices(
             @PathVariable(value = "id") @NotNull Long id,
             @RequestBody @Valid PricesRequest pricesRequest) {
         logger.debug("Handle change product prices request, id: {}, pricesRequest: {}", id, pricesRequest);
 
         ProductResponse productResponse = productService.updatePrices(id, pricesRequest);
-        return new ResponseEntity<ProductResponse>(productResponse, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(productResponse, HttpStatus.ACCEPTED);
+    }
 
+    @PostMapping("/paged")
+    public ResponseEntity<?> paged(@RequestBody PagedProductSearchRequest searchRequest){
+        logger.debug("Handle get paged products list");
+
+        Page<ProductItemResponse> paged = productService.getPaged(searchRequest);
+        return ResponseEntity.ok(paged);
     }
 }
