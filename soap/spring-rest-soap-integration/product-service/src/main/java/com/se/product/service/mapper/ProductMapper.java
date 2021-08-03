@@ -18,6 +18,7 @@ import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -51,6 +52,9 @@ public interface ProductMapper {
     @Named("categoriesToStringSet")
     static Set<IdName> categoriesToNames(Set<Category> categorySet) {
 
+        if(categorySet==null)
+            return  new HashSet<>();
+
         Set<IdName> categories = categorySet.stream().
                 map(it -> {
                     return  new IdName(it.getId(), it.getName());
@@ -61,7 +65,7 @@ public interface ProductMapper {
                 .map(IdName::getName)
                 .collect(Collectors.joining(","));
 
-        logger.debug("Mapped categories to product response: {}", categoriesStr);
+        logger.info("Mapped categories to product response: {}", categoriesStr);
 
         return  categories;
     }
@@ -69,6 +73,9 @@ public interface ProductMapper {
 
     @Named("pricesToStringSet")
     static Set<IdName> pricesToStringSet(Set<Price> priceSet) {
+
+        if(priceSet==null)
+            return  new HashSet<>();
 
         Set<IdName> prices = priceSet.stream().
                 map(it -> {

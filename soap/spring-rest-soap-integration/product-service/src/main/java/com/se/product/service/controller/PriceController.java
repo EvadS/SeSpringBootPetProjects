@@ -1,6 +1,6 @@
 package com.se.product.service.controller;
 
-import com.se.product.service.controller.base.PriceControllerBase;
+import com.se.product.service.controller.base.PriceApi;
 import com.se.product.service.model.PriceRequest;
 import com.se.product.service.model.PriceResponse;
 import com.se.product.service.service.PriceService;
@@ -22,7 +22,7 @@ import static com.se.product.service.config.ApplicationConstant.API_VERSION;
 
 @RestController
 @RequestMapping("/api/price" + API_VERSION)
-public class PriceController implements PriceControllerBase {
+public class PriceController implements PriceApi {
 
     private static Logger logger = LoggerFactory.getLogger(PriceController.class);
     private final PriceService priceService;

@@ -1,11 +1,10 @@
 package com.se.product.service.controller;
 
 
-import com.se.product.service.controller.base.CategoryBase;
+import com.se.product.service.controller.base.CategoryApi;
 import com.se.product.service.model.CategoryRequest;
 import com.se.product.service.model.CategoryResponse;
 import com.se.product.service.model.CategoryResponseList;
-import com.se.product.service.model.PriceResponse;
 import com.se.product.service.service.CategoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +19,7 @@ import static com.se.product.service.config.ApplicationConstant.API_VERSION;
 
 @RestController
 @RequestMapping("/api/category" + API_VERSION)
-public class CategoryController implements CategoryBase {
+public class CategoryController implements CategoryApi {
     private static final Logger logger = LoggerFactory.getLogger(CategoryController.class);
 
     private final CategoryService categoryService;

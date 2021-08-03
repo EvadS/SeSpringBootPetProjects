@@ -1,6 +1,9 @@
 package com.se.product.service.controller;
 
-import com.se.product.service.controller.base.ProductControllerBase;
+import com.se.product.service.controller.base.ProductApi;
+import com.se.product.service.domain.Product;
+import com.se.product.service.mapper.ProductMapper;
+import com.se.product.service.mapper.ProductMapperImpl;
 import com.se.product.service.model.CategoriesRequest;
 import com.se.product.service.model.PricesRequest;
 import com.se.product.service.model.ProductItemResponse;
@@ -10,24 +13,25 @@ import com.se.product.service.model.payload.ProductResponse;
 import com.se.product.service.repository.ProductRepository;
 import com.se.product.service.service.ProductService;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.Authorization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static com.se.product.service.config.ApplicationConstant.API_VERSION;
 
 @RestController
 @RequestMapping("/api/product" + API_VERSION)
-public class ProductController implements ProductControllerBase {
+public class ProductController implements ProductApi {
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
     private final ProductService productService;
 
@@ -103,6 +107,13 @@ public class ProductController implements ProductControllerBase {
 
     @GetMapping("/list")
     public  ResponseEntity<?> getAll(){
-        return ResponseEntity.ok(productRepository.findAll());
+
+        List<Product> all = productRepository.findAll();
+
+        List<ProductResponse> collect = all.stream()
+                .map(ProductMapper.MAPPER::toProductResponse)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(collect);
     }
 }

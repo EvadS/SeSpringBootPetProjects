@@ -27,7 +27,7 @@ public class Product  extends DateAudit {
     private String name;
 
     @OneToMany(mappedBy = "product"
-            ,fetch = FetchType.EAGER )
+            ,fetch = FetchType.LAZY )
     private Set<Price> prices = new HashSet<>();
 
     @OneToMany(mappedBy = "product"

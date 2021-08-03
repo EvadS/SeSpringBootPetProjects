@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 
 @Api(value = "Category Api",
         description = "REST APIs related to category entity")
-public interface CategoryBase {
+public interface CategoryApi {
 
     @ApiResponses(value = {
             @ApiResponse(code = 201,

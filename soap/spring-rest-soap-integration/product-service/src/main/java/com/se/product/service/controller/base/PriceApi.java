@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 
 @Api(value = "Price API",
         description = "REST APIs related to price Entity")
-public interface PriceControllerBase {
+public interface PriceApi {
 
 
     @ApiResponses(value = {
