@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import static com.se.product.service.config.ApplicationConstant.API_VERSION;
+
 @RestController
-@RequestMapping("/api/category")
+@RequestMapping("/api/category" + API_VERSION)
 public class CategoryController implements CategoryBase {
     private static final Logger logger = LoggerFactory.getLogger(CategoryController.class);
 

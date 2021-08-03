@@ -95,7 +95,5 @@ public class ProductController implements ProductControllerBase {
     @GetMapping("/list")
     public  ResponseEntity<?> getAll(){
         return ResponseEntity.ok(productRepository.findAll());
-
-
     }
 }
