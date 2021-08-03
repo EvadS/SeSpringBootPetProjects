@@ -21,7 +21,7 @@ public class Category {
     @NullOrNotBlank(message = "Category name can not be blank")
     private String name;
 
-    @Column(unique = true)
+    @Column(unique = true,name = "code")
     @NullOrNotBlank(message = "Category code can not be blank")
     private String code;
 

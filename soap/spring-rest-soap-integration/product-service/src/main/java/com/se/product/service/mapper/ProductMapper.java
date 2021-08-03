@@ -91,7 +91,7 @@ public interface ProductMapper {
             @Mapping(target = "cost", source = "cost"),
 
             @Mapping(target = "categoryCode", source = "categoryCode"),
-            @Mapping(target = "categoryName", source = "categoryCode"),
+            @Mapping(target = "categoryName", source = "categoryName"),
 
             @Mapping(target = "dateFrom", source = "dateFrom"),
             @Mapping(target = "dateTo", source = "dateTo")

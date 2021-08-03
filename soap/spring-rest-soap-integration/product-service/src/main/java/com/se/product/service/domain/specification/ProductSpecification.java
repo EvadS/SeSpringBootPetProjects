@@ -20,13 +20,10 @@ public class ProductSpecification extends SearchSpecification<Product, ProductSe
             query.distinct(true); //Important because of the join in the addressAttribute specifications
 
             return where(
-                    //        dateGreaterThenSpec("createdAt", request.getDateFrom())
-                    //                .and(dateLessSpec("createdAt", request.getDateTo()))
-                    //                  .and((walletFrom).or(walletTo))
 
                     (attributeEqual("name", request.getName()))
                             .and(codeContains(request.getCategoryCode()))
-                            .and(categoryNameContains(request.getCategoryName()))
+                          //  .and(categoryNameContains(request.getCategoryName()))
             )
                     .toPredicate(root, query, cb);
         };
