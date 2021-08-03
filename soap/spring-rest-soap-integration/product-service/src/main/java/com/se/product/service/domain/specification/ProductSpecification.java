@@ -32,10 +32,12 @@ public class ProductSpecification extends SearchSpecification<Product, ProductSe
 
     private Specification<Product> attributeEqual(String attribute, String name) {
         return (root, query, cb) -> {
-            if (name == null) {
-                return null;
-            }
-            return cb.equal(root.get(attribute), name);
+            //TODO: for  test
+//            if (name == null) {
+//                return null;
+//            }
+//            return cb.equal(root.get(attribute), name);
+            return  null;
         };
     }
 
@@ -54,7 +56,7 @@ public class ProductSpecification extends SearchSpecification<Product, ProductSe
                 return null;
             }
 
-            SetJoin<Product, Category> categories = root.joinSet("categories", JoinType.INNER);
+            SetJoin<Product, Category> categories = root.joinSet("categories", JoinType.LEFT);
 
             return cb.like(
                     cb.lower(categories.get(attribute)),
