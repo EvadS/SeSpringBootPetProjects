@@ -6,10 +6,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.ListJoin;
-import java.util.BitSet;
+import javax.persistence.criteria.SetJoin;
 import java.util.Date;
-import java.util.Optional;
 
 import static org.springframework.data.jpa.domain.Specification.where;
 
@@ -21,22 +19,18 @@ public class ProductSpecification extends SearchSpecification<Product, ProductSe
         return (root, query, cb) -> {
             query.distinct(true); //Important because of the join in the addressAttribute specifications
 
-        //    Specification<Transaction> walletFrom = walletFromAttributeEqual("walletFrom", request.getUserId(), request.getPaymentCurrency());
-        //    Specification<Transaction> walletTo = walletFromAttributeEqual("walletTo", request.getUserId(), request.getPaymentCurrency());
-
             return where(
-            //        dateGreaterThenSpec("createdAt", request.getDateFrom())
-            //                .and(dateLessSpec("createdAt", request.getDateTo()))
-          //                  .and((walletFrom).or(walletTo))
+                    //        dateGreaterThenSpec("createdAt", request.getDateFrom())
+                    //                .and(dateLessSpec("createdAt", request.getDateTo()))
+                    //                  .and((walletFrom).or(walletTo))
 
                     (attributeEqual("name", request.getName()))
                             .and(codeContains(request.getCategoryCode()))
                             .and(categoryNameContains(request.getCategoryName()))
             )
-            .toPredicate(root, query, cb);
+                    .toPredicate(root, query, cb);
         };
     }
-
 
 
     private Specification<Product> attributeEqual(String attribute, String name) {
@@ -49,6 +43,7 @@ public class ProductSpecification extends SearchSpecification<Product, ProductSe
     }
 
     private Specification<Product> codeContains(String code) {
+
         return categoryAttributeContains("code", code);
     }
 
@@ -58,14 +53,14 @@ public class ProductSpecification extends SearchSpecification<Product, ProductSe
 
     private Specification<Product> categoryAttributeContains(String attribute, String value) {
         return (root, query, cb) -> {
-            if(value == null) {
+            if (value == null) {
                 return null;
             }
 
-            ListJoin<Product, Category> addresses = root.joinList("categories", JoinType.INNER);
+            SetJoin<Product, Category> categories = root.joinSet("categories", JoinType.INNER);
 
             return cb.like(
-                    cb.lower(addresses.get(attribute)),
+                    cb.lower(categories.get(attribute)),
                     containsLowerCase(value)
             );
         };

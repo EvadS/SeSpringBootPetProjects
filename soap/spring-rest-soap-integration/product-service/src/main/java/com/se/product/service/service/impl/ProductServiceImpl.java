@@ -63,9 +63,9 @@ public class ProductServiceImpl implements ProductService {
 
         productRepository.save(product);
 
-        logger.info("Product with name:{} created", product.getName());
+        logger.info("Product, name:'{}' created", product.getName());
 
-        return ProductMapper.MAPPER.toProductRepository(product);
+        return ProductMapper.MAPPER.toProductResponse(product);
     }
 
 
@@ -91,7 +91,7 @@ public class ProductServiceImpl implements ProductService {
 
         logger.info("Product with name:{} updated", product.getName());
 
-        return ProductMapper.MAPPER.toProductRepository(product);
+        return ProductMapper.MAPPER.toProductResponse(product);
     }
 
     @Override
@@ -123,7 +123,7 @@ public class ProductServiceImpl implements ProductService {
         updateProductCategories(categoriesRequest, product);
 
         logger.debug("Updated categories on product: {}", id);
-        return ProductMapper.MAPPER.toProductRepository(product);
+        return ProductMapper.MAPPER.toProductResponse(product);
     }
 
     @Override
@@ -134,7 +134,7 @@ public class ProductServiceImpl implements ProductService {
         updateProductPrices(pricesRequest, product);
 
         logger.debug("Updated prices on product: {}", id);
-        return ProductMapper.MAPPER.toProductRepository(product);
+        return ProductMapper.MAPPER.toProductResponse(product);
     }
 
     @Override
@@ -150,6 +150,14 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAll(productSpecification
                 .getFilter(productSearch), pageable)
                 .map(ProductMapper.MAPPER::toProductItemResponse);
+    }
+
+    @Override
+    public ProductResponse get(Long id) {
+        Product product = productRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Product", "id", id));
+
+        return ProductMapper.MAPPER.toProductResponse(product);
     }
 
 

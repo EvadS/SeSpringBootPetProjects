@@ -21,4 +21,5 @@ public interface ProductService {
 
     Page<ProductItemResponse> getPaged(PagedProductSearchRequest searchRequest);
 
+    ProductResponse get(Long id);
 }

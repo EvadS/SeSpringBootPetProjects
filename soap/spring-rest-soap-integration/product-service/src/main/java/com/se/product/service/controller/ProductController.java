@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -53,6 +54,14 @@ public class ProductController implements ProductControllerBase {
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductResponse> getById(@PathVariable(value = "id") @NotNull Long id) {
+        logger.debug("Handle get product details request, id: {}", id);
+        ProductResponse productResponse = productService.get(id);
+
+        return new ResponseEntity<>(productResponse, HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable(value = "id") @NotNull Long id) {
         logger.debug("Handle delete product request, id: {}", id);
@@ -82,7 +91,7 @@ public class ProductController implements ProductControllerBase {
     }
 
     @PostMapping("/paged")
-    public ResponseEntity<?> paged(@RequestBody PagedProductSearchRequest searchRequest){
+    public ResponseEntity<?> paged(@Valid @RequestBody PagedProductSearchRequest searchRequest){
         logger.debug("Handle get paged products list");
 
         Page<ProductItemResponse> paged = productService.getPaged(searchRequest);
