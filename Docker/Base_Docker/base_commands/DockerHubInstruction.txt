@@ -38,3 +38,8 @@ Finally, push! Use the same name you tagged the image with, like gsweene2/spring
 ```
 docker push gsweene2/spring-mvc-sample-image:0.1
 ```
+Mondo smaple 
+docker pull mongo
+
+
+docker run -t -p 27017:27017 --name mongo-container mongo

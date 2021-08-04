@@ -1,0 +1,54 @@
+{
+	"info": {
+		"_postman_id": "b8d4abb4-3661-4770-aea2-d5d205cd786f",
+		"name": "Pets",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "soap",
+			"item": [
+				{
+					"name": "soap-country",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:gs=\"http://www.sample.se.com/soap/model\">\n    <soapenv:Header/>\n    <soapenv:Body>\n        <gs:getCountryRequest>\n            <gs:name>Spain</gs:name>\n        </gs:getCountryRequest>\n    </soapenv:Body>\n</soapenv:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/ws/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ws",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
