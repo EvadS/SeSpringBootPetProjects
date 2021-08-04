@@ -31,7 +31,7 @@ public class CategoryController implements CategoryApi {
     @Override
     @PostMapping
     public ResponseEntity<CategoryResponse> create(@Valid CategoryRequest request) {
-        logger.debug("handle create category request {}", request);
+        logger.info("handle create category request {}", request);
 
         CategoryResponse categoryResponse = categoryService.create(request);
         return new ResponseEntity<>(categoryResponse, HttpStatus.CREATED);
@@ -40,7 +40,7 @@ public class CategoryController implements CategoryApi {
     @Override
     @PutMapping("/{id}")
     public ResponseEntity<CategoryResponse> update(@PathVariable(value = "id") @NotNull Long id,
-                                    @Valid @RequestBody CategoryRequest requestModel) {
+                                                   @Valid @RequestBody CategoryRequest requestModel) {
 
         logger.debug("handle update category, id:{}, model: {}", id, requestModel);
 
@@ -63,7 +63,7 @@ public class CategoryController implements CategoryApi {
     @Override
     @DeleteMapping(value = "/{id}")
     public ResponseEntity deleteItem(@PathVariable(value = "id") @NotNull Long id) {
-        logger.debug("handle delete category request, id:{}",id);
+        logger.debug("handle delete category request, id:{}", id);
         categoryService.deletePrice(id);
         return ResponseEntity.accepted().build();
     }
@@ -71,7 +71,7 @@ public class CategoryController implements CategoryApi {
     @Override
     @GetMapping(value = "/{id}")
     public ResponseEntity<CategoryResponse> getById(@PathVariable(value = "id") Long id) {
-        logger.debug("handle get category by id: {}",id);
+        logger.debug("handle get category by id: {}", id);
 
         CategoryResponse categoryResponse = categoryService.getById(id);
         return ResponseEntity.ok(categoryResponse);
@@ -80,6 +80,8 @@ public class CategoryController implements CategoryApi {
     @Override
     @GetMapping(value = "/list")
     public ResponseEntity<CategoryResponseList> list() {
+        logger.info("get list");
+
         CategoryResponseList categories = categoryService.getAll();
         return ResponseEntity.ok(categories);
     }

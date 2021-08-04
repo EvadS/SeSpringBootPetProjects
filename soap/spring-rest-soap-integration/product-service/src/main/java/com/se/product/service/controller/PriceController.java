@@ -66,6 +66,8 @@ public class PriceController implements PriceApi {
             @PathVariable(value = "id") Long priceId) {
         logger.debug("handle get price by id: {}",priceId);
 
+        logger.info("Handle get price request. Request:{}", priceId);
+
         PriceResponse priceResponse = priceService.getById(priceId);
         return ResponseEntity.ok(priceResponse);
     }
