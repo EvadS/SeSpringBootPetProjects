@@ -3,7 +3,6 @@ package com.se.product.service.controller;
 import com.se.product.service.controller.base.ProductApi;
 import com.se.product.service.domain.Product;
 import com.se.product.service.mapper.ProductMapper;
-import com.se.product.service.mapper.ProductMapperImpl;
 import com.se.product.service.model.CategoriesRequest;
 import com.se.product.service.model.PricesRequest;
 import com.se.product.service.model.ProductItemResponse;
