@@ -23,13 +23,6 @@ public class Post {
     private String title;
 
 
-    @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "posted_at")
-    private Date postedAt = new Date();
-
-
-
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
@@ -40,6 +33,12 @@ public class Post {
             inverseJoinColumns = { @JoinColumn(name = "tag_id") })
     private Set<Tag> tags = new HashSet<>();
 
+
+
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "posted_at")
+    private Date postedAt = new Date();
 
     public Post() {
 

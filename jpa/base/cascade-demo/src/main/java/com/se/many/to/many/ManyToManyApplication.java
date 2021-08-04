@@ -50,9 +50,9 @@ public class ManyToManyApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-      //  testStudentUniversity();
+        testStudentUniversity();
       //  testPostsTags();
-        testSearcher();
+      //  testSearcher();
 
 
     }
@@ -76,8 +76,10 @@ public class ManyToManyApplication implements CommandLineRunner {
 
         SkillsScore skillsScore = new SkillsScore();
         skillsScore.setName("skill 1");
-        skillsScore.setSearchers(Arrays.asList(searcher));
-        skillsScore.setSearchers(Arrays.asList(searcher2));
+    //    skillsScore.setSearchers(Arrays.asList(searcher));
+      ///  skillsScore.setSearchers(Arrays.asList(searcher2));
+
+      //  skillsScore.getSearchers().add(searcher3);
         skillsScoreRepo.save(skillsScore);
 
         SkillsScore skillsScore2 = new SkillsScore();
