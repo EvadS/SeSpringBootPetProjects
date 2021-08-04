@@ -17,16 +17,15 @@ public interface CategoryApi {
 
     @ApiResponses(value = {
             @ApiResponse(code = 201,
-                    message = "Successfully created item",
-                    response = CategoryResponse.class),
+                    message = "Successfully created item", response = CategoryResponse.class),
+            @ApiResponse(code = 400, message = "Incorrect request parameters"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource",
                     response = ErrorResponse.class),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden",
                     response = ErrorResponse.class),
             @ApiResponse(code = 409, message = "Incorrect request param", response = ErrorResponse.class),
             @ApiResponse(code = 422, message = "Incorrect model to create", response = ErrorResponse.class),
-            @ApiResponse(code = 415, message = "Incorrect model type to create ", response = ErrorResponse.class)
-
+            @ApiResponse(code = 415, message = "Incorrect model type to create", response = ErrorResponse.class)
     })
     @ApiOperation(value = "Create category.", nickname = "update-category",
             notes = "Create category.", tags = {}, response = CategoryResponse.class)
@@ -34,11 +33,14 @@ public interface CategoryApi {
 
     @ApiResponses(value = {
             @ApiResponse(code = 202, message = "Successfully updated item"),
+            @ApiResponse(code = 400, message = "Incorrect request parameters",response = ErrorResponse.class),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to update is not found"),
+            @ApiResponse(code = 422, message = "Incorrect model to create", response = ErrorResponse.class),
+            @ApiResponse(code = 422, message = "Incorrect model to create", response = ErrorResponse.class),
             @ApiResponse(code = 400, message = "Incorrect request parameters"),
-            @ApiResponse(code = 400, message = "Incorrect request parameters"),
+
     })
     @ApiOperation(value = "Update category.", nickname = "update-category",
             notes = "Update category.", tags = {})
@@ -59,7 +61,7 @@ public interface CategoryApi {
     @ApiOperation(value = "Change base category id", nickname = "change-base",
             notes = "Change base category id.", tags = {})
     ResponseEntity<CategoryResponse> changeBase(
-            @ApiParam(value = "ID of price", required = true, example = "123")
+            @ApiParam(name = "id", value = "ID of price", required = true, example = "123")
             @PathVariable(value = "id") @NotNull Long priceId,
             @ApiParam(value = "base category id",  required = true, example = "123")
             @PathVariable(value = "base-id") @NotNull Long baseId);
@@ -94,13 +96,12 @@ public interface CategoryApi {
 
 
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully list of all items"),
+            @ApiResponse(code = 200, message = "Successfully list of all items", response = CategoryResponseList.class),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden")
      })
     @GetMapping(value = "/list")
     @ApiOperation(value = "list", nickname = "list",
             notes = "Current categories.", tags = {})
-    // TODO skiea: create object tot return list
-    ResponseEntity<CategoryResponseList> list();
+     ResponseEntity<CategoryResponseList> list();
 }

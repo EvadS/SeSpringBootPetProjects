@@ -18,9 +18,8 @@ import javax.validation.constraints.NotNull;
         description = "REST APIs related to price Entity")
 public interface PriceApi {
 
-
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successfully create price",
+            @ApiResponse(code = 201, message = "Successfully created price",
                     response = PriceResponse.class),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource",
                     response = ErrorResponse.class),
@@ -29,7 +28,6 @@ public interface PriceApi {
             @ApiResponse(code = 409, message = "Incorrect request param", response = ErrorResponse.class),
             @ApiResponse(code = 422, message = "Incorrect model to create", response = ErrorResponse.class),
             @ApiResponse(code = 415, message = "Incorrect model type to create ", response = ErrorResponse.class)
-
     })
     @ApiOperation(value = "Create price.", nickname = "update-price",
             notes = "Create price.", tags = {})
@@ -40,8 +38,7 @@ public interface PriceApi {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
-            @ApiResponse(code = 400, message = "Incorrect request parameters"),
-            @ApiResponse(code = 400, message = "Incorrect request parameters"),
+            @ApiResponse(code = 400, message = "Incorrect request parameters")
     })
     @ApiOperation(value = "Update price.", nickname = "update-price",
             notes = "Update price.", tags = {})
@@ -66,7 +63,7 @@ public interface PriceApi {
             @PathVariable(value = "id") @NotNull Long id);
 
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully, describe priceinfo "),
+            @ApiResponse(code = 200, message = "Successfully, describe price info "),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
@@ -91,11 +88,13 @@ public interface PriceApi {
 
 
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully pagged list of all prices"),
+            @ApiResponse(code = 200, message = "Successfully paged list of all prices"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
+    @ApiOperation(value = "Current prices", nickname = "list",
+            notes = "Prices list with pagination.", tags = {})
     ResponseEntity<Page<PriceResponse>> getPaged(
             @RequestParam(required = false, defaultValue = "0") Integer page,
             @RequestParam(required = false, defaultValue = "10") Integer count,
