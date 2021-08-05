@@ -45,3 +45,10 @@ To check if the application is running properly, we can open the WSDL through th
 ```http request
    http://localhost:8080/ws/product.wsdl
 ```
+
+TODO: list 
+
+ 200 ok 
+ 404  - not found 
+ 409 already exists 
+ 

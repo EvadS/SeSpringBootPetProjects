@@ -1,4 +1,4 @@
-package com.se.product.service.constatn;
+package com.se.product.service.constant;
 
 public class GeneralConstants {
 

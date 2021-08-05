@@ -37,6 +37,11 @@ public class StartupBean implements CommandLineRunner {
         category2.setName("category2");
         category2.setCode("2222");
 
+
+        Category category3= new Category();
+        category3.setName("category3");
+        category3.setCode("3333");
+
         categoryRepository.saveAll(Arrays.asList(category1,category2));
 
 
