@@ -23,7 +23,11 @@ import java.util.Scanner;
 @Configuration
 public class HttpServerConfig {
 
+<<<<<<< HEAD
   //  private final static Logger LOG = Logger.getLogger(HttpServerConfig.class.getName());
+=======
+    //  private final static Logger LOG = Logger.getLogger(HttpServerConfig.class.getName());
+>>>>>>> 8116f86a08b0b693bf5902174d8737bafd9c3950
     private final static Logger log = LoggerFactory.getLogger(HttpServerConfig.class.getName());
 
     @Bean

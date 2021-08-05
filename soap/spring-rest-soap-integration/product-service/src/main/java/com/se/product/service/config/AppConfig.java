@@ -1,7 +1,11 @@
 package com.se.product.service.config;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import com.se.product.service.constatn.GeneralConstants;
+=======
+import com.se.product.service.constant.GeneralConstants;
+>>>>>>> 8116f86a08b0b693bf5902174d8737bafd9c3950
 import com.se.product.service.controller.base.CategoryApi;
 import com.se.product.service.controller.base.PriceApi;
 import com.se.product.service.controller.base.ProductApi;
@@ -15,6 +19,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 <<<<<<< HEAD
 @Configuration
+
 public class AppConfig implements WebMvcConfigurer {
 
     @Override
