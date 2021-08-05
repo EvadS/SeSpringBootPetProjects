@@ -23,11 +23,7 @@ import java.util.Scanner;
 @Configuration
 public class HttpServerConfig {
 
-<<<<<<< HEAD
-  //  private final static Logger LOG = Logger.getLogger(HttpServerConfig.class.getName());
-=======
-    //  private final static Logger LOG = Logger.getLogger(HttpServerConfig.class.getName());
->>>>>>> 8116f86a08b0b693bf5902174d8737bafd9c3950
+
     private final static Logger log = LoggerFactory.getLogger(HttpServerConfig.class.getName());
 
     @Bean
@@ -44,7 +40,7 @@ public class HttpServerConfig {
                 // log request headers
                 log.debug("### Request Headers:");
                 for (String header : Collections.list(httpReq.getHeaderNames())) {
-                    log.debug("\t* {}: {1}", new Object[]{header, httpReq.getHeader(header)});
+                    log.debug("\t* {}: {1}", header, httpReq.getHeader(header));
                 }
                 // log request body
                 Scanner qs = new Scanner(httpReq.getInputStream()).useDelimiter("\\A");
@@ -55,12 +51,12 @@ public class HttpServerConfig {
 
             private void logResponse(HttpServletResponse httpResp, ByteArrayOutputStream baos) {
                 // log response headers
-                log.debug( "### Response [{0}] Headers:", httpResp.getStatus());
+                log.debug("### Response [{0}] Headers:", httpResp.getStatus());
                 for (String header : httpResp.getHeaderNames()) {
-                    log.debug( "\t* {0}: {1}", new Object[]{header, httpResp.getHeader(header)});
+                    log.debug("\t* {0}: {1}", header, httpResp.getHeader(header));
                 }
                 // log response body
-                log.debug( "### Response body: `{}` ###", baos.toString());
+                log.debug("### Response body: `{}` ###", baos.toString());
             }
 
             @Override
@@ -71,7 +67,7 @@ public class HttpServerConfig {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 final PrintStream ps = new PrintStream(baos);
 
-                chain.doFilter(req,resp);
+                chain.doFilter(req, resp);
 //                chain.doFilter(req, new HttpServletResponseWrapper(httpResp) {
 //                    @Override
 //                    public ServletOutputStream getOutputStream() throws IOException {

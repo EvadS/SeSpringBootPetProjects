@@ -52,6 +52,8 @@ public class StartupBean implements CommandLineRunner {
 
         productRepository.save(product);
 
+        product.addCategory(category3);
+        productRepository.save(product);
 
         List<Product> products = productRepository.findAll();
 
