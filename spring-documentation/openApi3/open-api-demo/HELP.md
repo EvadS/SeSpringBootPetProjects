@@ -44,3 +44,17 @@ http://localhost:8080/v2/api-docs
 
 NumberFormatException in io.swagger.models.parameters.AbstractSerializableParameter
 logging.level.io.swagger.models.parameters.AbstractSerializableParameter: ERROR
+
+## Swagger vs OpenAPI
+
+In short:
+OpenAPI = Specification
+Swagger = Tools for implementing the specification
+---
+
+http://localhost:8080/v3/api-docs
+
+http://localhost:8080/v3/api-docs.yaml
+
+
+http://localhost:8080/swagger-ui.html
