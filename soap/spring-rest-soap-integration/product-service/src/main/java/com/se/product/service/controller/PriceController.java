@@ -1,6 +1,6 @@
 package com.se.product.service.controller;
 
-import com.se.product.service.controller.base.PriceApi;
+import com.se.product.service.controller.api.PriceApi;
 import com.se.product.service.model.PriceRequest;
 import com.se.product.service.model.PriceResponse;
 import com.se.product.service.service.PriceService;
@@ -88,7 +88,7 @@ public class PriceController implements PriceApi {
             @RequestParam(required = false, defaultValue = "10") Integer count,
             @RequestParam(required = false, defaultValue = "") String filter) {
 
-        logger.debug("handle pagged price request, start:{}, count:{}",page,count);
+        logger.debug("handle paged price request, start:{}, count:{}",page,count);
 
         Pageable pageable = (filter == null) ? PageRequest.of(page, count) : PageRequest.of(page, count, Sort.by("id"));
         Page<PriceResponse> articleResponsePage = priceService.getPaged(pageable, filter);

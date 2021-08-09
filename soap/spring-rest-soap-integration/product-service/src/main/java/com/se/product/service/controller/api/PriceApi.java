@@ -1,7 +1,6 @@
-package com.se.product.service.controller.base;
+package com.se.product.service.controller.api;
 
 import com.se.product.service.exception.model.ErrorResponse;
-import com.se.product.service.model.CategoryRequest;
 import com.se.product.service.model.CategoryResponse;
 import com.se.product.service.model.PriceRequest;
 import com.se.product.service.model.PriceResponse;
@@ -15,7 +14,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;

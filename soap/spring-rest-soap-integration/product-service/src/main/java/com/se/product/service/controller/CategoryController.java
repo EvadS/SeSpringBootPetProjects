@@ -1,7 +1,7 @@
 package com.se.product.service.controller;
 
 
-import com.se.product.service.controller.base.CategoryApi;
+import com.se.product.service.controller.api.CategoryApi;
 import com.se.product.service.model.CategoryRequest;
 import com.se.product.service.model.CategoryResponse;
 import com.se.product.service.model.CategoryResponseList;
@@ -48,7 +48,7 @@ public class CategoryController implements CategoryApi {
     }
 
     @Override
-    @PutMapping("/{id}/base-id")
+    @PutMapping("/base-id/{id}")
     public ResponseEntity<CategoryResponse> changeBase(
             @PathVariable(value = "id") @NotNull Long id,
             @PathVariable(value = "base-id") @NotNull Long baseId) {

@@ -20,6 +20,8 @@ public class OpenApiConfiguration    {
 //    @Value("${application-description}")
 //    String appDesciption;
 
+    public static final String AUTHORIZATION_HEADER = "Authorization";
+
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI().info(apiInfo());
@@ -46,4 +48,5 @@ public class OpenApiConfiguration    {
                 .email("Evad.se.dev@gmail.com")
                 .url("https://github.com/evads");
     }
+
 }

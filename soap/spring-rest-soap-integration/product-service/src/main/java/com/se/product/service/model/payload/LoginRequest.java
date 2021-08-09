@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import javax.validation.constraints.NotNull;
 
-@Schema(name = "Login Request", description = "The login request payload")
+@Schema(name = "LoginRequest", description = "The login request payload")
 public class LoginRequest {
 
     @NullOrNotBlank(message = "Login Username can be null but not blank")

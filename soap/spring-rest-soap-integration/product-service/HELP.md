@@ -61,3 +61,9 @@ TODO: list
 
   http://localhost:18080/swagger-ui/index.html?url=/v3/api-docs
  
+ ---
+ ```
+http://localhost:18080/api-docs.yaml
+
+http://localhost:18080/v3/api-docs.yaml
+```

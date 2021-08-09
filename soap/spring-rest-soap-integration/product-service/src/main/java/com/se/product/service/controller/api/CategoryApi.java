@@ -1,4 +1,4 @@
-package com.se.product.service.controller.base;
+package com.se.product.service.controller.api;
 
 import com.se.product.service.exception.model.ErrorResponse;
 import com.se.product.service.model.CategoryRequest;

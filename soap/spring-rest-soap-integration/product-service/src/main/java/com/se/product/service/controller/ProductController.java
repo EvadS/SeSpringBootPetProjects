@@ -1,6 +1,6 @@
 package com.se.product.service.controller;
 
-import com.se.product.service.controller.base.ProductApi;
+import com.se.product.service.controller.api.ProductApi;
 import com.se.product.service.domain.Product;
 import com.se.product.service.mapper.ProductMapper;
 import com.se.product.service.model.CategoriesRequest;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.websocket.server.PathParam;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -70,7 +71,8 @@ public class ProductController implements ProductApi {
 
     @Override
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable(value = "id") @NotNull Long id) {
+    public ResponseEntity delete(
+            @PathParam(value = "id") @NotNull Long id) {
         logger.debug("Handle delete product request, id: {}", id);
 
         productService.delete(id);
@@ -78,9 +80,9 @@ public class ProductController implements ProductApi {
     }
 
     @Override
-    @PutMapping("/{id}/category")
+    @PutMapping("/category/{id}")
     public ResponseEntity<ProductResponse> updateCategory(
-            @PathVariable(value = "id") @NotNull Long id,
+            @PathParam(value = "id") @NotNull Long id,
             @RequestBody @Valid CategoriesRequest categoriesRequest) {
 
         logger.debug("Handle change product categories request, id: {}, categories: {}", id, categoriesRequest);
@@ -90,9 +92,9 @@ public class ProductController implements ProductApi {
     }
 
     @Override
-    @PutMapping("/{id}/price")
+    @PutMapping("/price/{id}")
     public ResponseEntity<ProductResponse> updatePrices(
-            @PathVariable(value = "id") @NotNull Long id,
+            @PathParam(value = "id") @NotNull Long id,
             @RequestBody @Valid PricesRequest pricesRequest) {
 
         logger.debug("Handle change product prices request, id: {}, pricesRequest: {}", id, pricesRequest);
