@@ -52,3 +52,12 @@ TODO: list
  404  - not found 
  409 already exists 
  
+ ## List of technologies
+ -------------------
+  Spring REST API Using OpenAPI 3.0
+  
+  http://localhost:18080/v3/api-docs/
+  
+
+  http://localhost:18080/swagger-ui/index.html?url=/v3/api-docs
+ 

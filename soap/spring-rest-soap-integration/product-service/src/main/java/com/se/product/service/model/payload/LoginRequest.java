@@ -1,24 +1,23 @@
 package com.se.product.service.model.payload;
 
 import com.se.product.service.validation.annotation.NullOrNotBlank;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import javax.validation.constraints.NotNull;
 
-@ApiModel(value = "Login Request", description = "The login request payload")
+@Schema(name = "Login Request", description = "The login request payload")
 public class LoginRequest {
 
     @NullOrNotBlank(message = "Login Username can be null but not blank")
-    @ApiModelProperty(value = "Registered username", allowableValues = "NonEmpty String", required = true)
+    @Schema(name = "Registered username", allowableValues = "NonEmpty String", required = true)
     private String username;
 
     @NullOrNotBlank(message = "Login Email can be null but not blank")
-    @ApiModelProperty(value = "User registered email", required = true, allowableValues = "NonEmpty String")
+    @Schema(name = "User registered email", required = true, allowableValues = "NonEmpty String")
     private String email;
 
     @NotNull(message = "Login password cannot be blank")
-    @ApiModelProperty(value = "Valid user password", required = true, allowableValues = "NonEmpty String")
+    @Schema(name = "Valid user password", required = true, allowableValues = "NonEmpty String")
     private String password;
 
 

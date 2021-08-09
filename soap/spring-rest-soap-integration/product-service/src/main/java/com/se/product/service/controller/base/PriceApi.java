@@ -1,9 +1,18 @@
 package com.se.product.service.controller.base;
 
 import com.se.product.service.exception.model.ErrorResponse;
+import com.se.product.service.model.CategoryRequest;
+import com.se.product.service.model.CategoryResponse;
 import com.se.product.service.model.PriceRequest;
 import com.se.product.service.model.PriceResponse;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,90 +22,225 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
-@Api(value = "Price API",
-        description = "REST APIs related to price Entity")
+
+@Tag(name = "Price Api",
+        description = "REST Operations about Price entity")
 public interface PriceApi {
 
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successfully created price",
-                    response = PriceResponse.class),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource",
-                    response = ErrorResponse.class),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden",
-                    response = ErrorResponse.class),
-            @ApiResponse(code = 409, message = "Incorrect request param", response = ErrorResponse.class),
-            @ApiResponse(code = 422, message = "Incorrect model to create", response = ErrorResponse.class),
-            @ApiResponse(code = 415, message = "Incorrect model type to create ", response = ErrorResponse.class)
+            @ApiResponse(responseCode = "201", description = "Successfully created price",
+                     content = {
+                     @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = PriceResponse.class))
+                    }),
+            @ApiResponse(responseCode = "401",
+                    description = "You are not authorized to view the resource",
+                    content = {
+                    @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }),
+            @ApiResponse(responseCode = "403",
+                    description = "Accessing the resource you were trying to reach is forbidden",
+                    content = {
+                    @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }),
+
+            @ApiResponse(responseCode = "409",
+                    description = "Incorrect request param",
+                    content = {
+                    @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }),
+            @ApiResponse(responseCode = "422",
+                    description = "Incorrect model to create",
+                    content = {
+                    @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))
+            }),
+            @ApiResponse(responseCode = "415",
+                    description = "Incorrect model type to create",
+                    content = {
+                    @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))
+            })
     })
-    @ApiOperation(value = "Create price.", nickname = "update-price",
-            notes = "Create price.", tags = {})
+    @Operation(summary = "Adds an item to the system",
+            description = "adds a price item")
     ResponseEntity<PriceResponse> create(@Valid @RequestBody PriceRequest request);
 
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully updated price"),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
-            @ApiResponse(code = 400, message = "Incorrect request parameters")
+            @ApiResponse(responseCode = "202",
+                    description = "Successfully updated item",
+                    content = {
+                    @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = CategoryResponse.class))
+                    }),
+
+            @ApiResponse(responseCode = "401",
+                    description = "You are not authorized to view the resource",
+                    content = {
+                    @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }),
+            @ApiResponse(responseCode = "403",
+                    description = "Accessing the resource you were trying to reach is forbidden",
+                    content = {
+                    @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }),
+            @ApiResponse(responseCode = "400",
+                    description = "Incorrect request parameters",
+                    content = {
+                    @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "The resource you were trying to reach is not found",
+                    content = {
+                    @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))})
     })
-    @ApiOperation(value = "Update price.", nickname = "update-price",
-            notes = "Update price.", tags = {})
-    ResponseEntity<?> update(
-            @ApiParam(value = "ID of price", required = true, example = "123")
-            @PathVariable(value = "id") @NotNull Long priceId,
-            @ApiParam(value = "Price  details for update", required = true)
+    @Operation(summary = "Update price.", description = "Update price.")
+    ResponseEntity<PriceResponse> update(
+            @Parameter(
+                    name = "priceID",
+                    description = "price unique identifier",
+                    required = true, example = "123")
+            @PathVariable(value = "id") @NotNull Long priceID,
+
+            @Parameter(
+                    name = "requestModel",
+                    description = "Price object that needs to be changed", required = true)
             @Valid @RequestBody PriceRequest requestModel);
 
+
     @ApiResponses(value = {
-            @ApiResponse(code = 202, message = "Successfully deleted price"),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
-            @ApiResponse(code = 400, message = "Incorrect request parameters")
+            @ApiResponse(responseCode = "202",
+                    description = "Successfully deleted price"),
+
+            @ApiResponse(responseCode = "400",
+                    description = "Incorrect request parameters",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "401",
+                    description = "You are not authorized to view the resource",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }),
+            @ApiResponse(responseCode = "403",
+                    description = "Accessing the resource you were trying to reach is forbidden",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }),
+            @ApiResponse(responseCode = "404",
+                    description = "The resource you were trying to update is not found",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))})
     })
-    @ApiOperation(value = "Delete price.", nickname = "delete",
-            notes = "Delete price by id.",
-            tags = {})
+    @Operation(summary = "Delete price.", description = "Delete price by unique identifier.")
     ResponseEntity<?> deletePrice(
-            @ApiParam(value = "ID of price to return", required = true, example = "123")
+            @Parameter(name = "id",
+                    description = "category unique identifier",
+                    required = true, example = "123")
             @PathVariable(value = "id") @NotNull Long id);
 
+
+
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully, describe price info "),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
-            @ApiResponse(code = 400, message = "Incorrect request parameters")
+            @ApiResponse(responseCode = "200",
+                    description = "Successfully, describe price info ",
+                    content = {
+                    @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = PriceResponse.class))
+            }),
+            @ApiResponse(responseCode = "401",
+                    description = "You are not authorized to view the resource",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }),
+            @ApiResponse(responseCode = "403",
+                    description = "Accessing the resource you were trying to reach is forbidden",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }),
+            @ApiResponse(responseCode = "404",
+                    description = "The resource you were trying to update is not found",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))}),
+
+            @ApiResponse(responseCode = "400",
+                    description = "Incorrect request parameters",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))})
     })
-    @ApiOperation(value = "Price.", nickname = "price-get",
-            notes = "Get price by id.", tags = {})
+    @Operation(summary = "Price.", description = "Get price by id.")
     ResponseEntity<PriceResponse> getById(
-            @ApiParam(value = "ID of price to return", required = true, example = "123")
-            @PathVariable(value = "id") Long priceId);
+            @Parameter(name = "id",
+                    description = "Price unique identifier", required = true, example = "123")
+            @PathVariable(value = "id") Long id);
 
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully list of all prices"),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
-    })
-    @GetMapping(value = "/list")
-    @ApiOperation(value = "Current prices", nickname = "list",
-            notes = "Prices list.", tags = {})
-    ResponseEntity<?> list();
 
 
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully paged list of all prices"),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+            @ApiResponse(responseCode = "200",
+                    description = "Successfully list of all prices",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    array = @ArraySchema(schema = @Schema(implementation = PriceResponse.class)))
+                    }),
+
+            @ApiResponse(responseCode = "401",
+                    description = "You are not authorized to view the resource",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }),
+            @ApiResponse(responseCode = "403",
+                    description = "Accessing the resource you were trying to reach is forbidden",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }),
+            @ApiResponse(responseCode = "404", description = "The resource you were trying to reach is not found")
     })
-    @ApiOperation(value = "Current prices", nickname = "list",
-            notes = "Prices list with pagination.", tags = {})
+    @Operation(summary = "Current prices",description = "Prices list.")
+    ResponseEntity<List<PriceResponse>> list();
+
+    // TODO:S
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Successfully paged list of all prices"),
+
+            @ApiResponse(responseCode = "401",
+                    description = "You are not authorized to view the resource",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }),
+            @ApiResponse(responseCode = "403",
+                    description = "Accessing the resource you were trying to reach is forbidden",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }),
+            @ApiResponse(responseCode = "404", description = "The resource you were trying to reach is not found")
+    })
+    @Operation(summary = "Current prices",
+            description = "Prices list with pagination.", tags = {})
     ResponseEntity<Page<PriceResponse>> getPaged(
-            @RequestParam(required = false, defaultValue = "0") Integer page,
-            @RequestParam(required = false, defaultValue = "10") Integer count,
-            @RequestParam(required = false, defaultValue = "") String filter);
+            @RequestParam(required = false, value = "0") Integer page,
+            @RequestParam(required = false, value = "10") Integer count,
+            @RequestParam(required = false, value = "") String filter);
 }

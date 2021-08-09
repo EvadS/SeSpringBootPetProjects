@@ -1,9 +1,13 @@
 package com.se.product.service.exception.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import java.time.Instant;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Tag(name = "ApiResponse",
+        description = "Provide information about auth error")
 public class ApiResponse {
 
 

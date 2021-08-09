@@ -11,7 +11,6 @@ import com.se.product.service.model.payload.ProductRequest;
 import com.se.product.service.model.payload.ProductResponse;
 import com.se.product.service.repository.ProductRepository;
 import com.se.product.service.service.ProductService;
-import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -40,7 +39,7 @@ public class ProductController implements ProductApi {
 
     @Override
     @PostMapping
-    public ResponseEntity<ProductResponse> saveProduct(@RequestBody @Valid ProductRequest product) {
+    public ResponseEntity<ProductResponse> create(@RequestBody @Valid ProductRequest product) {
         logger.debug("Create new product: {}", product);
 
         ProductResponse response = productService.create(product);

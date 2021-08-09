@@ -1,7 +1,7 @@
 package com.se.product.service.model;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,18 +12,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@ApiModel(description = "Provide model to create new category item")
+@Schema(description = "Provide model to create new category item")
 public class CategoryRequest {
 
-    @ApiModelProperty(name = "name", notes = "category name",
+    @Schema(name = "name", description = "category name",
             required = true)
     private String name;
 
-    @ApiModelProperty(name = "code", notes = "category code",
+    @Schema(name = "code", description = "category code",
             required = true)
     private String code;
 
-    @ApiModelProperty(name = "baseCategory", notes = "base category id ",
-            required = false)
+    @Schema(name = "baseCategory", description = "base category id. Null when category don't base")
     private Long baseCategory;
 }

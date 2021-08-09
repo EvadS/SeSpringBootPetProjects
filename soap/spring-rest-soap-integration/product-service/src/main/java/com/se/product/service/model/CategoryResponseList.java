@@ -1,6 +1,6 @@
 package com.se.product.service.model;
 
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +13,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@ApiModel(description = "Provide model with current categories")
+@Schema(description = "Provide model with current categories")
 public class CategoryResponseList {
+    @Builder.Default
     private List<CategoryResponse> categories = new ArrayList<>();
 }

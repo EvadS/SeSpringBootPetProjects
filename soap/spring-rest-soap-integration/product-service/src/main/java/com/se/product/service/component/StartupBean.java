@@ -25,39 +25,39 @@ public class StartupBean implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        categoryRepository.deleteAllInBatch();
-        productRepository.deleteAllInBatch();
-
-        Category category1= new Category();
-        category1.setName("category1");
-        category1.setCode("1111");
-
-
-        Category category2= new Category();
-        category2.setName("category2");
-        category2.setCode("2222");
-
-
-        Category category3= new Category();
-        category3.setName("category3");
-        category3.setCode("3333");
-
-        categoryRepository.saveAll(Arrays.asList(category1,category2));
-
-
-        Product product = new Product();
-        product.setName("product name 1");
-        product.getCategories().add(category1);
-        product.getCategories().add(category2);
-
-        productRepository.save(product);
-
-        product.addCategory(category3);
-        productRepository.save(product);
-
-        List<Product> products = productRepository.findAll();
-
-        products.stream().forEach(System.out::println);
+//        categoryRepository.deleteAllInBatch();
+//        productRepository.deleteAllInBatch();
+//
+//        Category category1= new Category();
+//        category1.setName("category1");
+//        category1.setCode("1111");
+//
+//
+//        Category category2= new Category();
+//        category2.setName("category2");
+//        category2.setCode("2222");
+//
+//
+//        Category category3= new Category();
+//        category3.setName("category3");
+//        category3.setCode("3333");
+//
+//        categoryRepository.saveAll(Arrays.asList(category1,category2));
+//
+//
+//        Product product = new Product();
+//        product.setName("product name 1");
+//        product.getCategories().add(category1);
+//        product.getCategories().add(category2);
+//
+//        productRepository.save(product);
+//
+//        product.addCategory(category3);
+//        productRepository.save(product);
+//
+//        List<Product> products = productRepository.findAll();
+//
+//        products.stream().forEach(System.out::println);
 
     }
 }

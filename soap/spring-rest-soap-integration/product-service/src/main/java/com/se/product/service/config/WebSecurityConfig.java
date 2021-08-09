@@ -33,6 +33,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtAuthenticationEntryPoint jwtEntryPoint;
 
+
+
+    private static final String[] AUTH_WHITELIST = {
+            // -- Swagger UI v2
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            // -- Swagger UI v3 (OpenAPI)
+            "/v3/api-docs/**",
+            "/swagger-ui/**"
+            // other public endpoints of your API may be appended to this array
+    };
+
     @Autowired
     public WebSecurityConfig(CustomUserDetailsService userDetailsService, JwtAuthenticationEntryPoint jwtEntryPoint) {
         this.userDetailsService = userDetailsService;
@@ -58,13 +75,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         web.ignoring().antMatchers(
-                "/v2/api-docs",
+                "/v3/api-docs/*",
+                "/swagger-ui","/swagger-ui/",
                 "/configuration/ui",
                 "/swagger-resources/**",
                 "/configuration/**",
+                "/swagger-ui/**",
                 "/swagger-ui.html",
-                "/webjars/**");
+                "/webjars/**", "/webjars/swagger-ui/**");
     }
+
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -76,7 +97,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-
+                .antMatchers(AUTH_WHITELIST).permitAll()
                 .antMatchers("/**").permitAll()
 //                .antMatchers("/",
 //                		"/favicon.ico",
@@ -102,6 +123,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/price/**").permitAll()
 //                .antMatchers("/api/**").permitAll()
 //                .antMatchers("/api/product**").permitAll()
+         //       .antMatchers("/auth/admin/*").hasRole("ADMIN")
+         //       .antMatchers("/auth/*").hasAnyRole("ADMIN","USER")
 //
 
                 //TODO: temporary solution to test ws
@@ -114,4 +137,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 }

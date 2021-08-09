@@ -3,12 +3,17 @@ package com.se.product.service.controller.base;
 
 import com.se.product.service.exception.model.ErrorResponse;
 import com.se.product.service.model.CategoriesRequest;
-import com.se.product.service.model.CategoryResponse;
 import com.se.product.service.model.PricesRequest;
 import com.se.product.service.model.payload.PagedProductSearchRequest;
 import com.se.product.service.model.payload.ProductRequest;
 import com.se.product.service.model.payload.ProductResponse;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,119 +21,303 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import static java.net.HttpURLConnection.*;
 
-@Api(value = "product Api", description = "Operations pertaining to products in Online Store")
+@Tag(name = "Product Api",
+        description = "REST Operations about product")
 public interface ProductApi {
 
     @ApiResponses(value = {
-            @ApiResponse(code = HTTP_OK,
-                    message = "Successfully created item", response = CategoryResponse.class),
-            @ApiResponse(code = HTTP_BAD_REQUEST, message = "Incorrect request parameters"),
-            @ApiResponse(code = HTTP_UNAUTHORIZED, message = "You are not authorized to view the resource",
-                    response = ErrorResponse.class),
-            @ApiResponse(code = HTTP_FORBIDDEN, message = "Accessing the resource you were trying to reach is forbidden",
-                    response = ErrorResponse.class),
-            @ApiResponse(code = HTTP_CONFLICT, message = "Incorrect request param", response = ErrorResponse.class),
-            @ApiResponse(code = 422, message = "Incorrect model to create", response = ErrorResponse.class),
-            @ApiResponse(code = HTTP_UNSUPPORTED_TYPE, message = "Incorrect model type to create", response = ErrorResponse.class)
+            @ApiResponse(responseCode = "201",
+                    description = "Successfully created item",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ProductResponse.class))
+                    }),
+            @ApiResponse(responseCode = "400",
+                    description = "Incorrect request parameters",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }),
+            @ApiResponse(responseCode = "401",
+                    description = "You are not authorized to view the resource",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }),
+            @ApiResponse(responseCode = "403",
+                    description = "Accessing the resource you were trying to reach is forbidden",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }),
+            @ApiResponse(responseCode = "409",
+                    description = "Incorrect request param",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }),
+            @ApiResponse(responseCode = "422",
+                    description = "Incorrect model to create", content = {
+                    @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))
+            }),
+
+            @ApiResponse(responseCode = "415",
+                    description = "Incorrect model type to create", content = {
+                    @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))
+            }),
     })
-    @ApiOperation(value = "Create product", notes = "This method creates a new product")
-    ResponseEntity<ProductResponse> saveProduct(
-            @ApiParam(value = "The values to new product entity", required = true, name = "product")
+    @Operation(summary = "Adds an item to the system",
+            description = "adds a product item")
+    ResponseEntity<ProductResponse> create(
+            @Parameter(name = "product",
+                    description = "The values to new product entity", required = true)
             @RequestBody @Valid ProductRequest product);
 
+
     @ApiResponses(value = {
-            @ApiResponse(code = 201,
-                    message = "Successfully created item", response = ProductResponse.class),
-            @ApiResponse(code = 400, message = "Incorrect request parameters", response = ErrorResponse.class),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource",
-                    response = ErrorResponse.class),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden",
-                    response = ErrorResponse.class),
-            @ApiResponse(code = HTTP_NOT_FOUND, message = "The resource you were trying to update is not found",
-                    response = ErrorResponse.class),
-            @ApiResponse(code = 409, message = "Incorrect request param", response = ErrorResponse.class),
-            @ApiResponse(code = 422, message = "Incorrect model to create", response = ErrorResponse.class),
-            @ApiResponse(code = 422, message = "Incorrect model to create", response = ErrorResponse.class),
+            @ApiResponse(responseCode = "201",
+                    description = "Successfully created item",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ProductResponse.class))
+                    }),
+            @ApiResponse(responseCode = "400",
+                    description = "Incorrect request parameters",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }),
+            @ApiResponse(responseCode = "401",
+                    description = "You are not authorized to view the resource",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }),
+            @ApiResponse(responseCode = "403",
+                    description = "Accessing the resource you were trying to reach is forbidden",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }),
+            @ApiResponse(responseCode = "409",
+                    description = "Incorrect request param",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }),
+            @ApiResponse(responseCode = "415",
+                    description = "Incorrect model type to create", content = {
+                    @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))
+            }),
+            @ApiResponse(responseCode = "422",
+                    description = "Incorrect model to create", content = {
+                    @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))
+            })
     })
-    @ApiOperation(value = "Update product", notes = "This method update existed product")
+    @Operation(summary = "update product", description = "This method update existed product")
     ResponseEntity<ProductResponse> update(
-            @ApiParam(value = "Product unique identifier", required = true, example = "123")
-            @PathVariable(value = "id") @NotNull Long id,
+            @Parameter(name = "id",
+                    description = "Product unique identifier",
+                    required = true, example = "123")
+            @PathVariable(value = "id") @Valid @NotNull Long id,
 
-            @ApiParam(value = "The values to new product entity", required = true, name = "product")
-            @RequestBody @Valid ProductRequest product);
+            @Parameter(
+                    name = "requestModel",
+                    description = "Product object that needs to be changed", required = true)
+            @Valid @RequestBody ProductRequest requestModel);
 
 
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully, describe product", response = ProductResponse.class),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
-            @ApiResponse(code = 400, message = "Incorrect request parameters")
+            @ApiResponse(responseCode = "200",
+                    description = "Successfully, describe product",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ProductResponse.class))
+                    }),
+            @ApiResponse(responseCode = "400", description = "Incorrect request parameters",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }),
+            @ApiResponse(responseCode = "401",
+                    description = "You are not authorized to view the resource",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }),
+            @ApiResponse(responseCode = "403",
+                    description = "Accessing the resource you were trying to reach is forbidden",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }),
+            @ApiResponse(responseCode = "404",
+                    description = "The resource you were trying to update is not found",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))})
     })
-    @ApiOperation(value = "Get product",
-            notes = "Get product full information.")
+    @Operation(summary = "Get product", description = "Get product full information.")
     ResponseEntity<ProductResponse> getById(
-            @ApiParam(value = "Product unique identifier", required = true, example = "123")
-            @PathVariable(value = "id") @NotNull Long id);
+            @Parameter(name = "id",
+                    description = "Product unique identifier",
+                    required = true, example = "123")
+            @PathVariable(value = "id") @Valid @NotNull Long id);
 
 
     @ApiResponses(value = {
-            @ApiResponse(code = 202, message = "Item successfully deleted"),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
-            @ApiResponse(code = 400, message = "Incorrect request parameters")
+            @ApiResponse(responseCode = "202",
+                    description = "Item successfully deleted"),
+            @ApiResponse(responseCode = "401",
+                    description = "You are not authorized to view the resource",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }),
+            @ApiResponse(responseCode = "403",
+                    description = "Accessing the resource you were trying to reach is forbidden",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }),
+            @ApiResponse(responseCode = "404",
+                    description = "The resource you were trying to update is not found",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "Incorrect request parameters",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))})
     })
-    @ApiOperation(value = "Delete", notes = "Delete product by unique identifier.")
+    @Operation(summary = "Delete", description = "Delete product by unique identifier.")
     ResponseEntity delete(
-            @ApiParam(value = "Product unique identifier", required = true, example = "123")
-            @PathVariable(value = "id") @NotNull Long id);
+            @Parameter(name = "id",
+                    description = "Product unique identifier",
+                    required = true, example = "123")
+            @PathVariable(value = "id") @Valid @NotNull Long id);
 
 
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Item successfully updated", response = ProductResponse.class),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
-            @ApiResponse(code = 400, message = "Incorrect request parameters"),
-            @ApiResponse(code = 422, message = "Incorrect model to create", response = ErrorResponse.class)
+            @ApiResponse(responseCode = "201", description = "Item successfully updated",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ProductResponse.class))
+                    }),
+            @ApiResponse(responseCode = "401",
+                    description = "You are not authorized to view the resource",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }),
+            @ApiResponse(responseCode = "403",
+                    description = "Accessing the resource you were trying to reach is forbidden",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }),
+            @ApiResponse(responseCode = "404",
+                    description = "The resource you were trying to update is not found",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "Incorrect request parameters",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))}),
+
+            @ApiResponse(responseCode = "422", description = "Incorrect model to create",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))}),
     })
-    @ApiOperation(value = "Update categories", notes = "Update products categories")
+    @Operation(summary = "Update categories", description = "Update products categories")
     ResponseEntity<ProductResponse> updateCategory(
-            @ApiParam( value = "Product unique identifier", required = true, example = "123")
+            @Parameter(name = "priduct",
+                    description = "product unique identifier",
+                    required = true, example = "123")
             @PathVariable(value = "id") @NotNull Long id,
 
-            @ApiParam(value = "New categories id", name = "categories", required = true)
+            @Parameter(name = "categories",
+                    description = "category unique identifier",
+                    required = true, example = "123")
             @RequestBody @Valid CategoriesRequest categoriesRequest);
 
 
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Item successfully updated", response = ProductResponse.class),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
-            @ApiResponse(code = 400, message = "Incorrect request parameters"),
-            @ApiResponse(code = 422, message = "Incorrect model to create", response = ErrorResponse.class)
+            @ApiResponse(responseCode = "201",
+                    description = "Item successfully updated",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ProductResponse.class))
+                    }),
+            @ApiResponse(responseCode = "401",
+                    description = "You are not authorized to view the resource",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }),
+            @ApiResponse(responseCode = "403",
+                    description = "Accessing the resource you were trying to reach is forbidden",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }),
+            @ApiResponse(responseCode = "404",
+                    description = "The resource you were trying to update is not found",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))}),
+
+            @ApiResponse(responseCode = "400",
+                    description = "Incorrect request parameters",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))}),
+
+            @ApiResponse(responseCode = "422", description = "Incorrect model to create",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))}),
     })
-    @ApiOperation(value = "Update prices", notes = "Update products prices")
+    @Operation(summary = "prices", description = "update price")
     ResponseEntity<ProductResponse> updatePrices(
+            @Parameter(name = "product",
+                    description = "product unique identifier",
+                    required = true, example = "123")
             @PathVariable(value = "id") @NotNull Long id,
-            @ApiParam(value = "New prices ids", name = "categories", required = true)
+
+            @Parameter(name = "categories",
+                    description = "category model to updates",
+                    required = true)
             @RequestBody @Valid PricesRequest pricesRequest);
 
 
+    @Operation(summary = "paged", description = "Paged product list information")
     ResponseEntity<?> paged(@Valid @RequestBody PagedProductSearchRequest searchRequest);
 
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully list of all items"),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden")
-    })
+            @ApiResponse(responseCode = "200", description = "Successfully list of all items"),
+            @ApiResponse(responseCode = "401",
+                    description = "You are not authorized to view the resource",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }),
+            @ApiResponse(responseCode = "403",
+                    description = "Accessing the resource you were trying to reach is forbidden",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }),})
 
-    @ApiOperation(value = "list", nickname = "list",
-            notes = "All available products.")
+    @Operation(summary = "list",description = "All available products.")
     ResponseEntity<?> getAll();
 }

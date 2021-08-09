@@ -40,7 +40,7 @@ public class PriceController implements PriceApi {
 
     @Override
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(
+    public ResponseEntity<PriceResponse> update(
             @PathVariable(value = "id") @NotNull Long priceId,
             @Valid @RequestBody PriceRequest requestModel) {
 
@@ -73,7 +73,7 @@ public class PriceController implements PriceApi {
 
     @Override
     @GetMapping(value = "/list")
-    public ResponseEntity<?> list() {
+    public ResponseEntity<List<PriceResponse>> list() {
         logger.debug("handle list of price request");
 
         List<PriceResponse> priceResponseList = priceService.getAll();

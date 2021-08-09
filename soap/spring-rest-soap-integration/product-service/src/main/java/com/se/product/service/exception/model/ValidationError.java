@@ -1,9 +1,8 @@
 package com.se.product.service.exception.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 
-import io.swagger.annotations.ApiModel;
-
-@ApiModel(value = "ValidationError",
+@Schema(name = "ValidationError",
         description = "Provide ValidationError")
 public class ValidationError {
     private String field;
