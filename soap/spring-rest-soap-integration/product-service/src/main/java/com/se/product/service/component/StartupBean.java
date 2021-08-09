@@ -25,18 +25,40 @@ public class StartupBean implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-//        categoryRepository.deleteAllInBatch();
-//        productRepository.deleteAllInBatch();
+
+        productRepository.deleteAllInBatch();
+        categoryRepository.deleteAllInBatch();
+
+
+        //
+        Product product = new Product();
+        product.setName("product name 1");
+
+
+        //
+        Category category1= new Category();
+        category1.setName("category1");
+        category1.setCode("1111");//
+
+        Category category2= new Category();
+        category2.setName("category2");
+        category2.setCode("2222");
+
+
+        product.getProductCategories().add(category1);
+        product.getProductCategories().add(category2);
+
+        category1.getProducts().add(product);
+        category2.getProducts().add(product);
+
+        productRepository.save(product);
+
+
+                List<Product> products = productRepository.findAll();
 //
-//        Category category1= new Category();
-//        category1.setName("category1");
-//        category1.setCode("1111");
-//
-//
-//        Category category2= new Category();
-//        category2.setName("category2");
-//        category2.setCode("2222");
-//
+       products.stream().forEach(System.out::println);
+       int a =0;
+
 //
 //        Category category3= new Category();
 //        category3.setName("category3");

@@ -1,6 +1,5 @@
 package com.se.product.service.mapper;
 
-import com.se.product.service.controller.ProductController;
 import com.se.product.service.domain.Category;
 import com.se.product.service.domain.Price;
 import com.se.product.service.domain.Product;
@@ -33,8 +32,8 @@ public interface ProductMapper {
 
     @Mappings({
             @Mapping(target = "name", source = "name"),
-            @Mapping(target = "prices", ignore = true),
-            @Mapping(target = "categories", ignore = true),
+           // @Mapping(target = "prices", ignore = true),
+            @Mapping(target = "productCategories", ignore = true),
             @Mapping(target = "id", ignore = true)
     })
     Product toProduct(ProductRequest productRequest);
@@ -44,7 +43,7 @@ public interface ProductMapper {
     @Mappings({
             @Mapping(target = "name", source = "name"),
             @Mapping(target = "id", source = "id"),
-            @Mapping(source = "categories", target = "categories", qualifiedByName = "categoriesToStringSet"),
+            @Mapping(source = "productCategories", target = "categories", qualifiedByName = "categoriesToStringSet"),
 //            @Mapping(source = "prices", target = "prices", qualifiedByName = "pricesToStringSet")
 
     @Mapping(target = "prices", ignore = true)

@@ -18,6 +18,7 @@ import com.se.product.service.repository.CategoryRepository;
 import com.se.product.service.repository.PriceRepository;
 import com.se.product.service.repository.ProductRepository;
 import com.se.product.service.service.ProductService;
+import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
@@ -96,22 +97,24 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void delete(Long id) {
-        Product product = productRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("Product", "id", id));
+//        Product product = productRepository.findById(id).orElseThrow(
+//                () -> new ResourceNotFoundException("Product", "id", id));
+//
+//        logger.debug("Delete product: {}", id);
+//        Optional.ofNullable(product.getCategories()).ifPresent(categories ->
+//                categories.forEach(it -> {
+//                    product.removeCategory(it);
+//                    logger.debug("Removed category: {} ", it.getId());
+//                }));
+//
+//        Optional.ofNullable(product.getPrices()).ifPresent(prices -> prices.forEach(it -> {
+//            product.removePrice(it);
+//            logger.debug("Removed price: {} ", it.getId());
+//        }));
+//
+//        logger.info("Product, id:{} removed", id);
 
-        logger.debug("Delete product: {}", id);
-        Optional.ofNullable(product.getCategories()).ifPresent(categories ->
-                categories.forEach(it -> {
-                    product.removeCategory(it);
-                    logger.debug("Removed category: {} ", it.getId());
-                }));
-
-        Optional.ofNullable(product.getPrices()).ifPresent(prices -> prices.forEach(it -> {
-            product.removePrice(it);
-            logger.debug("Removed price: {} ", it.getId());
-        }));
-
-        logger.info("Product, id:{} removed", id);
+        throw  new NotImplementedException();
     }
 
     @Override
@@ -162,44 +165,48 @@ public class ProductServiceImpl implements ProductService {
 
 
     private void updateProductCategories(CategoriesRequest categoriesRequest, Product product) {
-        Optional.ofNullable(product.getCategories()).ifPresent(
-                i -> product.getCategories()
-                        .forEach(product::removeCategory));
+//        Optional.ofNullable(product.getCategories()).ifPresent(
+//                i -> product.getCategories()
+//                        .forEach(product::removeCategory));
+//
+//        logger.debug("Removed current categories to product");
+//
+//        if (categoriesRequest == null)
+//            return;
+//
+//        categoriesRequest.getCategories()
+//                .forEach(item -> {
+//                    Category category = categoryRepository.findById(item).orElseThrow(
+//                            () -> new ResourceNotFoundException("Category", "id", item));
+//
+//                    logger.debug("added category id:{} to product name:{}", item, product.getName());
+//                    product.addCategory(category);
+//                });
 
-        logger.debug("Removed current categories to product");
-
-        if (categoriesRequest == null)
-            return;
-
-        categoriesRequest.getCategories()
-                .forEach(item -> {
-                    Category category = categoryRepository.findById(item).orElseThrow(
-                            () -> new ResourceNotFoundException("Category", "id", item));
-
-                    logger.debug("added category id:{} to product name:{}", item, product.getName());
-                    product.addCategory(category);
-                });
+        throw  new NotImplementedException();
     }
 
     private void updateProductPrices(PricesRequest pricesRequest, Product product) {
 
-        Optional.ofNullable(product.getPrices()).ifPresent(
-                i -> product.getPrices()
-                        .forEach(product::removePrice));
+//        Optional.ofNullable(product.getPrices()).ifPresent(
+//                i -> product.getPrices()
+//                        .forEach(product::removePrice));
+//
+//        logger.debug("Removed all current prices of product");
+//
+//        if (pricesRequest == null)
+//            return;
+//
+//        pricesRequest.getPrices()
+//                .forEach(item -> {
+//                    Price price = priceRepository.findById(item).orElseThrow(
+//                            () -> new ResourceNotFoundException("Price", "id", item));
+//
+//                    logger.debug("added price id:{} to product", item);
+//                    product.addPrice(price);
+//                });
 
-        logger.debug("Removed all current prices of product");
-
-        if (pricesRequest == null)
-            return;
-
-        pricesRequest.getPrices()
-                .forEach(item -> {
-                    Price price = priceRepository.findById(item).orElseThrow(
-                            () -> new ResourceNotFoundException("Price", "id", item));
-
-                    logger.debug("added price id:{} to product", item);
-                    product.addPrice(price);
-                });
+        throw  new NotImplementedException();
     }
 
 }

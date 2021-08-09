@@ -2,18 +2,12 @@ package com.se.product.service.domain;
 
 import com.se.product.service.domain.audit.DateAudit;
 import com.se.product.service.validation.annotation.NullOrNotBlank;
-import lombok.*;
 
 import javax.persistence.*;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(toBuilder = true)
+
 
 
 @Entity
@@ -28,48 +22,38 @@ public class Product  extends DateAudit {
     @NullOrNotBlank(message = "Product name can not be blank")
     private String name;
 
-    @OneToMany(mappedBy = "product"
-            ,fetch = FetchType.LAZY )
-    private Set<Price> prices = new HashSet<>();
+    // student
+    @ManyToMany
+    @JoinTable(
+            name = "category_product",
+            joinColumns = @JoinColumn(name = "category_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id"))
+    Set<Category> productCategories;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable (name="product_category",
-            joinColumns=@JoinColumn (name="product_id"),
-            inverseJoinColumns=@JoinColumn(name="category_id"))
-    private Set<Category> categories = new HashSet<>();
-
-
-
-    public void addCategory(Category category) {
-        if(this.categories==null){
-            this.categories  = new HashSet<>();
-        }
-        this.categories.add(category);;
+    public Product() {
     }
 
-    public void removeCategory(Category category) {
-        this.categories.remove(category);
+    public Long getId() {
+        return id;
     }
 
-    public void addPrice(Price price) {
-        if(prices  ==null){
-            prices = new HashSet<>();
-        }
-        prices.add(price);
-        price.setProduct(this);
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void removePrice(Price comment) {
-        prices.remove(comment);
-        comment.setProduct(null);
+    public String getName() {
+        return name;
     }
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", categories=" + categories +
-                '}';
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Set<Category> getProductCategories() {
+        return productCategories;
+    }
+
+    public void setProductCategories(Set<Category> categories) {
+        this.productCategories = categories;
     }
 }

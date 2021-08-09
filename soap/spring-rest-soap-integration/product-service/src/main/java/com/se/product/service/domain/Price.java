@@ -29,7 +29,5 @@ public class Price extends DateAudit {
     @Column(name = "cost")
     private Double cost;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id", nullable = true)
-    private Product product;
+
 }

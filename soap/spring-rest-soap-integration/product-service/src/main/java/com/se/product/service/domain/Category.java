@@ -8,9 +8,9 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.Set;
 
-@Getter
-@Setter
-@NoArgsConstructor
+//@Getter
+//@Setter
+//@NoArgsConstructor
 @Entity
 @Table(name = "category")
 public class Category {
@@ -29,26 +29,49 @@ public class Category {
     @Column(unique = true)
     private Long baseCategory;
 
-    @ManyToMany
-    @JoinTable(name="product_category",
-            joinColumns=@JoinColumn(name="category_id"),
-            inverseJoinColumns=@JoinColumn(name="product_id")
-    )
-    private Set<Product> products;
+    @ManyToMany(mappedBy = "category")
+    Set<Product> products;
 
-//    // TODO: move to many-to-many
-//    @ManyToOne
-//    @JoinColumn(name = "product_id", nullable = true)
-//    private Product product;
+    public Category() {
+    }
 
+    public Long getId() {
+        return id;
+    }
 
-    @Override
-    public String toString() {
-        return "Category{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", code='" + code + '\'' +
-                ", baseCategory=" + baseCategory +
-                '}';
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public Long getBaseCategory() {
+        return baseCategory;
+    }
+
+    public void setBaseCategory(Long baseCategory) {
+        this.baseCategory = baseCategory;
+    }
+
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
     }
 }

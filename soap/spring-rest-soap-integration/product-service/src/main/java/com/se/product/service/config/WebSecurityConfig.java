@@ -99,6 +99,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(AUTH_WHITELIST).permitAll()
                 .antMatchers("/**").permitAll()
+                .antMatchers("/h2/**").permitAll()
 //                .antMatchers("/",
 //                		"/favicon.ico",
 //                        "/**/*.json",
@@ -130,6 +131,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //TODO: temporary solution to test ws
                 .anyRequest().authenticated();
 
+        http.headers().frameOptions().sameOrigin();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
