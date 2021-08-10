@@ -1,6 +1,6 @@
-package com.se.many.to.many.repo;
+package com.se.many.to.many.demo.repo;
 
-import com.se.many.to.many.entity.Tag;
+import com.se.many.to.many.demo.entity.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,12 +1,7 @@
-package com.se.many.to.many.entity.def;
-
-import com.se.many.to.many.entity.University;
+package com.se.many.to.many.demo2.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,9 +16,9 @@ public class Searcher {
     private String name;
 
     @ManyToMany
-    @JoinTable (name="seacher_skills",
-            joinColumns=@JoinColumn (name="searcher_id"),
-            inverseJoinColumns=@JoinColumn(name="skills_score_id"))
+    @JoinTable(name = "seacher_skills",
+            joinColumns = @JoinColumn(name = "searcher_id"),
+            inverseJoinColumns = @JoinColumn(name = "skills_score_id"))
     private List<SkillsScore> skillsScore = new ArrayList<>();
 
     public Searcher() {

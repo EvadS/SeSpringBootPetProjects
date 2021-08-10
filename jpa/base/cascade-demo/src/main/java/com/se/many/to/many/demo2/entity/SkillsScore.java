@@ -1,11 +1,7 @@
-package com.se.many.to.many.entity.def;
+package com.se.many.to.many.demo2.entity;
 
-
-
-import com.se.many.to.many.entity.Student;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,9 +22,9 @@ public class SkillsScore {
                     CascadeType.PERSIST,
                     CascadeType.MERGE
             })
-    @JoinTable(name="seacher_skills",
-            joinColumns=@JoinColumn(name="skills_score_id"),
-            inverseJoinColumns=@JoinColumn(name="searcher_id"))
+    @JoinTable(name = "seacher_skills",
+            joinColumns = @JoinColumn(name = "skills_score_id"),
+            inverseJoinColumns = @JoinColumn(name = "searcher_id"))
     private List<Searcher> searchers = new ArrayList<>();
 
     public SkillsScore() {

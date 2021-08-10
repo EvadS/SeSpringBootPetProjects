@@ -1,7 +1,5 @@
-package com.se.many.to.many.entity;
+package com.se.many.to.many.demo.entity;
 
-
-import com.se.one.to.many.entity.Child;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -29,10 +27,9 @@ public class Post {
                     CascadeType.MERGE
             })
     @JoinTable(name = "my_post_tags",
-            joinColumns = { @JoinColumn(name = "post_id") },
-            inverseJoinColumns = { @JoinColumn(name = "tag_id") })
+            joinColumns = {@JoinColumn(name = "post_id")},
+            inverseJoinColumns = {@JoinColumn(name = "tag_id")})
     private Set<Tag> tags = new HashSet<>();
-
 
 
     @NotNull

@@ -1,6 +1,6 @@
-package com.se.many.to.many.repo.def;
+package com.se.many.to.many.demo2.repo;
 
-import com.se.many.to.many.entity.def.SkillsScore;
+import com.se.many.to.many.demo2.entity.SkillsScore;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

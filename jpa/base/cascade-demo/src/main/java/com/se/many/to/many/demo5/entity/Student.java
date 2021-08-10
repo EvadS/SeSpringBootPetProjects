@@ -1,25 +1,22 @@
-package com.se.many.to.many.entity;
-
+package com.se.many.to.many.demo5.entity;
 
 import javax.persistence.*;
 import java.util.List;
 
 
 @Entity
-public class University
-{
+public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
     private String name;
 
     @ManyToMany
-    @JoinTable(name="student_university",
-            joinColumns=@JoinColumn(name="university_id"),
-            inverseJoinColumns=@JoinColumn(name="student_id"))
-    private List<Student> students;
+    @JoinTable(name = "student_university",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "university_id"))
+    private List<University> universities;
 
     // set/get не представлены
 
@@ -40,17 +37,17 @@ public class University
         this.name = name;
     }
 
-    public List<Student> getStudents() {
-        return students;
+    public List<University> getUniversities() {
+        return universities;
     }
 
-    public void setStudents(List<Student> students) {
-        this.students = students;
+    public void setUniversities(List<University> universities) {
+        this.universities = universities;
     }
 
     @Override
     public String toString() {
-        return "=== \tUniversity{" +
+        return "Student{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';

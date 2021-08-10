@@ -1,10 +1,7 @@
-package com.se.many.to.many.entity.products;
-
-import com.se.many.to.many.entity.Student;
+package com.se.many.to.many.demo10.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -20,9 +17,9 @@ public class Category {
 
 
     @ManyToMany
-    @JoinTable(name="product_category",
-            joinColumns=@JoinColumn(name="category_id"),
-            inverseJoinColumns=@JoinColumn(name="product_id"))
+    @JoinTable(name = "product_category",
+            joinColumns = @JoinColumn(name = "category_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id"))
     private Set<Product> products;
 
     public Set<Product> getProducts() {

@@ -1,8 +1,8 @@
-package com.se.many.to.many.entity;
+package com.se.many.to.many.demo.entity;
 
 
-import com.se.one.to.many.entity.Child;
 import org.hibernate.annotations.NaturalId;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
