@@ -20,9 +20,6 @@ public class University {
             inverseJoinColumns = @JoinColumn(name = "student_id"))
     private List<Student> students;
 
-    // set/get не представлены
-
-
     public Long getId() {
         return id;
     }
