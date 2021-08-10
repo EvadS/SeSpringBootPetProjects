@@ -62,6 +62,7 @@ public class PostTagStartupBean implements CommandLineRunner {
         logger.info("*** Deleted tag  " + tag1.getId());
 
         // нихера не удалется
+        // ибо удаляется только связь
         postRepository.delete(post);
 
         logger.info("*** Current tags ****>>");
@@ -81,6 +82,19 @@ public class PostTagStartupBean implements CommandLineRunner {
         logger.info("<< *** Current tags ****");
 
 
+        logger.info("*** remove child tag from post ****>>");
+        logger.info("before remove tag1 from post ");
+        postRepository.findAll().stream().forEach(i-> logger.info(i.toString()));
+
+        post.removeChild(tag1);
+        postRepository.save(post);
+
+        logger.info("the tag1 removed");
+        logger.info("*** Current tags ****>>");
+        tagList = tagRepository.findAll();
+        tagList.stream().forEach(i -> logger.info(i));
+
+        logger.info("<< *** Current tags ****");
 
         logger.info("Application Started !!");
     }
