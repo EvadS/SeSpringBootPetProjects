@@ -6,9 +6,11 @@ import com.se.many.to.many.demo2.repo.SearcherRepository;
 import com.se.many.to.many.demo2.repo.SkillsScoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class SkillSearcherStartup implements CommandLineRunner {
 
     @Autowired

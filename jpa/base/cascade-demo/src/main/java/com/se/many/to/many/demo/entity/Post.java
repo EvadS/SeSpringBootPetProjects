@@ -20,7 +20,6 @@ public class Post {
     @Column(unique = true)
     private String title;
 
-
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,

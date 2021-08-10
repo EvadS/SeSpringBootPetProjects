@@ -8,12 +8,15 @@ import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 /**
  * callcoder demo
  */
+
+
 public class PostTagStartupBean implements CommandLineRunner {
 
     private final Logger logger = LoggerFactory.logger(PostTagStartupBean.class);
@@ -25,7 +28,7 @@ public class PostTagStartupBean implements CommandLineRunner {
     private PostRepository postRepository;
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args)   {
 
         // Cleanup the tables
         postRepository.deleteAllInBatch();
@@ -51,23 +54,34 @@ public class PostTagStartupBean implements CommandLineRunner {
 
         //смотрим в бд
 
-        System.out.println("*** Current tags ****************");
+        logger.info("*** Current tags ****>>");
         List<Tag> tagList = tagRepository.findAll();
         tagList.stream().forEach(i -> logger.info(i));
+        logger.info("<< *** Current tags ****");
 
         logger.info("*** Deleted tag  " + tag1.getId());
 
         // нихера не удалется
         postRepository.delete(post);
 
-        logger.info("*** Current tags ****************");
+        logger.info("*** Current tags ****>>");
         tagList = tagRepository.findAll();
-        tagList.stream().forEach(System.out::println);
-
+        tagList.stream().forEach(i -> logger.info(i));
+        logger.info("<< *** Current tags ****");
 
         // Post является базовой    @JoinTable
         // поэтому для удаления связей с Tag в промежуточной таблице
         post.getTags().clear();
         postRepository.delete(post);
+
+        logger.info("*** Current tags ****>>");
+        tagList = tagRepository.findAll();
+        tagList.stream().forEach(i -> logger.info(i));
+
+        logger.info("<< *** Current tags ****");
+
+
+
+        logger.info("Application Started !!");
     }
 }
