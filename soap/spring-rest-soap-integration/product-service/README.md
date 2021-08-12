@@ -15,7 +15,7 @@ http://localhost:18080/v3/api-docs/
 ```
 swagger-ui page
 ```
-http://localhost:18080/swagger-ui/index.html
+http://localhost:18080/swagger-ui/index.html?url=/v3/api-docs
 ```
 
 yaml documentation file 

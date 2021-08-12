@@ -4,6 +4,7 @@ import com.se.product.service.exception.model.ErrorResponse;
 import com.se.product.service.model.request.CategoryRequest;
 import com.se.product.service.model.response.CategoryResponse;
 import com.se.product.service.model.response.CategoryResponseList;
+import com.se.product.service.model.search.CategorySearch;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -11,10 +12,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -271,4 +272,28 @@ public interface CategoryApi {
     @GetMapping(value = "/list")
     @Operation(summary = "list", description = "Current categories.")
     ResponseEntity<CategoryResponseList> list();
+
+
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Successfully list of all items",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = CategoryResponseList.class))}),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "You are not authorized to view the resource",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Accessing the resource you were trying to reach is forbidden",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))}),
+    })
+    @Operation(summary = "search", description = "Current categories by search param.")
+    Page<CategoryResponse> search(CategorySearch request, Pageable pageable);
 }

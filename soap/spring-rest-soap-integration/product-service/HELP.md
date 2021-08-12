@@ -46,27 +46,6 @@ To check if the application is running properly, we can open the WSDL through th
    http://localhost:8080/ws/product.wsdl
 ```
 
-TODO: list 
-
- 200 ok 
- 404  - not found 
- 409 already exists 
- 
- ## List of technologies
- -------------------
-  Spring REST API Using OpenAPI 3.0
-  
-  http://localhost:18080/v3/api-docs/
-  
-
-  http://localhost:18080/swagger-ui/index.html?url=/v3/api-docs
- 
- ---
- ```
-http://localhost:18080/api-docs.yaml
-
-http://localhost:18080/v3/api-docs.yaml
-```
 
 
 ## docker-compose 

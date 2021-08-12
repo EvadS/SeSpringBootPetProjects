@@ -1,16 +1,22 @@
 package com.se.product.service.service.impl;
 
 import com.se.product.service.domain.Category;
+import com.se.product.service.domain.specification.CategorySpecification;
 import com.se.product.service.exception.AlreadyExistException;
 import com.se.product.service.exception.model.ResourceNotFoundException;
 import com.se.product.service.mapper.CategoryMapper;
 import com.se.product.service.model.request.CategoryRequest;
 import com.se.product.service.model.response.CategoryResponse;
 import com.se.product.service.model.response.CategoryResponseList;
+import com.se.product.service.model.search.CategorySearch;
 import com.se.product.service.repository.CategoryRepository;
 import com.se.product.service.service.CategoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,13 +27,13 @@ public class CategoryServiceImpl implements CategoryService {
     private static final Logger logger = LoggerFactory.getLogger(CategoryServiceImpl.class);
 
     private final CategoryRepository categoryRepository;
+    private final CategorySpecification categorySpecification;
 
-    public CategoryServiceImpl(CategoryRepository categoryRepository) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository, CategorySpecification categorySpecification) {
         this.categoryRepository = categoryRepository;
+        this.categorySpecification = categorySpecification;
     }
 
-    //ResourceNotFoundException
-    // AlreadyExistException
     @Override
     public CategoryResponse create(CategoryRequest request) {
         validateCategoryName(request.getName());
@@ -36,9 +42,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         Category category = CategoryMapper.MAPPER.toCategory(request);
 
-
         category = categoryRepository.save(category);
-
         return CategoryMapper.MAPPER.toCategoryResponse(category);
 
     }
@@ -60,7 +64,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     private void validateBaseCategory(Long baseCategoryId) {
         boolean exists;
-        if (baseCategoryId != null && baseCategoryId > 0) {
+        if (baseCategoryId != null) {
             exists = categoryRepository.existsById(baseCategoryId);
 
             if (exists) {
@@ -121,5 +125,16 @@ public class CategoryServiceImpl implements CategoryService {
         CategoryResponseList categoryResponseList = new CategoryResponseList();
         categoryResponseList.setCategories(categoriesList);
         return categoryResponseList;
+    }
+
+    @Override
+    public Page<CategoryResponse> search(CategorySearch request,
+                                         @PageableDefault(page = 0, size = 20,
+                                                 sort = "createdAt",direction = Sort.Direction.DESC) Pageable pageable) {
+
+        Page<CategoryResponse> userPage =
+                categoryRepository.findAll(categorySpecification.getFilter(request), pageable)
+                .map(CategoryMapper.MAPPER::toCategoryResponse);
+        return userPage;
     }
 }

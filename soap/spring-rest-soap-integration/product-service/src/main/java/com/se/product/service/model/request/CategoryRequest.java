@@ -7,6 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Positive;
+
 
 @Data
 @NoArgsConstructor
@@ -24,5 +27,6 @@ public class CategoryRequest {
     private String code;
 
     @Schema(name = "baseCategory", description = "base category id. Null when category don't base")
+    @Positive(message = "The value must be positive")
     private Long baseCategory;
 }

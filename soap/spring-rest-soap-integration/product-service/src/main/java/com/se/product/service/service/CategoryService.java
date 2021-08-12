@@ -3,6 +3,9 @@ package com.se.product.service.service;
 import com.se.product.service.model.request.CategoryRequest;
 import com.se.product.service.model.response.CategoryResponse;
 import com.se.product.service.model.response.CategoryResponseList;
+import com.se.product.service.model.search.CategorySearch;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface CategoryService {
     /**
@@ -21,4 +24,6 @@ public interface CategoryService {
     CategoryResponse getById(Long id);
 
     CategoryResponseList getAll();
+
+    Page<CategoryResponse> search(CategorySearch request, Pageable pageable);
 }

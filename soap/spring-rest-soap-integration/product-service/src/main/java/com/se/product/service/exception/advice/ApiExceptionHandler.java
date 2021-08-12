@@ -29,7 +29,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.util.Objects;
 
-
+// TODO list : DataIntegrityViolationException
 @RestControllerAdvice
 public class ApiExceptionHandler  extends ResponseEntityExceptionHandler {
     public static final String CONFLICT_MESSAGE = "Conflict in case of concurrent modification";

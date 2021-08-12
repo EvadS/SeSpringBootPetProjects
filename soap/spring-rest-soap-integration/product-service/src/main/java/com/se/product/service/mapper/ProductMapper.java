@@ -5,7 +5,7 @@ import com.se.product.service.domain.Price;
 import com.se.product.service.domain.Product;
 import com.se.product.service.domain.specification.ProductSearch;
 import com.se.product.service.model.payload.IdName;
-import com.se.product.service.model.request.PagedProductSearchRequest;
+import com.se.product.service.model.search.PagedProductSearchRequest;
 import com.se.product.service.model.request.ProductRequest;
 import com.se.product.service.model.response.ProductItemResponse;
 import com.se.product.service.model.response.ProductResponse;

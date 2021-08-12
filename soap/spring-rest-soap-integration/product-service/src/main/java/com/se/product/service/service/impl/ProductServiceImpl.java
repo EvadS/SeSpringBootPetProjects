@@ -9,7 +9,7 @@ import com.se.product.service.exception.AlreadyExistException;
 import com.se.product.service.exception.model.ResourceNotFoundException;
 import com.se.product.service.mapper.ProductMapper;
 import com.se.product.service.model.request.CategoriesRequest;
-import com.se.product.service.model.request.PagedProductSearchRequest;
+import com.se.product.service.model.search.PagedProductSearchRequest;
 import com.se.product.service.model.request.PricesRequest;
 import com.se.product.service.model.request.ProductRequest;
 import com.se.product.service.model.response.ProductItemResponse;

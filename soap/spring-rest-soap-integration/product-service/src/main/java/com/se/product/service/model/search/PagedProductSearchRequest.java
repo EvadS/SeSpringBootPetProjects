@@ -1,4 +1,4 @@
-package com.se.product.service.model.request;
+package com.se.product.service.model.search;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +13,8 @@ public class PagedProductSearchRequest {
     private int page;
     @Min(1)
     private int count;
+
+
 
     private String price;
     private String name;
