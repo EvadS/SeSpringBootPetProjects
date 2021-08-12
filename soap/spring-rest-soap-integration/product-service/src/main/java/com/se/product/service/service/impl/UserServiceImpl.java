@@ -1,6 +1,7 @@
 package com.se.product.service.service.impl;
 
 
+import com.se.product.service.domain.specification.UserFirstnameSpecification;
 import com.se.product.service.model.request.RegistrationRequest;
 import com.se.product.service.domain.Role;
 import com.se.product.service.domain.User;
@@ -8,12 +9,15 @@ import com.se.product.service.repository.UserRepository;
 import com.se.product.service.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -52,6 +56,17 @@ public class UserServiceImpl implements UserService{
         return userRepository.findById(Id);
     }
 
+
+
+    @Override
+    public List<User> findAll(String searchTerm) {
+
+        Specification<User> searchSpec = UserFirstnameSpecification.firstOrLastNameContainsIgnoreCase(searchTerm);
+        List<User> searchResults = userRepository.findAll(searchSpec);
+
+        return searchResults;
+    }
+
     /**
      * Save the user to the database
      */
@@ -86,8 +101,11 @@ public class UserServiceImpl implements UserService{
         Boolean isNewUserAsAdmin = registerRequest.getRegisterAsAdmin();
         newUser.setEmail(registerRequest.getEmail());
         newUser.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-        newUser.setUsername(registerRequest.getEmail());
-        newUser.addRoles(getRolesForNewUser(isNewUserAsAdmin));
+        newUser.setUsername(registerRequest.getUsername());
+        // TODO: temporary
+//        newUser.addRoles(getRolesForNewUser(isNewUserAsAdmin));
+
+
         newUser.setActive(true);
         newUser.setEmailVerified(false);
         return newUser;

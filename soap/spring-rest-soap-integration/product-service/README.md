@@ -23,3 +23,7 @@ yaml documentation file
 http://localhost:18080/api-docs.yaml
 ```
 
+
+Specification & Predicate: Advance Search and Filtering in JPA
+
+https://www.appsdeveloperblog.com/specification-predicate-advance-search-and-filtering-in-jpa/
