@@ -43,7 +43,6 @@ public class StartupBean implements CommandLineRunner {
 
         productRepository.save(product);
 
-
         categoryRepository.save(category1);
         categoryRepository.save(category2);
 

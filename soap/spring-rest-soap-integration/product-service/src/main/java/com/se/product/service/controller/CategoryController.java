@@ -2,9 +2,9 @@ package com.se.product.service.controller;
 
 
 import com.se.product.service.controller.api.CategoryApi;
-import com.se.product.service.model.CategoryRequest;
-import com.se.product.service.model.CategoryResponse;
-import com.se.product.service.model.CategoryResponseList;
+import com.se.product.service.model.request.CategoryRequest;
+import com.se.product.service.model.response.CategoryResponse;
+import com.se.product.service.model.response.CategoryResponseList;
 import com.se.product.service.service.CategoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

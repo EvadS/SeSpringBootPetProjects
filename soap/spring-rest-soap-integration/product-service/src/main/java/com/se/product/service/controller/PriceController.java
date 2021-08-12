@@ -1,8 +1,8 @@
 package com.se.product.service.controller;
 
 import com.se.product.service.controller.api.PriceApi;
-import com.se.product.service.model.PriceRequest;
-import com.se.product.service.model.PriceResponse;
+import com.se.product.service.model.request.PriceRequest;
+import com.se.product.service.model.response.PriceResponse;
 import com.se.product.service.service.PriceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

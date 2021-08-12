@@ -1,9 +1,9 @@
 package com.se.product.service.controller.api;
 
 import com.se.product.service.exception.model.ErrorResponse;
-import com.se.product.service.model.CategoryResponse;
-import com.se.product.service.model.PriceRequest;
-import com.se.product.service.model.PriceResponse;
+import com.se.product.service.model.response.CategoryResponse;
+import com.se.product.service.model.request.PriceRequest;
+import com.se.product.service.model.response.PriceResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;

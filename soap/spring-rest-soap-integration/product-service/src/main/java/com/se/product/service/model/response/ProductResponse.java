@@ -1,6 +1,6 @@
-package com.se.product.service.model.payload;
+package com.se.product.service.model.response;
 
-import com.se.product.service.model.IdName;
+import com.se.product.service.model.payload.IdName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -2,11 +2,11 @@ package com.se.product.service.controller.api;
 
 
 import com.se.product.service.exception.model.ErrorResponse;
-import com.se.product.service.model.CategoriesRequest;
-import com.se.product.service.model.PricesRequest;
-import com.se.product.service.model.payload.PagedProductSearchRequest;
-import com.se.product.service.model.payload.ProductRequest;
-import com.se.product.service.model.payload.ProductResponse;
+import com.se.product.service.model.request.CategoriesRequest;
+import com.se.product.service.model.request.PricesRequest;
+import com.se.product.service.model.request.PagedProductSearchRequest;
+import com.se.product.service.model.request.ProductRequest;
+import com.se.product.service.model.response.ProductResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

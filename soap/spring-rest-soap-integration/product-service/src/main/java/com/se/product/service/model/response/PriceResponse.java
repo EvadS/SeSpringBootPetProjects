@@ -1,6 +1,7 @@
-package com.se.product.service.model;
+package com.se.product.service.model.response;
 
 
+import com.se.product.service.model.request.PriceRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;

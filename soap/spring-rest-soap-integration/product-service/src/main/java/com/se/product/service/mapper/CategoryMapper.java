@@ -2,8 +2,8 @@ package com.se.product.service.mapper;
 
 
 import com.se.product.service.domain.Category;
-import com.se.product.service.model.CategoryRequest;
-import com.se.product.service.model.CategoryResponse;
+import com.se.product.service.model.request.CategoryRequest;
+import com.se.product.service.model.response.CategoryResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;

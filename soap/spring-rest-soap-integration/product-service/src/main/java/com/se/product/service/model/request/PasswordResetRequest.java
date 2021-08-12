@@ -1,4 +1,4 @@
-package com.se.product.service.model.payload;
+package com.se.product.service.model.request;
 
 import com.se.product.service.validation.annotation.MatchPassword;
 import io.swagger.v3.oas.annotations.media.Schema;

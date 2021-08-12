@@ -1,8 +1,8 @@
 package com.se.product.service.service;
 
-import com.se.product.service.model.CategoryRequest;
-import com.se.product.service.model.CategoryResponse;
-import com.se.product.service.model.CategoryResponseList;
+import com.se.product.service.model.request.CategoryRequest;
+import com.se.product.service.model.response.CategoryResponse;
+import com.se.product.service.model.response.CategoryResponseList;
 
 public interface CategoryService {
     /**

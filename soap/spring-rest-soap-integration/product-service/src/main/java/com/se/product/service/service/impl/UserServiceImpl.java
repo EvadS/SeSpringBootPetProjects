@@ -1,14 +1,13 @@
 package com.se.product.service.service.impl;
 
 
-import com.se.product.service.model.payload.RegistrationRequest;
+import com.se.product.service.model.request.RegistrationRequest;
 import com.se.product.service.domain.Role;
 import com.se.product.service.domain.User;
 import com.se.product.service.repository.UserRepository;
 import com.se.product.service.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

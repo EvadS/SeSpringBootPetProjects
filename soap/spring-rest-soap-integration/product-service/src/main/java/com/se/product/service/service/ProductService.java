@@ -1,11 +1,11 @@
 package com.se.product.service.service;
 
-import com.se.product.service.model.CategoriesRequest;
-import com.se.product.service.model.PricesRequest;
-import com.se.product.service.model.ProductItemResponse;
-import com.se.product.service.model.payload.ProductRequest;
-import com.se.product.service.model.payload.ProductResponse;
-import com.se.product.service.model.payload.PagedProductSearchRequest;
+import com.se.product.service.model.request.CategoriesRequest;
+import com.se.product.service.model.request.PricesRequest;
+import com.se.product.service.model.response.ProductItemResponse;
+import com.se.product.service.model.request.ProductRequest;
+import com.se.product.service.model.response.ProductResponse;
+import com.se.product.service.model.request.PagedProductSearchRequest;
 import org.springframework.data.domain.Page;
 
 public interface ProductService {

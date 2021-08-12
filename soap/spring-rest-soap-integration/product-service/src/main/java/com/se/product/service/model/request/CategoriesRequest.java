@@ -1,4 +1,4 @@
-package com.se.product.service.model;
+package com.se.product.service.model.request;
 
 
 import io.swagger.v3.oas.annotations.media.Schema;

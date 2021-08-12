@@ -1,6 +1,6 @@
 package com.se.product.service.validation.validator;
 
-import com.se.product.service.model.payload.PasswordResetRequest;
+import com.se.product.service.model.request.PasswordResetRequest;
 import com.se.product.service.validation.annotation.MatchPassword;
 
 import javax.validation.ConstraintValidator;

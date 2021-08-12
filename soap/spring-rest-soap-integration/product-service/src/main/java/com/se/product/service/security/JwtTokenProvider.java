@@ -1,7 +1,7 @@
 package com.se.product.service.security;
 
 
-import com.se.product.service.model.CustomUserDetails;
+import com.se.product.service.model.payload.CustomUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

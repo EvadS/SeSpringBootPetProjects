@@ -1,9 +1,9 @@
 package com.se.product.service.service;
 
 import com.se.product.service.domain.User;
-import com.se.product.service.model.CustomUserDetails;
-import com.se.product.service.model.payload.LoginRequest;
-import com.se.product.service.model.payload.RegistrationRequest;
+import com.se.product.service.model.payload.CustomUserDetails;
+import com.se.product.service.model.request.LoginRequest;
+import com.se.product.service.model.request.RegistrationRequest;
 import org.springframework.security.core.Authentication;
 
 import java.util.Optional;

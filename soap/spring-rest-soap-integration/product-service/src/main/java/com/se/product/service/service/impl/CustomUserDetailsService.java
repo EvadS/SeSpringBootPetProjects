@@ -1,6 +1,6 @@
 package com.se.product.service.service.impl;
 
-import com.se.product.service.model.CustomUserDetails;
+import com.se.product.service.model.payload.CustomUserDetails;
 import com.se.product.service.domain.User;
 import com.se.product.service.repository.UserRepository;
 import org.slf4j.Logger;

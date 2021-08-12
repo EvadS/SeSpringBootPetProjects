@@ -1,7 +1,7 @@
 package com.se.product.service.service;
 
-import com.se.product.service.model.PriceRequest;
-import com.se.product.service.model.PriceResponse;
+import com.se.product.service.model.request.PriceRequest;
+import com.se.product.service.model.response.PriceResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

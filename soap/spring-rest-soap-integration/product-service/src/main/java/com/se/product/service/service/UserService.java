@@ -2,7 +2,7 @@ package com.se.product.service.service;
 
 import com.se.product.service.domain.Role;
 import com.se.product.service.domain.User;
-import com.se.product.service.model.payload.RegistrationRequest;
+import com.se.product.service.model.request.RegistrationRequest;
 
 import java.util.Optional;
 import java.util.Set;

@@ -1,4 +1,4 @@
-package com.se.product.service.model.payload;
+package com.se.product.service.model.request;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

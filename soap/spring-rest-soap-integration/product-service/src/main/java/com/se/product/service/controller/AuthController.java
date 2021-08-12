@@ -1,9 +1,9 @@
 package com.se.product.service.controller;
 
 import com.se.product.service.exception.UserLoginException;
-import com.se.product.service.model.CustomUserDetails;
+import com.se.product.service.model.payload.CustomUserDetails;
 import com.se.product.service.model.payload.JwtAuthenticationResponse;
-import com.se.product.service.model.payload.LoginRequest;
+import com.se.product.service.model.request.LoginRequest;
 import com.se.product.service.security.JwtTokenProvider;
 import com.se.product.service.service.impl.AuthServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
