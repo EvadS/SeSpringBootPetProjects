@@ -3,6 +3,7 @@ package com.se.product.service.controller;
 import com.se.product.service.controller.api.PriceApi;
 import com.se.product.service.model.request.PriceRequest;
 import com.se.product.service.model.response.PriceResponse;
+import com.se.product.service.model.search.PriceSearch;
 import com.se.product.service.service.PriceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,14 +85,11 @@ public class PriceController implements PriceApi {
     @Override
     @RequestMapping(value = "/paged", method = RequestMethod.GET)
     public ResponseEntity<Page<PriceResponse>> getPaged(
-            @RequestParam(required = false, defaultValue = "0") Integer page,
-            @RequestParam(required = false, defaultValue = "10") Integer count,
-            @RequestParam(required = false, defaultValue = "") String filter) {
+            @RequestBody @Valid PriceSearch request){
 
-        logger.debug("handle paged price request, start:{}, count:{}",page,count);
+        logger.debug("handle paged price request, request:{}",request);
 
-        Pageable pageable = (filter == null) ? PageRequest.of(page, count) : PageRequest.of(page, count, Sort.by("id"));
-        Page<PriceResponse> articleResponsePage = priceService.getPaged(pageable, filter);
+        Page<PriceResponse> articleResponsePage = priceService.getPaged(request);
 
         return ResponseEntity.ok(articleResponsePage);
     }

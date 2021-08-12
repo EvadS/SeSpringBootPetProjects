@@ -2,6 +2,7 @@ package com.se.product.service.service;
 
 import com.se.product.service.model.request.PriceRequest;
 import com.se.product.service.model.response.PriceResponse;
+import com.se.product.service.model.search.PriceSearch;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -18,5 +19,5 @@ public interface PriceService {
 
     List<PriceResponse> getAll();
 
-    Page<PriceResponse> getPaged(Pageable pageable, String filter);
+    Page<PriceResponse> getPaged(PriceSearch priceSearch);
 }

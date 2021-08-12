@@ -1,16 +1,19 @@
 package com.se.product.service.service.impl;
 
 import com.se.product.service.domain.Price;
+import com.se.product.service.domain.specification.PriceSpecification;
 import com.se.product.service.exception.DuplicateException;
 import com.se.product.service.exception.model.ResourceNotFoundException;
 import com.se.product.service.mapper.PriceMapper;
 import com.se.product.service.model.request.PriceRequest;
 import com.se.product.service.model.response.PriceResponse;
+import com.se.product.service.model.search.PriceSearch;
 import com.se.product.service.repository.PriceRepository;
 import com.se.product.service.service.PriceService;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -21,9 +24,12 @@ import java.util.stream.Collectors;
 public class PriceServiceImpl implements PriceService {
 
     private final PriceRepository priceRepository;
+    private final PriceSpecification priceSpecification;
 
-    public PriceServiceImpl(PriceRepository priceRepository) {
+
+    public PriceServiceImpl(PriceRepository priceRepository, PriceSpecification priceSpecification) {
         this.priceRepository = priceRepository;
+        this.priceSpecification = priceSpecification;
     }
 
     @Override
@@ -78,13 +84,19 @@ public class PriceServiceImpl implements PriceService {
     }
 
     @Override
-    public Page<PriceResponse> getPaged(Pageable pageable, String filter) {
+    public Page<PriceResponse> getPaged(PriceSearch priceSearch) {
 
-        List<PriceResponse> responseList =
-                priceRepository.findAll(pageable).stream()
-                        .map(PriceMapper.MAPPER::toPriceResponse)
-                        .collect(Collectors.toList());
+        Pageable pageable = PageRequest.of(
+                priceSearch.getPageNum(),
+                priceSearch.getPageSize(),
+                Sort.by("createdAt").descending());
 
-        return new PageImpl<>(responseList, pageable, responseList.size());
+
+        Page<PriceResponse> priceResponse = priceRepository.findAll(priceSpecification
+                .getFilter(priceSearch), pageable)
+                .map(PriceMapper.MAPPER::toPriceResponse);
+
+
+        return priceResponse;
     }
 }

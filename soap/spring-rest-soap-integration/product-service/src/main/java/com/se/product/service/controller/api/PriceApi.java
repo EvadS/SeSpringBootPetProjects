@@ -4,6 +4,7 @@ import com.se.product.service.exception.model.ErrorResponse;
 import com.se.product.service.model.response.CategoryResponse;
 import com.se.product.service.model.request.PriceRequest;
 import com.se.product.service.model.response.PriceResponse;
+import com.se.product.service.model.search.PriceSearch;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -237,8 +238,6 @@ public interface PriceApi {
     })
     @Operation(summary = "Current prices",
             description = "Prices list with pagination.", tags = {})
-    ResponseEntity<Page<PriceResponse>> getPaged(
-            @RequestParam(required = false, value = "0") Integer page,
-            @RequestParam(required = false, value = "10") Integer count,
-            @RequestParam(required = false, value = "") String filter);
+    public ResponseEntity<Page<PriceResponse>> getPaged(
+            @RequestBody @Valid PriceSearch request);
 }

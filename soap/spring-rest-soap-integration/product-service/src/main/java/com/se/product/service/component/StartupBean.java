@@ -47,7 +47,6 @@ public class StartupBean implements CommandLineRunner {
         }
 
 
-        ImmutableList
 
         List<User> name = userService.findAll("name");
 //
