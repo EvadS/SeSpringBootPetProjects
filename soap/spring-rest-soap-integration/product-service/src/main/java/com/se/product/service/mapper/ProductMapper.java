@@ -33,7 +33,7 @@ public interface ProductMapper {
     @Mappings({
             @Mapping(target = "name", source = "name"),
            // @Mapping(target = "prices", ignore = true),
-            @Mapping(target = "productCategories", ignore = true),
+            @Mapping(target = "categories", ignore = true),
             @Mapping(target = "id", ignore = true)
     })
     Product toProduct(ProductRequest productRequest);
@@ -43,7 +43,7 @@ public interface ProductMapper {
     @Mappings({
             @Mapping(target = "name", source = "name"),
             @Mapping(target = "id", source = "id"),
-            @Mapping(source = "productCategories", target = "categories", qualifiedByName = "categoriesToStringSet"),
+            @Mapping(source = "categories", target = "categories", qualifiedByName = "categoriesToStringSet"),
 //            @Mapping(source = "prices", target = "prices", qualifiedByName = "pricesToStringSet")
 
     @Mapping(target = "prices", ignore = true)

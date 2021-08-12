@@ -7,9 +7,6 @@ import com.se.product.service.repository.ProductRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.List;
-
 @Component
 public class StartupBean implements CommandLineRunner {
 
@@ -29,7 +26,6 @@ public class StartupBean implements CommandLineRunner {
         productRepository.deleteAllInBatch();
         categoryRepository.deleteAllInBatch();
 
-
         //
         Product product = new Product();
         product.setName("product name 1");
@@ -45,20 +41,16 @@ public class StartupBean implements CommandLineRunner {
         category2.setCode("2222");
 
 
-        product.getProductCategories().add(category1);
-        product.getProductCategories().add(category2);
-
-        category1.getProducts().add(product);
-        category2.getProducts().add(product);
-
         productRepository.save(product);
 
 
-                List<Product> products = productRepository.findAll();
-//
-       products.stream().forEach(System.out::println);
-       int a =0;
+        categoryRepository.save(category1);
+        categoryRepository.save(category2);
 
+        product.addCategory(category1);
+        productRepository.save(product);
+
+        int a=0;
 //
 //        Category category3= new Category();
 //        category3.setName("category3");

@@ -14,6 +14,6 @@ import java.util.Set;
 @Schema(name = "CategoriesRequest",
         description = "Provide base information about product categories")
 public class CategoriesRequest {
-    @Schema(name = "Set of categories ids")
+    @Schema(name="categories", description= "Set of categories ids")
     private Set<Long> categories;
 }

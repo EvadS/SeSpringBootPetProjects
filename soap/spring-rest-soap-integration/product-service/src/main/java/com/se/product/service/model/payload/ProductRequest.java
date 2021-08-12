@@ -18,12 +18,12 @@ import javax.validation.constraints.NotBlank;
         description = "Product item to add")
 public class ProductRequest {
     @NotBlank(message = "Product name cannot be empty")
-    @Schema(name = "name for the product")
+    @Schema(name ="name",description= "name for the product")
     private String name;
 
-    @Schema(name = "Set of categories for a product")
+    @Schema(name = "categories", description = "Set of categories for a product")
     private CategoriesRequest categories;
 
-    @Schema(name = "Set of prices for a product")
+    @Schema(name ="prices", description = "Set of prices for a product")
     private PricesRequest prices;
 }

@@ -1,7 +1,6 @@
 package com.se.product.service.service.impl;
 
 import com.se.product.service.domain.Category;
-import com.se.product.service.domain.Price;
 import com.se.product.service.domain.Product;
 import com.se.product.service.domain.specification.ProductSearch;
 import com.se.product.service.domain.specification.ProductSpecification;
@@ -165,25 +164,29 @@ public class ProductServiceImpl implements ProductService {
 
 
     private void updateProductCategories(CategoriesRequest categoriesRequest, Product product) {
-//        Optional.ofNullable(product.getCategories()).ifPresent(
-//                i -> product.getCategories()
-//                        .forEach(product::removeCategory));
-//
-//        logger.debug("Removed current categories to product");
-//
-//        if (categoriesRequest == null)
-//            return;
-//
-//        categoriesRequest.getCategories()
-//                .forEach(item -> {
-//                    Category category = categoryRepository.findById(item).orElseThrow(
-//                            () -> new ResourceNotFoundException("Category", "id", item));
-//
-//                    logger.debug("added category id:{} to product name:{}", item, product.getName());
-//                    product.addCategory(category);
-//                });
+        Optional.ofNullable(product.getCategories()).ifPresent(
+                i -> product.getCategories()
+                        .forEach(product::removeCategories));
 
-        throw  new NotImplementedException();
+        logger.debug("Removed current categories to product");
+
+        product.removeCategories();
+
+        if (categoriesRequest != null) {
+
+            categoriesRequest.getCategories()
+                    .forEach(item -> {
+                        Category category = categoryRepository.findById(item).orElseThrow(
+                                () -> new ResourceNotFoundException("Category", "id", item));
+
+                        logger.debug("added category id:{} to product name:{}", item, product.getName());
+
+                        categoryRepository.save(category);
+                        product.addCategory(category);
+                    });
+
+        }
+        productRepository.save(product);
     }
 
     private void updateProductPrices(PricesRequest pricesRequest, Product product) {
