@@ -4,6 +4,7 @@ import com.se.product.service.domain.audit.DateAudit;
 import com.se.product.service.validation.annotation.NullOrNotBlank;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,6 +12,7 @@ import java.util.Set;
 @Entity
 @Table(name = "product")
 public class Product extends DateAudit {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,5 +1,6 @@
 package com.se.product.service.component;
 
+import com.google.common.collect.ImmutableList;
 import com.se.product.service.domain.Category;
 import com.se.product.service.domain.Product;
 import com.se.product.service.domain.Role;
@@ -46,8 +47,7 @@ public class StartupBean implements CommandLineRunner {
         }
 
 
-
-
+        ImmutableList
 
         List<User> name = userService.findAll("name");
 //
