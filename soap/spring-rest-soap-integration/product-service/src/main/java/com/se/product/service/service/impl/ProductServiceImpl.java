@@ -1,6 +1,7 @@
 package com.se.product.service.service.impl;
 
 import com.se.product.service.domain.Category;
+import com.se.product.service.domain.Price;
 import com.se.product.service.domain.Product;
 import com.se.product.service.domain.specification.ProductSearch;
 import com.se.product.service.domain.specification.ProductSpecification;
@@ -8,16 +9,15 @@ import com.se.product.service.exception.AlreadyExistException;
 import com.se.product.service.exception.model.ResourceNotFoundException;
 import com.se.product.service.mapper.ProductMapper;
 import com.se.product.service.model.request.CategoriesRequest;
-import com.se.product.service.model.request.PricesRequest;
-import com.se.product.service.model.response.ProductItemResponse;
 import com.se.product.service.model.request.PagedProductSearchRequest;
+import com.se.product.service.model.request.PricesRequest;
 import com.se.product.service.model.request.ProductRequest;
+import com.se.product.service.model.response.ProductItemResponse;
 import com.se.product.service.model.response.ProductResponse;
 import com.se.product.service.repository.CategoryRepository;
 import com.se.product.service.repository.PriceRepository;
 import com.se.product.service.repository.ProductRepository;
 import com.se.product.service.service.ProductService;
-import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
@@ -27,8 +27,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -58,13 +56,13 @@ public class ProductServiceImpl implements ProductService {
         }
 
         Product product = ProductMapper.MAPPER.toProduct(productRequest);
+
         updateProductPrices(productRequest.getPrices(), product);
         updateProductCategories(productRequest.getCategories(), product);
 
         productRepository.save(product);
 
         logger.info("Product, name:'{}' created", product.getName());
-
         return ProductMapper.MAPPER.toProductResponse(product);
     }
 
@@ -96,24 +94,19 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void delete(Long id) {
-//        Product product = productRepository.findById(id).orElseThrow(
-//                () -> new ResourceNotFoundException("Product", "id", id));
-//
-//        logger.debug("Delete product: {}", id);
-//        Optional.ofNullable(product.getCategories()).ifPresent(categories ->
-//                categories.forEach(it -> {
-//                    product.removeCategory(it);
-//                    logger.debug("Removed category: {} ", it.getId());
-//                }));
-//
-//        Optional.ofNullable(product.getPrices()).ifPresent(prices -> prices.forEach(it -> {
-//            product.removePrice(it);
-//            logger.debug("Removed price: {} ", it.getId());
-//        }));
-//
-//        logger.info("Product, id:{} removed", id);
+        Product product = productRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Product", "id", id));
 
-        throw  new NotImplementedException();
+
+        product.removeAllCategories();
+        logger.debug("Categories removed, product id:{}", id);
+
+        product.removeAllPrices();
+        logger.debug("Prices removed, product id:{}", id);
+
+
+        productRepository.delete(product);
+        logger.info("Product, id:{} removed", id);
     }
 
     @Override
@@ -124,7 +117,9 @@ public class ProductServiceImpl implements ProductService {
 
         updateProductCategories(categoriesRequest, product);
 
+        productRepository.save(product);
         logger.debug("Updated categories on product: {}", id);
+
         return ProductMapper.MAPPER.toProductResponse(product);
     }
 
@@ -135,6 +130,7 @@ public class ProductServiceImpl implements ProductService {
 
         updateProductPrices(pricesRequest, product);
 
+        productRepository.save(product);
         logger.debug("Updated prices on product: {}", id);
         return ProductMapper.MAPPER.toProductResponse(product);
     }
@@ -164,13 +160,8 @@ public class ProductServiceImpl implements ProductService {
 
 
     private void updateProductCategories(CategoriesRequest categoriesRequest, Product product) {
-        Optional.ofNullable(product.getCategories()).ifPresent(
-                i -> product.getCategories()
-                        .forEach(product::removeCategories));
-
+        product.removeAllCategories();
         logger.debug("Removed current categories to product");
-
-        product.removeCategories();
 
         if (categoriesRequest != null) {
 
@@ -180,36 +171,26 @@ public class ProductServiceImpl implements ProductService {
                                 () -> new ResourceNotFoundException("Category", "id", item));
 
                         logger.debug("added category id:{} to product name:{}", item, product.getName());
-
-                        categoryRepository.save(category);
                         product.addCategory(category);
                     });
 
         }
-        productRepository.save(product);
     }
 
     private void updateProductPrices(PricesRequest pricesRequest, Product product) {
+        product.removeAllPrices();
+        logger.debug("Removed all current prices of product");
 
-//        Optional.ofNullable(product.getPrices()).ifPresent(
-//                i -> product.getPrices()
-//                        .forEach(product::removePrice));
-//
-//        logger.debug("Removed all current prices of product");
-//
-//        if (pricesRequest == null)
-//            return;
-//
-//        pricesRequest.getPrices()
-//                .forEach(item -> {
-//                    Price price = priceRepository.findById(item).orElseThrow(
-//                            () -> new ResourceNotFoundException("Price", "id", item));
-//
-//                    logger.debug("added price id:{} to product", item);
-//                    product.addPrice(price);
-//                });
+        if (pricesRequest.getPrices() != null) {
+            pricesRequest.getPrices()
+                    .forEach(item -> {
+                        Price price = priceRepository.findById(item).orElseThrow(
+                                () -> new ResourceNotFoundException("Price", "id", item));
 
-        throw  new NotImplementedException();
+                        logger.debug("added price id:{} to product", item);
+                        product.addPrice(price);
+                    });
+        }
     }
 
 }

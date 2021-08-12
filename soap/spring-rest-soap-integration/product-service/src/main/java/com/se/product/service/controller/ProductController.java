@@ -96,7 +96,6 @@ public class ProductController implements ProductApi {
     public ResponseEntity<ProductResponse> updatePrices(
             @PathParam(value = "id") @NotNull Long id,
             @RequestBody @Valid PricesRequest pricesRequest) {
-
         logger.debug("Handle change product prices request, id: {}, pricesRequest: {}", id, pricesRequest);
 
         ProductResponse productResponse = productService.updatePrices(id, pricesRequest);

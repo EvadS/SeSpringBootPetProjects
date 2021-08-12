@@ -67,3 +67,10 @@ http://localhost:18080/api-docs.yaml
 
 http://localhost:18080/v3/api-docs.yaml
 ```
+
+
+## docker-compose 
+How to run mysql
+```
+ docker-compose -f docker-compose-mysql.yml up
+```

@@ -5,9 +5,9 @@ import com.se.product.service.domain.Price;
 import com.se.product.service.domain.Product;
 import com.se.product.service.domain.specification.ProductSearch;
 import com.se.product.service.model.payload.IdName;
-import com.se.product.service.model.response.ProductItemResponse;
 import com.se.product.service.model.request.PagedProductSearchRequest;
 import com.se.product.service.model.request.ProductRequest;
+import com.se.product.service.model.response.ProductItemResponse;
 import com.se.product.service.model.response.ProductResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -30,35 +30,15 @@ public interface ProductMapper {
     Logger logger = LoggerFactory.getLogger(ProductMapper.class);
     ProductMapper MAPPER = Mappers.getMapper(ProductMapper.class);
 
-    @Mappings({
-            @Mapping(target = "name", source = "name"),
-           // @Mapping(target = "prices", ignore = true),
-            @Mapping(target = "categories", ignore = true),
-            @Mapping(target = "id", ignore = true)
-    })
-    Product toProduct(ProductRequest productRequest);
-
-
-    // TODO: implement full product response
-    @Mappings({
-            @Mapping(target = "name", source = "name"),
-            @Mapping(target = "id", source = "id"),
-            @Mapping(source = "categories", target = "categories", qualifiedByName = "categoriesToStringSet"),
-//            @Mapping(source = "prices", target = "prices", qualifiedByName = "pricesToStringSet")
-
-    @Mapping(target = "prices", ignore = true)
-    })
-    ProductResponse toProductResponse(Product product);
-
     @Named("categoriesToStringSet")
     static Set<IdName> categoriesToNames(Set<Category> categorySet) {
 
-        if(categorySet==null)
-            return  new HashSet<>();
+        if (categorySet == null)
+            return new HashSet<>();
 
         Set<IdName> categories = categorySet.stream().
                 map(it -> {
-                    return  new IdName(it.getId(), it.getName());
+                    return new IdName(it.getId(), it.getName());
                 })
                 .collect(Collectors.toSet());
 
@@ -68,19 +48,18 @@ public interface ProductMapper {
 
         logger.info("Mapped categories to product response: {}", categoriesStr);
 
-        return  categories;
+        return categories;
     }
-
 
     @Named("pricesToStringSet")
     static Set<IdName> pricesToStringSet(Set<Price> priceSet) {
 
-        if(priceSet==null)
-            return  new HashSet<>();
+        if (priceSet == null)
+            return new HashSet<>();
 
         Set<IdName> prices = priceSet.stream().
                 map(it -> {
-                    return  new IdName(it.getId(), String.valueOf(it.getCost()));
+                    return new IdName(it.getId(), String.valueOf(it.getCost()));
                 })
                 .collect(Collectors.toSet());
 
@@ -90,8 +69,26 @@ public interface ProductMapper {
 
         logger.debug("Mapped prices to product response: {}", pricesStr);
 
-        return  prices;
+        return prices;
     }
+
+    @Mappings({
+            @Mapping(target = "name", source = "name"),
+            @Mapping(target = "prices", ignore = true),
+            @Mapping(target = "categories", ignore = true),
+            @Mapping(target = "id", ignore = true)
+    })
+    Product toProduct(ProductRequest productRequest);
+
+    // TODO: implement full product response
+    @Mappings({
+            @Mapping(target = "name", source = "name"),
+            @Mapping(target = "id", source = "id"),
+            @Mapping(source = "categories", target = "categories", qualifiedByName = "categoriesToStringSet"),
+            @Mapping(source = "prices", target = "prices", qualifiedByName = "pricesToStringSet"),
+            //@Mapping(target = "prices", ignore = true)
+    })
+    ProductResponse toProductResponse(Product product);
 
     @Mappings({
             @Mapping(target = "price", source = "price"),
@@ -109,6 +106,6 @@ public interface ProductMapper {
 
     @Mappings({
             @Mapping(target = "name", source = "name"),
-      })
+    })
     ProductItemResponse toProductItemResponse(Product product);
 }

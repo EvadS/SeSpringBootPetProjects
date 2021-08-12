@@ -6,6 +6,8 @@ import com.se.product.service.model.enums.CurrencyType;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -14,7 +16,7 @@ import javax.persistence.*;
 @Builder(toBuilder = true)
 @Entity
 @Table(indexes = {
-        @Index(name = "uniqueMulitIndex", columnList = "currency_type, cost", unique = true)
+        @Index(name = "uniqueCurrencyIndex", columnList = "currency_type, cost", unique = true)
 })
 public class Price extends DateAudit {
 
@@ -29,5 +31,6 @@ public class Price extends DateAudit {
     @Column(name = "cost")
     private Double cost;
 
-
+    @ManyToMany(mappedBy = "prices")
+    Set<Product> products = new HashSet<>();
 }

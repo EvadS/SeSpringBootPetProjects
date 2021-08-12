@@ -3,8 +3,8 @@ package com.se.product.service.controller.api;
 
 import com.se.product.service.exception.model.ErrorResponse;
 import com.se.product.service.model.request.CategoriesRequest;
-import com.se.product.service.model.request.PricesRequest;
 import com.se.product.service.model.request.PagedProductSearchRequest;
+import com.se.product.service.model.request.PricesRequest;
 import com.se.product.service.model.request.ProductRequest;
 import com.se.product.service.model.response.ProductResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -240,9 +240,9 @@ public interface ProductApi {
     })
     @Operation(summary = "Update categories", description = "Update products categories")
     ResponseEntity<ProductResponse> updateCategory(
-            @Parameter(name = "priduct",
+            @Parameter(name = "id",
                     description = "product unique identifier",
-                    required = true, example = "123")
+                    required = true, example = "1")
             @PathVariable(value = "id") @NotNull Long id,
 
             @Parameter(name = "categories",
@@ -292,7 +292,7 @@ public interface ProductApi {
             @Parameter(name = "product",
                     description = "product unique identifier",
                     required = true, example = "123")
-            @PathVariable(value = "id") @NotNull Long id,
+            @PathVariable(value = "id")@Valid @NotNull Long id,
 
             @Parameter(name = "categories",
                     description = "category model to updates",
@@ -318,6 +318,6 @@ public interface ProductApi {
                                     schema = @Schema(implementation = ErrorResponse.class))
                     }),})
 
-    @Operation(summary = "list",description = "All available products.")
+    @Operation(summary = "list", description = "All available products.")
     ResponseEntity<?> getAll();
 }

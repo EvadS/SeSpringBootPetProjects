@@ -20,9 +20,9 @@ public class ProductResponse {
     @Schema(name = "name of product")
     private String name;
 
-    @Schema(name = "Set of product categories")
+    @Schema(name ="categories", description = "Set of product categories")
     private Set<IdName> categories = new HashSet<>();
 
-    @Schema(name = "Set of product prices")
+    @Schema(name ="prices", description =  "Set of product prices")
     private Set<IdName> prices = new HashSet<>();
 }

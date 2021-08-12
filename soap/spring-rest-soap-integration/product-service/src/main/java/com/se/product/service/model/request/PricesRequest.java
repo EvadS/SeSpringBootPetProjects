@@ -15,6 +15,6 @@ import java.util.Set;
 @Schema(name = "PricesRequest",
         description = "Provide base information about product prices")
 public class PricesRequest {
-    @Schema(name = "Set of prices ids")
+    @Schema(name="prices", description = "Set of prices ids")
     private Set<Long> prices = new HashSet<>();
 }

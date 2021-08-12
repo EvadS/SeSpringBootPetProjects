@@ -22,34 +22,34 @@ public class StartupBean implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-
-        productRepository.deleteAllInBatch();
-        categoryRepository.deleteAllInBatch();
-
-        //
-        Product product = new Product();
-        product.setName("product name 1");
-
-
-        //
-        Category category1= new Category();
-        category1.setName("category1");
-        category1.setCode("1111");//
-
-        Category category2= new Category();
-        category2.setName("category2");
-        category2.setCode("2222");
-
-
-        productRepository.save(product);
-
-        categoryRepository.save(category1);
-        categoryRepository.save(category2);
-
-        product.addCategory(category1);
-        productRepository.save(product);
-
-        int a=0;
+//
+//        productRepository.deleteAllInBatch();
+//        categoryRepository.deleteAllInBatch();
+//
+//        //
+//        Product product = new Product();
+//        product.setName("product name 1");
+//
+//
+//        //
+//        Category category1= new Category();
+//        category1.setName("category1");
+//        category1.setCode("1111");//
+//
+//        Category category2= new Category();
+//        category2.setName("category2");
+//        category2.setCode("2222");
+//
+//
+//        productRepository.save(product);
+//
+//        categoryRepository.save(category1);
+//        categoryRepository.save(category2);
+//
+//        product.addCategory(category1);
+//        productRepository.save(product);
+//
+//        int a=0;
 //
 //        Category category3= new Category();
 //        category3.setName("category3");

@@ -13,6 +13,13 @@ spring.datasource.password=31323334
 # ===============================
  
 spring.jpa.show-sql=true
+## 
+spring.jpa.properties.hibernate.format_sql=true
+### loging level
+logging.level.org.hibernate.SQL=DEBUG
+logging.level.org.hibernate.type=TRACE
+
+
 # Hibernate ddl auto (create, create-drop, validate, update)
 spring.jpa.hibernate.ddl-auto=update
 

@@ -3,6 +3,7 @@ package com.se.product.service.exception.advice;
 import com.se.product.service.exception.*;
 import com.se.product.service.exception.model.ApiResponse;
 import com.se.product.service.exception.model.ErrorResponse;
+import com.se.product.service.exception.model.ResourceNotFoundException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.Objects;
@@ -51,6 +54,28 @@ public class ApiExceptionHandler  extends ResponseEntityExceptionHandler {
         }
         return ResponseEntity.unprocessableEntity().body(errorResponse);
     }
+    /*******************************************************
+     *  BLOCK 400
+     */
+    // INCORRECT PATH PARAM
+    @ExceptionHandler({MethodArgumentTypeMismatchException.class
+              })
+    protected ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex,
+
+                                                                      WebRequest request) {
+        String message = String.format("The parameter '%s' of value '%s' could not be converted to type '%s'",
+                ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName());
+        return buildErrorResponse(ex, message, HttpStatus.NOT_FOUND, request);
+    }
+
+
+    @ExceptionHandler({ResourceNotFoundException.class})
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<Object> handleNoSuchElementFoundException(Exception itemNotFoundException, WebRequest request) {
+        log.error("Failed to find the requested element", itemNotFoundException);
+        return buildErrorResponse(itemNotFoundException, HttpStatus.NOT_FOUND, request);
+    }
+
 
     @ExceptionHandler(value = InvalidTokenRequestException.class)
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
