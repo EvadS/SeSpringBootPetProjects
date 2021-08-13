@@ -1,8 +1,10 @@
 package com.se.product.service.component;
 
 import com.se.product.service.domain.Cat;
+import com.se.product.service.domain.Category;
 import com.se.product.service.domain.Owner;
 import com.se.product.service.domain.Product;
+import com.se.product.service.domain.specification.CategorySpec;
 import com.se.product.service.domain.specification.Specs;
 import com.se.product.service.domain.specification.SpecsProduct;
 import com.se.product.service.repository.CatRepository;
@@ -47,6 +49,16 @@ public class StartupBean implements CommandLineRunner {
 
         System.out.println("*********");
         productsList.stream().forEach(System.out::println);
+        System.out.println("*********");
+
+        // get categories by product name
+        String productName = "MY";
+        Specification<Category> categorySpec = CategorySpec.categoryByProductName(productName);
+        List categoryList = categoryRepository.findAll(categorySpec);
+
+
+        System.out.println(String.format("********* category by product name:'%s' : ",productName));
+        categoryList.stream().forEach(System.out::println);
         System.out.println("*********");
 
 

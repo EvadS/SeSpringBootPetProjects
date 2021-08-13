@@ -1,10 +1,7 @@
 package com.se.product.service.domain.specification;
 
 
-import com.se.product.service.domain.Category;
-import com.se.product.service.domain.Category_;
-import com.se.product.service.domain.Product;
-import com.se.product.service.domain.Product_;
+import com.se.product.service.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.*;
@@ -53,6 +50,8 @@ public class SpecsProduct {
             }
         };
     }
+
+
 
 
     public static Specification<Product> getProductById(final Long id) {

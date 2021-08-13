@@ -20,7 +20,8 @@ public class Specs {
 
             Expression<Collection<Cat>> ownerCats = owner.get("cats");
             ownerSubQuery.select(owner);
-            ownerSubQuery.where(cb.equal(owner.get("name"), ownerName), cb.isMember(cat, ownerCats));
+            ownerSubQuery.where(cb.equal(owner.get("name"), ownerName),
+                    cb.isMember(cat, ownerCats));
             return cb.exists(ownerSubQuery);
         };
     }

@@ -98,11 +98,5 @@ public class Product extends DateAudit {
         this.prices = prices;
     }
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
-    }
+
 }
