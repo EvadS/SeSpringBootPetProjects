@@ -5,9 +5,10 @@ import com.se.product.service.domain.specification.PriceSpecification;
 import com.se.product.service.exception.DuplicateException;
 import com.se.product.service.exception.model.ResourceNotFoundException;
 import com.se.product.service.mapper.PriceMapper;
+import com.se.product.service.model.payload.PriceSearchModel;
 import com.se.product.service.model.request.PriceRequest;
 import com.se.product.service.model.response.PriceResponse;
-import com.se.product.service.model.search.PriceSearch;
+import com.se.product.service.model.search.PriceSearchRequest;
 import com.se.product.service.repository.PriceRepository;
 import com.se.product.service.service.PriceService;
 import org.springframework.data.domain.Page;
@@ -84,19 +85,19 @@ public class PriceServiceImpl implements PriceService {
     }
 
     @Override
-    public Page<PriceResponse> getPaged(PriceSearch priceSearch) {
+    public Page<PriceResponse> getPaged(PriceSearchRequest priceSearchRequest) {
 
         Pageable pageable = PageRequest.of(
-                priceSearch.getPageNum(),
-                priceSearch.getPageSize(),
+                priceSearchRequest.getPageNum(),
+                priceSearchRequest.getPageSize(),
                 Sort.by("createdAt").descending());
 
+        PriceSearchModel priceModel = PriceMapper.MAPPER.toPriceSearchModel(priceSearchRequest);
 
-        Page<PriceResponse> priceResponse = priceRepository.findAll(priceSpecification
-                .getFilter(priceSearch), pageable)
+        Page<PriceResponse> map = priceRepository.findAll(priceSpecification
+                .getFilter(priceModel), pageable)
                 .map(PriceMapper.MAPPER::toPriceResponse);
 
-
-        return priceResponse;
+        return map;
     }
 }

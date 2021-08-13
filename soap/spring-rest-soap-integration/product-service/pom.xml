@@ -31,7 +31,7 @@
     <artifactId>product-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>product-service</name>
-    <description>Demo project</description>
+    <description>Demo project to describe several technologies in spring boot</description>
 
     <properties>
         <java.version>1.8</java.version>
@@ -357,33 +357,6 @@
                     <outputFileName>productopenapi.json</outputFileName>
                     <outputDir>${project.build.directory}</outputDir>
                 </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.bsc.maven</groupId>
-                <artifactId>maven-processor-plugin</artifactId>
-                <version>2.2.4</version>
-                <executions>
-                    <execution>
-                        <id>process</id>
-                        <goals>
-                            <goal>process</goal>
-                        </goals>
-                        <phase>generate-sources</phase>
-                        <configuration>
-                            <processors>
-                                <processor>org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor</processor>
-                            </processors>
-                        </configuration>
-                    </execution>
-                </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.hibernate</groupId>
-                        <artifactId>hibernate-jpamodelgen</artifactId>
-                        <version>4.3.8.Final</version>
-                    </dependency>
-                </dependencies>
             </plugin>
 
         </plugins>

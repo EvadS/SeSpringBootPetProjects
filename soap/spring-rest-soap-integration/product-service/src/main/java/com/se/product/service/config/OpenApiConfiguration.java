@@ -9,16 +9,21 @@ import io.swagger.v3.oas.models.info.License;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @OpenAPIDefinition
-public class OpenApiConfiguration    {
+public class OpenApiConfiguration {
 
-    // TODO:
-//    @Value("${application-description}")
-//    String appDesciption;
+    // TODO: move to config
+    @Value("${application-description}")
+    String appDescription;
+
+    @Value("${application-version}")
+    String appVersion;
+
+    @Value("${application-name}")
+    String appName;
+
 
     public static final String AUTHORIZATION_HEADER = "Authorization";
 
@@ -29,9 +34,9 @@ public class OpenApiConfiguration    {
 
     private Info apiInfo() {
         return new Info()
-                .title("Product management service API")
-                .description("This is a sample server Product service")
-                .version("0.0.1")
+                .title(appName)
+                .description(appDescription)
+                .version(appVersion)
                 .contact(apiContact())
                 .license(apiLicence());
     }

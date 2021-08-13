@@ -1,8 +1,5 @@
 package com.se.product.service.component;
 
-import com.google.common.collect.ImmutableList;
-import com.se.product.service.domain.Category;
-import com.se.product.service.domain.Product;
 import com.se.product.service.domain.Role;
 import com.se.product.service.domain.User;
 import com.se.product.service.model.enums.RoleName;
@@ -15,8 +12,6 @@ import com.se.product.service.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class StartupBean implements CommandLineRunner {
@@ -46,9 +41,6 @@ public class StartupBean implements CommandLineRunner {
             createTestUSerAndRole();
         }
 
-
-
-        List<User> name = userService.findAll("name");
 //
 //        productRepository.deleteAllInBatch();
 //        categoryRepository.deleteAllInBatch();

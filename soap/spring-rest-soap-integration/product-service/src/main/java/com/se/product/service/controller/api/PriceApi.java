@@ -1,10 +1,10 @@
 package com.se.product.service.controller.api;
 
 import com.se.product.service.exception.model.ErrorResponse;
-import com.se.product.service.model.response.CategoryResponse;
 import com.se.product.service.model.request.PriceRequest;
+import com.se.product.service.model.response.CategoryResponse;
 import com.se.product.service.model.response.PriceResponse;
-import com.se.product.service.model.search.PriceSearch;
+import com.se.product.service.model.search.PriceSearchRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -17,7 +17,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -239,5 +238,5 @@ public interface PriceApi {
     @Operation(summary = "Current prices",
             description = "Prices list with pagination.", tags = {})
     public ResponseEntity<Page<PriceResponse>> getPaged(
-            @RequestBody @Valid PriceSearch request);
+            @RequestBody @Valid PriceSearchRequest request);
 }
