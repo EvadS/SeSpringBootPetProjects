@@ -12,9 +12,6 @@ import java.util.TreeSet;
 @Entity
 @Table(name = "product")
 public class Product extends DateAudit {
-
-    TreeSet a;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -99,5 +96,13 @@ public class Product extends DateAudit {
 
     public void setPrices(Set<Price> prices) {
         this.prices = prices;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }
