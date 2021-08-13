@@ -7,15 +7,18 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductSearch {
-    private String code;
-    private String name;
-    private String cost;
+public class ProductSearchModel {
+    private String productCode;
+    private String productName;
+    private String costFrom;
+    private String costTo;
+
     //Category
     private String categoryCode;
     private String categoryName;
 
-    private long dateFrom;
-    private long dateTo;
-    private String price;
+    private Long dateFrom;
+    private Long dateTo;
+
+
 }

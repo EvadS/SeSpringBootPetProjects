@@ -30,7 +30,7 @@ public final class PriceSpecification extends SearchSpecification<Price, PriceSe
         return (root, query, cb) -> {
             if (CollectionUtils.isEmpty(currencyTypeIds)) {
                 return null;
-                
+
             }
 
             return root.get(attribute).in(currencyTypeIds);
@@ -56,10 +56,7 @@ public final class PriceSpecification extends SearchSpecification<Price, PriceSe
 
     private Specification<Price> betweenAttributes(String attribute, Double minValue, Double maxValue) {
 
-        // TODO: how to refactored ?
-        if (minValue == null && maxValue == null) {
-            return null;
-        } else if (minValue != null && maxValue != null) {
+        if (minValue != null && maxValue != null) {
             return (root, query, cb) -> cb.between(root.get(attribute), minValue, maxValue);
         } else if (minValue != null) {
             return greaterThanOrEqualTo("cost", minValue);

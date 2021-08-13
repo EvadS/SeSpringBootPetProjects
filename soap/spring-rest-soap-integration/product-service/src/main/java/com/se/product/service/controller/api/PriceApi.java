@@ -216,7 +216,6 @@ public interface PriceApi {
     @Operation(summary = "Current prices",description = "Prices list.")
     ResponseEntity<List<PriceResponse>> list();
 
-    // TODO:S
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Successfully paged list of all prices"),
@@ -237,6 +236,6 @@ public interface PriceApi {
     })
     @Operation(summary = "Current prices",
             description = "Prices list with pagination.", tags = {})
-    public ResponseEntity<Page<PriceResponse>> getPaged(
+    ResponseEntity<Page<PriceResponse>> getPaged(
             @RequestBody @Valid PriceSearchRequest request);
 }

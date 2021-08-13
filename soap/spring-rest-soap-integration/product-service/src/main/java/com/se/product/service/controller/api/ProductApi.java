@@ -3,10 +3,10 @@ package com.se.product.service.controller.api;
 
 import com.se.product.service.exception.model.ErrorResponse;
 import com.se.product.service.model.request.CategoriesRequest;
-import com.se.product.service.model.search.PagedProductSearchRequest;
 import com.se.product.service.model.request.PricesRequest;
 import com.se.product.service.model.request.ProductRequest;
 import com.se.product.service.model.response.ProductResponse;
+import com.se.product.service.model.search.PagedProductSearchRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -300,8 +300,7 @@ public interface ProductApi {
             @RequestBody @Valid PricesRequest pricesRequest);
 
 
-    @Operation(summary = "paged", description = "Paged product list information")
-    ResponseEntity<?> paged(@Valid @RequestBody PagedProductSearchRequest searchRequest);
+
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully list of all items"),
@@ -320,4 +319,22 @@ public interface ProductApi {
 
     @Operation(summary = "list", description = "All available products.")
     ResponseEntity<?> getAll();
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully list of all items"),
+            @ApiResponse(responseCode = "401",
+                    description = "You are not authorized to view the resource",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }),
+            @ApiResponse(responseCode = "403",
+                    description = "Accessing the resource you were trying to reach is forbidden",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorResponse.class))
+                    }),})
+
+    @Operation(summary = "paged", description = "Paged product list information")
+    ResponseEntity<?> paged(@Valid @RequestBody PagedProductSearchRequest searchRequest);
 }

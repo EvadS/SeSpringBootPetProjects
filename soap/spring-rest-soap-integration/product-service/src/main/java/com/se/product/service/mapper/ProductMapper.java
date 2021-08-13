@@ -3,9 +3,7 @@ package com.se.product.service.mapper;
 import com.se.product.service.domain.Category;
 import com.se.product.service.domain.Price;
 import com.se.product.service.domain.Product;
-import com.se.product.service.domain.specification.ProductSearch;
 import com.se.product.service.model.payload.IdName;
-import com.se.product.service.model.search.PagedProductSearchRequest;
 import com.se.product.service.model.request.ProductRequest;
 import com.se.product.service.model.response.ProductItemResponse;
 import com.se.product.service.model.response.ProductResponse;
@@ -91,21 +89,8 @@ public interface ProductMapper {
     ProductResponse toProductResponse(Product product);
 
     @Mappings({
-            @Mapping(target = "price", source = "price"),
-            @Mapping(target = "name", source = "name"),
-            @Mapping(target = "cost", source = "cost"),
-
-            @Mapping(target = "categoryCode", source = "categoryCode"),
-            @Mapping(target = "categoryName", source = "categoryName"),
-
-            @Mapping(target = "dateFrom", source = "dateFrom"),
-            @Mapping(target = "dateTo", source = "dateTo")
-    })
-    ProductSearch toProductSearch(PagedProductSearchRequest searchRequest);
-
-
-    @Mappings({
             @Mapping(target = "name", source = "name"),
     })
     ProductItemResponse toProductItemResponse(Product product);
+
 }

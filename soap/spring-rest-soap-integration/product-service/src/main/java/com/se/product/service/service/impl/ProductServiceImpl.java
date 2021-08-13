@@ -3,17 +3,16 @@ package com.se.product.service.service.impl;
 import com.se.product.service.domain.Category;
 import com.se.product.service.domain.Price;
 import com.se.product.service.domain.Product;
-import com.se.product.service.domain.specification.ProductSearch;
 import com.se.product.service.domain.specification.ProductSpecification;
 import com.se.product.service.exception.AlreadyExistException;
 import com.se.product.service.exception.model.ResourceNotFoundException;
 import com.se.product.service.mapper.ProductMapper;
 import com.se.product.service.model.request.CategoriesRequest;
-import com.se.product.service.model.search.PagedProductSearchRequest;
 import com.se.product.service.model.request.PricesRequest;
 import com.se.product.service.model.request.ProductRequest;
 import com.se.product.service.model.response.ProductItemResponse;
 import com.se.product.service.model.response.ProductResponse;
+import com.se.product.service.model.search.PagedProductSearchRequest;
 import com.se.product.service.repository.CategoryRepository;
 import com.se.product.service.repository.PriceRepository;
 import com.se.product.service.repository.ProductRepository;
@@ -143,10 +142,9 @@ public class ProductServiceImpl implements ProductService {
                 searchRequest.getCount(),
                 Sort.by("createdAt").descending());
 
-        ProductSearch productSearch = ProductMapper.MAPPER.toProductSearch(searchRequest);
 
         return productRepository.findAll(productSpecification
-                .getFilter(productSearch), pageable)
+                .getFilter(searchRequest), pageable)
                 .map(ProductMapper.MAPPER::toProductItemResponse);
     }
 

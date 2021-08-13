@@ -9,20 +9,19 @@ import javax.validation.constraints.Min;
 @Data
 @NoArgsConstructor
 public class PagedProductSearchRequest {
+    // paging
     @Min(0)
     private int page;
     @Min(1)
     private int count;
 
-
-
-    private String price;
-    private String name;
-    private String cost;
+    private String productName;
+    private String costFrom;
+    private String costTo;
 
     private String categoryCode;
     private String categoryName;
 
-    private long dateFrom;
-    private long dateTo;
+    private Long dateFrom;
+    private Long dateTo;
 }

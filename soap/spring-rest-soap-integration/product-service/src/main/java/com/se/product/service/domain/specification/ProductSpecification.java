@@ -1,65 +1,52 @@
 package com.se.product.service.domain.specification;
 
-import com.se.product.service.domain.Category;
 import com.se.product.service.domain.Product;
+import com.se.product.service.model.search.PagedProductSearchRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.SetJoin;
 import java.util.Date;
 
 import static org.springframework.data.jpa.domain.Specification.where;
 
 @Component
-public class ProductSpecification extends SearchSpecification<Product, ProductSearch> {
+public class ProductSpecification extends SearchSpecification<Product, PagedProductSearchRequest> {
 
     @Override
-    public Specification<Product> getFilter(ProductSearch request) {
+    public Specification<Product> getFilter(PagedProductSearchRequest request) {
         return (root, query, cb) -> {
             query.distinct(true); //Important because of the join in the addressAttribute specifications
 
             return where(
 
-                    (attributeEqual("name", request.getName()))
-                            .and(codeContains(request.getCategoryCode()))
-                          //  .and(categoryNameContains(request.getCategoryName()))
+                    (attributeContains("name", request.getProductName()))
+                    //   .and(codeContains(request.getCategoryCode()))
+                    //  .and(categoryNameContains(request.getCategoryName()))
             )
                     .toPredicate(root, query, cb);
         };
     }
 
 
-    private Specification<Product> attributeEqual(String attribute, String name) {
-        return (root, query, cb) -> {
-            //TODO: for  test
-//            if (name == null) {
-//                return null;
-//            }
-//            return cb.equal(root.get(attribute), name);
-            return  null;
-        };
-    }
+
 
     private Specification<Product> codeContains(String code) {
 
-        return categoryAttributeContains("code", code);
+        return attributeContains("code", code);
     }
 
     private Specification<Product> categoryNameContains(String categoryName) {
-        return categoryAttributeContains("name", categoryName);
+        return attributeContains("name", categoryName);
     }
 
-    private Specification<Product> categoryAttributeContains(String attribute, String value) {
+    private Specification<Product> attributeContains(String attribute, String value) {
         return (root, query, cb) -> {
             if (value == null) {
                 return null;
             }
 
-            SetJoin<Product, Category> categories = root.joinSet("categories", JoinType.LEFT);
-
             return cb.like(
-                    cb.lower(categories.get(attribute)),
+                    cb.lower(root.get(attribute)),
                     containsLowerCase(value)
             );
         };

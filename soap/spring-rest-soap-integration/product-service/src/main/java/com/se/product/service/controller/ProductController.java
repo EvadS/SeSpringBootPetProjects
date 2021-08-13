@@ -5,10 +5,10 @@ import com.se.product.service.domain.Product;
 import com.se.product.service.mapper.ProductMapper;
 import com.se.product.service.model.request.CategoriesRequest;
 import com.se.product.service.model.request.PricesRequest;
-import com.se.product.service.model.response.ProductItemResponse;
-import com.se.product.service.model.search.PagedProductSearchRequest;
 import com.se.product.service.model.request.ProductRequest;
+import com.se.product.service.model.response.ProductItemResponse;
 import com.se.product.service.model.response.ProductResponse;
+import com.se.product.service.model.search.PagedProductSearchRequest;
 import com.se.product.service.repository.ProductRepository;
 import com.se.product.service.service.ProductService;
 import org.slf4j.Logger;
@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.websocket.server.PathParam;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -102,21 +101,9 @@ public class ProductController implements ProductApi {
         return new ResponseEntity<>(productResponse, HttpStatus.ACCEPTED);
     }
 
-
-    @PostMapping("/paged")
-    @Override
-    public ResponseEntity<?> paged(@Valid @RequestBody PagedProductSearchRequest searchRequest){
-        logger.debug("Handle get paged products list");
-
-        Page<ProductItemResponse> paged = productService.getPaged(searchRequest);
-        return ResponseEntity.ok(paged);
-    }
-
-
-
     @Override
     @GetMapping("/list")
-    public  ResponseEntity<?> getAll(){
+    public ResponseEntity<?> getAll() {
 
         List<Product> all = productRepository.findAll();
 
@@ -125,5 +112,14 @@ public class ProductController implements ProductApi {
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(collect);
+    }
+
+    @PostMapping("/paged")
+    @Override
+    public ResponseEntity<Page<ProductItemResponse>> paged(@Valid @RequestBody PagedProductSearchRequest searchRequest) {
+        logger.debug("Handle get paged products list");
+
+        Page<ProductItemResponse> paged = productService.getPaged(searchRequest);
+        return ResponseEntity.ok(paged);
     }
 }
