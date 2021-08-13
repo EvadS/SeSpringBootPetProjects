@@ -83,14 +83,14 @@ public class PriceController implements PriceApi {
 
 
     @Override
-    @RequestMapping(value = "/paged", method = RequestMethod.GET)
+    @RequestMapping(value = "/paged", method = RequestMethod.POST)
     public ResponseEntity<Page<PriceResponse>> getPaged(
             @RequestBody @Valid PriceSearch request){
 
         logger.debug("handle paged price request, request:{}",request);
 
-        Page<PriceResponse> articleResponsePage = priceService.getPaged(request);
+        Page<PriceResponse> pagedPrice = priceService.getPaged(request);
 
-        return ResponseEntity.ok(articleResponsePage);
+        return ResponseEntity.ok(pagedPrice);
     }
 }

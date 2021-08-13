@@ -2,8 +2,7 @@ package com.se.product.service.model.search;
 
 
 import com.se.product.service.model.enums.CurrencyType;
-import com.se.product.service.validation.annotation.ValueOfEnum;
-import com.se.product.service.validation.validator.ValueOfEnumValidator;
+import com.se.product.service.validation.annotation.MyEnumValidator;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,8 +14,9 @@ import javax.validation.constraints.Positive;
 @NoArgsConstructor
 public class PriceSearch {
 
-    @ValueOfEnum(enumClass = CurrencyType.class)
-    private CurrencyType currencyType;
+
+    @MyEnumValidator(enumClass = CurrencyType.class)
+    private String currencyType;
 
     private Double priceFrom;
     private Double priceTo;

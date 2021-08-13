@@ -13,20 +13,10 @@ import static org.springframework.data.jpa.domain.Specification.where;
 @Component
 public final class PriceSpecification extends SearchSpecification<Price, PriceSearch> {
 
-    private static String getContainsLikePattern(String searchTerm) {
-        if (searchTerm == null || searchTerm.isEmpty()) {
-            return "%";
-        } else {
-            return "%" + searchTerm.toLowerCase() + "%";
-        }
-    }
-
     @Override
     public Specification<Price> getFilter(@Valid PriceSearch request) {
         return (root, query, cb) -> {
             query.distinct(true); //Important because of the join in the addressAttribute specifications
-
-
             return where(
                     (currencyTypeContains("currencyType", request.getCurrencyType()))
                             .and(lessThanOrEqualTo("cost", request.getPriceFrom())
@@ -36,14 +26,15 @@ public final class PriceSpecification extends SearchSpecification<Price, PriceSe
         };
     }
 
-    private Specification<Price> currencyTypeContains(String attribute, CurrencyType currencyType) {
+    // TODO: skiea incorrect
+    private Specification<Price> currencyTypeContains(String attribute, String currencyType) {
         return (root, query, cb) -> {
             //TODO: How to move to list
 //            if (transactionTypesList == null || transactionTypesList.isEmpty()) {
-//                return null;
+             return null;
 //            }
 
-            return root.get(attribute).in(currencyType);
+//            return root.get(attribute).in(currencyType);
         };
     }
 
