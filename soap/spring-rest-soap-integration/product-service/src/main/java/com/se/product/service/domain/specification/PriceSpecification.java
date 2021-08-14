@@ -20,7 +20,7 @@ public final class PriceSpecification extends SearchSpecification<Price, PriceSe
             query.distinct(true);
             return where(
                     (currencyTypeContains("currencyType", request.getCurrenciesList()))
-                            .and(betweenAttributes("cost", request.getCostFrom(), request.getCostTo())))
+                        .and(betweenAttributes("cost", request.getCostFrom(), request.getCostTo())))
                     .toPredicate(root, query, cb);
         };
     }
