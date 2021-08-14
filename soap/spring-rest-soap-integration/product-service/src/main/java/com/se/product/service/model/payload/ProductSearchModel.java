@@ -1,4 +1,4 @@
-package com.se.product.service.domain.specification;
+package com.se.product.service.model.payload;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
