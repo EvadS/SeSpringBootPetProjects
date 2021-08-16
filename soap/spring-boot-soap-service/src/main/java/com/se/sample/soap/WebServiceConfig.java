@@ -26,6 +26,8 @@ public class WebServiceConfig extends WsConfigurerAdapter {
         return new ServletRegistrationBean(servlet, "/ws/*");
     }
 
+    //  //http://www.sample.se.com/springsoap/gen
+
     // enable the WSDL location servlet transformation
     //this exposes a standard WSDL 1.1 using an XsdSchema.
     @Bean(name = "countries")
@@ -33,10 +35,12 @@ public class WebServiceConfig extends WsConfigurerAdapter {
         DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
         wsdl11Definition.setPortTypeName("CountriesPort");
         wsdl11Definition.setLocationUri("/ws");
-        wsdl11Definition.setTargetNamespace("http://www.sample.se.com/soap/model");
+        wsdl11Definition.setTargetNamespace("http://www.sample.se.com/springsoap/gen");
         wsdl11Definition.setSchema(countriesSchema);
         return wsdl11Definition;
     }
+
+
 
     @Bean
     public XsdSchema countriesSchema() {
