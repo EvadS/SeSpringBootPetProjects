@@ -44,6 +44,11 @@ public class CategoryServiceImpl implements CategoryService {
 
         Category category = CategoryMapper.MAPPER.toCategory(request);
 
+        // TODO: tmp
+        if(category.getBaseCategory() == 0){
+            category.setBaseCategory(null);
+            category.setBaseCategory(null);
+        }
         category = categoryRepository.save(category);
         return CategoryMapper.MAPPER.toCategoryResponse(category);
 

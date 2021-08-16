@@ -77,6 +77,20 @@ curl --location --request POST 'http://localhost:18080/ws' \
 </soapenv:Envelope>
 ```
 
+Create category
+```xml
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:gs="http://www.service.product.se.com/model/soap">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <gs:soapCreateCategory>
+            <gs:id>1</gs:id>
+            <gs:name>Test name</gs:name>
+            <gs:code>Test name</gs:code>
+        </gs:soapCreateCategory>
+    </soapenv:Body>
+</soapenv:Envelope>
+```
 
 
 ## docker-compose 
