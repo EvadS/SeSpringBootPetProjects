@@ -27,23 +27,26 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:element name="getCategoryByIdRequest">
+    <xs:element name="soapCategoryRequest">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="id" type="xs:long"/>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="base-category-id" type="xs:long"/>
+                <xs:element name="code" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="getCategoryResponse">
+    <xs:element name="soapCategoryResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="category" type="tns:category"/>
+                <xs:element name="category" type="tns:soapCategory"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
-    <xs:complexType name="category">
+    <xs:complexType name="soapCategory">
         <xs:sequence>
             <xs:element name="id" type="xs:long"/>
             <xs:element name="name" type="xs:string"/>

@@ -7,9 +7,9 @@ import com.se.product.service.model.response.CategoryResponse;
 import com.se.product.service.model.response.CategoryResponseList;
 import com.se.product.service.model.search.CategorySearch;
 import com.se.product.service.service.CategoryService;
-import io.swagger.v3.oas.annotations.Operation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -27,7 +27,7 @@ public class CategoryController implements CategoryApi {
 
     private final CategoryService categoryService;
 
-    public CategoryController(CategoryService categoryService) {
+    public CategoryController(@Qualifier("rest") CategoryService categoryService) {
         this.categoryService = categoryService;
     }
 

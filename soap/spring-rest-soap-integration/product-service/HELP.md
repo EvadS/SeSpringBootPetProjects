@@ -55,22 +55,24 @@ curl --location --request POST 'http://localhost:18080/ws' \
                   xmlns:gs="http://www.service.product.se.com/model/soap">
     <soapenv:Header/>
     <soapenv:Body>
-        <gs:getCategoryByIdRequest>
+        <gs:soapCategoryRequest>
             <gs:id>1</gs:id>
-        </gs:getCategoryByIdRequest>
+        </gs:soapCategoryRequest>
     </soapenv:Body>
 </soapenv:Envelope>'
 ```
 
-for postman 
+## for postman
+
+ http://localhost:18080/ws
 ```xml
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
                   xmlns:gs="http://www.service.product.se.com/model/soap">
     <soapenv:Header/>
     <soapenv:Body>
-        <gs:getCategoryByIdRequest>
+        <gs:soapCategoryRequest>
             <gs:id>1</gs:id>
-        </gs:getCategoryByIdRequest>
+        </gs:soapCategoryRequest>
     </soapenv:Body>
 </soapenv:Envelope>
 ```
