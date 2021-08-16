@@ -15,36 +15,36 @@ import org.springframework.stereotype.Service;
 public class SoapCategoryServiceImpl implements CategoryService {
     @Override
     public CategoryResponse create(CategoryRequest request) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public CategoryResponse updateItem(Long id, CategoryRequest requestModel) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public CategoryResponse changeBase(Long id, Long baseId) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void remove(Long id) {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public CategoryResponse getById(Long id) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public CategoryResponseList getAll() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Page<CategoryResponse> search(CategorySearch request, Pageable pageable) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 }
