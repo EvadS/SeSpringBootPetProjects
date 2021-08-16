@@ -23,6 +23,13 @@ public class CandidateModel {
     public CandidateModel() {
     }
 
+
+    public CandidateModel(String name, String age, String gender) {
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+    }
+
     public Integer getCandidateid() {
         return candidateid;
     }
@@ -53,5 +60,15 @@ public class CandidateModel {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    @Override
+    public String toString() {
+        return "CandidateModel{" +
+                "candidateid=" + candidateid +
+                ", name='" + name + '\'' +
+                ", age='" + age + '\'' +
+                ", gender='" + gender + '\'' +
+                '}';
     }
 }

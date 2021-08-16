@@ -21,4 +21,10 @@ public class CandidateController {
         CandidateModel saveModel = candidateService.saveCandidate(model);
         return saveModel;
     }
+
+    @PostMapping("/valid")
+    public CandidateModel saveValidCandidate(@RequestBody CandidateModel model) {
+        CandidateModel saveModel = candidateService.addValidPeople(model);
+        return saveModel;
+    }
 }
