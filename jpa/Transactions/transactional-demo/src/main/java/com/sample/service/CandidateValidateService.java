@@ -20,7 +20,7 @@ public class CandidateValidateService {
 
     // will be executed in a separate transaction. So, the parent one will not be rollbacked.
     @Transactional(noRollbackFor = IllegalArgumentException.class)
-    public void validateName(String name) {
+    public   void validateName(String name) {
         if (name == null || !StringUtils.hasText(name) || repository.existsByName(name)) {
             throw new IllegalArgumentException("name is forbidden");
         }
