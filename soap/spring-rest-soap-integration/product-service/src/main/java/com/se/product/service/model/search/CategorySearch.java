@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
-// TODO: rename
 @Data
 @NoArgsConstructor
 @Schema(name = "CategorySearch",

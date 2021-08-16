@@ -14,7 +14,6 @@ import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -29,7 +28,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.util.Objects;
 
-// TODO list : DataIntegrityViolationException
 @RestControllerAdvice
 public class ApiExceptionHandler  extends ResponseEntityExceptionHandler {
     public static final String CONFLICT_MESSAGE = "Conflict in case of concurrent modification";

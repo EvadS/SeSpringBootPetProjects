@@ -86,7 +86,7 @@ public class ProductController implements ProductApi {
 
         logger.debug("Handle change product categories request, id: {}, categories: {}", id, categoriesRequest);
 
-        ProductResponse productResponse = productService.updateCategories(id, categoriesRequest);
+        ProductResponse productResponse = productService.changeCategories(id, categoriesRequest);
         return new ResponseEntity<>(productResponse, HttpStatus.ACCEPTED);
     }
 
@@ -97,7 +97,7 @@ public class ProductController implements ProductApi {
             @RequestBody @Valid PricesRequest pricesRequest) {
         logger.debug("Handle change product prices request, id: {}, pricesRequest: {}", id, pricesRequest);
 
-        ProductResponse productResponse = productService.updatePrices(id, pricesRequest);
+        ProductResponse productResponse = productService.changePrices(id, pricesRequest);
         return new ResponseEntity<>(productResponse, HttpStatus.ACCEPTED);
     }
 

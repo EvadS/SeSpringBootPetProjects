@@ -29,7 +29,7 @@ public class SoapCategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void deletePrice(Long id) {
+    public void remove(Long id) {
 
     }
 

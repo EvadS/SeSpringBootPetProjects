@@ -66,7 +66,7 @@ public class CategoryController implements CategoryApi {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity deleteItem(@PathVariable(value = "id") @NotNull Long id) {
         logger.debug("handle delete category request, id:{}", id);
-        categoryService.deletePrice(id);
+        categoryService.remove(id);
         return ResponseEntity.accepted().build();
     }
 

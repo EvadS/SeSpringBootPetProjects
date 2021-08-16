@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-// TODO: move it
+
 public class CustomUserDetails extends User implements UserDetails {
 
     public CustomUserDetails(final User user) {

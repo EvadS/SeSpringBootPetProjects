@@ -101,7 +101,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void deletePrice(Long id) {
+    public void remove(Long id) {
         // TODO: check is categories uses
         Category item = categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category", "id", id));
