@@ -86,7 +86,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-
+    // TODO: se hardcoded to teseting
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors()

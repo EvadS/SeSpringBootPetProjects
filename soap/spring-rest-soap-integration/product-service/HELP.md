@@ -40,10 +40,39 @@
  Используемые  технологии
  Spring (Jpa, security), maven 
  
- 
+
+## Soap integration  
 To check if the application is running properly, we can open the WSDL through the URL: 
 ```http request
-   http://localhost:8080/ws/product.wsdl
+   http://localhost:18080/ws/product.wsdl
+```
+
+get category by id 
+```
+curl --location --request POST 'http://localhost:18080/ws' \
+--header 'Content-Type: text/xml' \
+--data-raw '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:gs="http://www.service.product.se.com/model/soap">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <gs:getCategoryByIdRequest>
+            <gs:id>1</gs:id>
+        </gs:getCategoryByIdRequest>
+    </soapenv:Body>
+</soapenv:Envelope>'
+```
+
+for postman 
+```xml
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:gs="http://www.service.product.se.com/model/soap">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <gs:getCategoryByIdRequest>
+            <gs:id>1</gs:id>
+        </gs:getCategoryByIdRequest>
+    </soapenv:Body>
+</soapenv:Envelope>
 ```
 
 
@@ -53,3 +82,5 @@ How to run mysql
 ```
  docker-compose -f docker-compose-mysql.yml up
 ```
+
+
