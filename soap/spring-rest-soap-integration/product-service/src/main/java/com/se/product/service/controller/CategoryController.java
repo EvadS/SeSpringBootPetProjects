@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import static com.se.product.service.config.ApplicationConstant.API_VERSION;
+
 
 @RestController
-@RequestMapping("/category")
+@RequestMapping("/category" + API_VERSION)
 public class CategoryController implements CategoryApi {
     private static final Logger logger = LoggerFactory.getLogger(CategoryController.class);
 
@@ -51,7 +53,7 @@ public class CategoryController implements CategoryApi {
     }
 
     @Override
-    @PutMapping("/base-id/{id}")
+    @PatchMapping("/base-id/{id}")
     public ResponseEntity<CategoryResponse> changeBase(
             @PathVariable(value = "id") @NotNull Long id,
             @PathVariable(value = "base-id") @NotNull Long baseId) {

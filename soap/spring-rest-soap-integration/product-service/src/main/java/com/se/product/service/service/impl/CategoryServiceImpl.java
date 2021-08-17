@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Qualifier("rest")
+@Qualifier
 public class CategoryServiceImpl implements CategoryService {
     private static final Logger logger = LoggerFactory.getLogger(CategoryServiceImpl.class);
 
@@ -102,16 +102,20 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryResponse changeBase(Long id, Long baseId) {
+        // TODO:
         return null;
     }
 
     @Override
     public void remove(Long id) {
         // TODO: check is categories uses
+        logger.debug("Remove category id:{}", id);
         Category item = categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category", "id", id));
 
         categoryRepository.delete(item);
+
+        logger.info("Category :{} removed ", id);
     }
 
     @Override

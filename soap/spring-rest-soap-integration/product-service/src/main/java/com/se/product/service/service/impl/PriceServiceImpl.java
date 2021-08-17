@@ -38,10 +38,12 @@ public class PriceServiceImpl implements PriceService {
         boolean exists = priceRepository.existsByCostAndCurrencyType(request.getCost(), request.getCurrencyType());
 
         if (exists) {
-            throw new DuplicateException("Price", new HashMap<String, String>() {{
-                put("cost", String.valueOf(request.getCost()));
-                put("currency", String.valueOf(request.getCurrencyType()));
-            }});
+            HashMap<String, String> stringStringHashMap = new HashMap<>();
+            stringStringHashMap.put("cost", String.valueOf(request.getCost()));
+            stringStringHashMap.put("currency", String.valueOf(request.getCurrencyType()));
+
+            throw new DuplicateException("Price", stringStringHashMap);
+
         }
 
         Price price = PriceMapper.MAPPER.toPrice(request);

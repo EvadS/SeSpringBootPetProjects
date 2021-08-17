@@ -99,4 +99,6 @@ How to run mysql
  docker-compose -f docker-compose-mysql.yml up
 ```
 
+TODO: list 
 
+   user.setLastSeenDate(Instant.now());

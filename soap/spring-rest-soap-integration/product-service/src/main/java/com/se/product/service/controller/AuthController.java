@@ -51,7 +51,7 @@ public class AuthController {
                 .orElseThrow(() -> new UserLoginException("Couldn't login user [" + loginRequest + "]"));
 
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-        logger.info("Logged in User returned [API]: " + customUserDetails.getUsername());
+        logger.info("Logged in User returned [API]:{} ", customUserDetails.getUsername());
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
 
