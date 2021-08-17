@@ -79,7 +79,7 @@ public class ProductController implements ProductApi {
     }
 
     @Override
-    @PutMapping("/category/{id}")
+    @RequestMapping(value = "/category/{id}", method = RequestMethod.PATCH)
     public ResponseEntity<ProductResponse> updateCategory(
             @PathParam(value = "id") @NotNull Long id,
             @RequestBody @Valid CategoriesRequest categoriesRequest) {
@@ -91,7 +91,7 @@ public class ProductController implements ProductApi {
     }
 
     @Override
-    @PutMapping("/price/{id}")
+    @RequestMapping(value = "/price/{id}", method = RequestMethod.PATCH)
     public ResponseEntity<ProductResponse> updatePrices(
             @PathParam(value = "id") @NotNull Long id,
             @RequestBody @Valid PricesRequest pricesRequest) {
