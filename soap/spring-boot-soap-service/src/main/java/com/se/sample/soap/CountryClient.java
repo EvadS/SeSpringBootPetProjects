@@ -1,9 +1,11 @@
 package com.se.sample.soap;
+
+import com.se.sample.springsoap.gen.GetCountryRequest;
+import com.se.sample.springsoap.gen.GetCountryResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.baeldung.springsoap.client.gen.GetCountryRequest;
-import com.baeldung.springsoap.client.gen.GetCountryResponse;
+
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 
 public class CountryClient extends WebServiceGatewaySupport {

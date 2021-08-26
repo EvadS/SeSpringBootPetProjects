@@ -6,7 +6,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.criteria.*;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
 import java.util.Date;
 
 import static org.springframework.data.jpa.domain.Specification.where;
@@ -77,17 +79,12 @@ public class ProductSpecification extends SearchSpecification<Product, PagedProd
             return null;
         }
 
-        return new Specification<Product>() {
-            @Override
-            public Predicate toPredicate(Root<Product> root,
-                                         CriteriaQuery<?> criteriaQuery,
-                                         CriteriaBuilder criteriaBuilder) {
-                // Join<ParentTable,ChildTable>
-                Join<Product, Category> bs = root.join(Product_.CATEGORIES);
-                Predicate predicate
-                        = criteriaBuilder.like(bs.get(Category_.CODE), categoryCode);
-                return predicate;
-            }
+        return (Specification<Product>) (root, criteriaQuery, criteriaBuilder) -> {
+            // Join<ParentTable,ChildTable>
+            Join<Product, Category> bs = root.join(Product_.CATEGORIES);
+            Predicate predicate
+                    = criteriaBuilder.like(bs.get(Category_.CODE), categoryCode);
+            return predicate;
         };
     }
 

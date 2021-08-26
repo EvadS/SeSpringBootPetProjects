@@ -32,5 +32,5 @@ public class Price extends DateAudit {
     private Double cost;
 
     @ManyToMany(mappedBy = "prices")
-    Set<Product> products = new HashSet<>();
+    private Set<Product> products = new HashSet<>();
 }

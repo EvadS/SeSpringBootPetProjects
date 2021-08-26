@@ -205,7 +205,7 @@ public interface ProductApi {
 
 
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Item successfully updated",
+            @ApiResponse(responseCode = "204", description = "Item successfully updated",
                     content = {
                             @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = ProductResponse.class))
@@ -252,7 +252,7 @@ public interface ProductApi {
 
 
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201",
+            @ApiResponse(responseCode = "204",
                     description = "Item successfully updated",
                     content = {
                             @Content(mediaType = "application/json",

@@ -24,13 +24,15 @@ import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.se.product.service.config.ApplicationConstant.API_VERSION;
+
 
 @RestController
-@RequestMapping("/product" )
+@RequestMapping("/product" + API_VERSION)
 public class ProductController implements ProductApi {
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
     private final ProductService productService;
-    private final   ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
     public ProductController(ProductService productService, ProductRepository productRepository) {
         this.productService = productService;
@@ -79,25 +81,25 @@ public class ProductController implements ProductApi {
     }
 
     @Override
-    @PutMapping("/category/{id}")
+    @PatchMapping("/category/{id}")
     public ResponseEntity<ProductResponse> updateCategory(
             @PathParam(value = "id") @NotNull Long id,
             @RequestBody @Valid CategoriesRequest categoriesRequest) {
 
         logger.debug("Handle change product categories request, id: {}, categories: {}", id, categoriesRequest);
 
-        ProductResponse productResponse = productService.updateCategories(id, categoriesRequest);
+        ProductResponse productResponse = productService.changeCategories(id, categoriesRequest);
         return new ResponseEntity<>(productResponse, HttpStatus.ACCEPTED);
     }
 
     @Override
-    @PutMapping("/price/{id}")
+    @PatchMapping(value = "/price/{id}")
     public ResponseEntity<ProductResponse> updatePrices(
             @PathParam(value = "id") @NotNull Long id,
             @RequestBody @Valid PricesRequest pricesRequest) {
         logger.debug("Handle change product prices request, id: {}, pricesRequest: {}", id, pricesRequest);
 
-        ProductResponse productResponse = productService.updatePrices(id, pricesRequest);
+        ProductResponse productResponse = productService.changePrices(id, pricesRequest);
         return new ResponseEntity<>(productResponse, HttpStatus.ACCEPTED);
     }
 

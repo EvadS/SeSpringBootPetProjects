@@ -8,18 +8,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface CategoryService {
-    /**
-     * create new category
-     * @param request category model to create
-     * @return
-     */
+
     CategoryResponse create(CategoryRequest request);
 
     CategoryResponse updateItem(Long id, CategoryRequest requestModel);
 
     CategoryResponse changeBase(Long id, Long baseId);
 
-    void deletePrice(Long id);
+    void remove(Long id);
 
     CategoryResponse getById(Long id);
 

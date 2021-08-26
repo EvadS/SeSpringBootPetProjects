@@ -35,3 +35,11 @@ curl --header "content-type: text/xml" -d @request.xml http://localhost:8080/ws
 ```
 
 
+## pRostman
+
+* Headers 
+
+![Headers_settings](./soap_1.png)
+
+* body 
+![Body_settings](./soap_2.png)

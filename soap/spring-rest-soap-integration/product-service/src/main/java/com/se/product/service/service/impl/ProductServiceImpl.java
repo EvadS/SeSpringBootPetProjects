@@ -109,7 +109,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductResponse updateCategories(Long id, CategoriesRequest categoriesRequest) {
+    public ProductResponse changeCategories(Long id, CategoriesRequest categoriesRequest) {
 
         Product product = productRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Product", "id", id));
@@ -123,7 +123,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductResponse updatePrices(Long id, PricesRequest pricesRequest) {
+    public ProductResponse changePrices(Long id, PricesRequest pricesRequest) {
         Product product = productRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Product", "id", id));
 

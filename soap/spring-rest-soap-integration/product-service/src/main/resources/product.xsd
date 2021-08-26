@@ -27,7 +27,57 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:element name="getCategoryByIdRequest">
+    <xs:element name="soapCategoryRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="base-category-id" type="xs:long"/>
+                <xs:element name="code" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <!--CATEGORY-->
+    <xs:element name="soapCreateCategory">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="base-category-id" type="xs:long"/>
+                <xs:element name="code" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="soapCategoryResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="category" type="tns:soapCategory"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="soapCategory">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="code" type="xs:string"/>
+            <xs:element name="base-code" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="soapBaseCategoryRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+                <xs:element name="base-category-id" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="soapRemoveCategoryRequest">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="id" type="xs:long"/>
@@ -35,21 +85,29 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="getCategoryResponse">
+
+    <xs:element name="soapCategoryIdRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="category" type="tns:category"/>
+                <xs:element name="id" type="xs:long"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
-    <xs:complexType name="category">
-        <xs:sequence>
-            <xs:element name="id" type="xs:long"/>
-            <xs:element name="name" type="xs:string"/>
-            <xs:element name="code" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
+    <xs:element name="soapPagedCategoryRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="code" type="xs:string"/>
+                <xs:element name="page-num" type="xs:int"/>
+                <xs:element name="page-size" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <!--    BASE-->
 
 
 </xs:schema>

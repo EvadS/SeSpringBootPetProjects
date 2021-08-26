@@ -13,6 +13,7 @@ import com.se.product.service.repository.CategoryRepository;
 import com.se.product.service.service.CategoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Qualifier
 public class CategoryServiceImpl implements CategoryService {
     private static final Logger logger = LoggerFactory.getLogger(CategoryServiceImpl.class);
 
@@ -42,6 +44,11 @@ public class CategoryServiceImpl implements CategoryService {
 
         Category category = CategoryMapper.MAPPER.toCategory(request);
 
+        // TODO: tmp
+        if(category.getBaseCategory() == 0){
+            category.setBaseCategory(null);
+            category.setBaseCategory(null);
+        }
         category = categoryRepository.save(category);
         return CategoryMapper.MAPPER.toCategoryResponse(category);
 
@@ -95,16 +102,20 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryResponse changeBase(Long id, Long baseId) {
+        // TODO:
         return null;
     }
 
     @Override
-    public void deletePrice(Long id) {
+    public void remove(Long id) {
         // TODO: check is categories uses
+        logger.debug("Remove category id:{}", id);
         Category item = categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category", "id", id));
 
         categoryRepository.delete(item);
+
+        logger.info("Category :{} removed ", id);
     }
 
     @Override

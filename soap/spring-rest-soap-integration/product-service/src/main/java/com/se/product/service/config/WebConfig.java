@@ -1,19 +1,15 @@
 package com.se.product.service.config;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
-
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-//    @Override
-//    public void configurePathMatch(PathMatchConfigurer configurer) {
-//        configurer.addPathPrefix(GeneralConstants.PATH_PREFIX, HandlerTypePredicate.forBasePackageClass(CategoryApi.class));
-//        configurer.addPathPrefix(GeneralConstants.PATH_PREFIX, HandlerTypePredicate.forBasePackageClass(PriceApi.class));
-//        configurer.addPathPrefix(GeneralConstants.PATH_PREFIX, HandlerTypePredicate.forBasePackageClass(ProductApi.class));
-//    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -28,9 +24,5 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addRedirectViewController("/api/swagger-resources", "/swagger-resources");
     }
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/api/swagger-ui.html**").addResourceLocations("classpath:/META-INF/resources/swagger-ui.html");
-        registry.addResourceHandler("/api/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-    }
+
 }

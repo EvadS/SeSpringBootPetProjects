@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.sample.se.com/soap/model"
-           targetNamespace="http://www.sample.se.com/soap/model" elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.sample.se.com/springsoap/gen"
+           targetNamespace="http://www.sample.se.com/springsoap/gen" elementFormDefault="qualified">
 
     <xs:element name="getCountryRequest">
         <xs:complexType>

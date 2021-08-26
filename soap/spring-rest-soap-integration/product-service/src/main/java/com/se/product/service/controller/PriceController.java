@@ -16,9 +16,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+import static com.se.product.service.config.ApplicationConstant.API_VERSION;
+
 
 @RestController
-@RequestMapping("/price")
+@RequestMapping("/price" + API_VERSION)
 public class PriceController implements PriceApi {
 
     private static Logger logger = LoggerFactory.getLogger(PriceController.class);
@@ -58,7 +60,7 @@ public class PriceController implements PriceApi {
     }
 
     @Override
-    @GetMapping(value = "/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<PriceResponse> getById(
             @PathVariable(value = "id") Long priceId) {
         logger.debug("handle get price by id: {}",priceId);
@@ -70,7 +72,7 @@ public class PriceController implements PriceApi {
     }
 
     @Override
-    @GetMapping(value = "/list")
+    @GetMapping("/list")
     public ResponseEntity<List<PriceResponse>> list() {
         logger.debug("handle list of price request");
 
@@ -80,7 +82,7 @@ public class PriceController implements PriceApi {
 
 
     @Override
-    @RequestMapping(value = "/paged", method = RequestMethod.POST)
+    @PostMapping("/paged")
     public ResponseEntity<Page<PriceResponse>> getPaged(@RequestBody @Valid PriceSearchRequest request) {
 
         logger.debug("handle paged price request, request:{}", request);

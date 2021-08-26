@@ -7,7 +7,6 @@ import com.se.product.service.model.response.CategoryResponse;
 import com.se.product.service.model.response.CategoryResponseList;
 import com.se.product.service.model.search.CategorySearch;
 import com.se.product.service.service.CategoryService;
-import io.swagger.v3.oas.annotations.Operation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -19,9 +18,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import static com.se.product.service.config.ApplicationConstant.API_VERSION;
+
 
 @RestController
-@RequestMapping("/category")
+@RequestMapping("/category" + API_VERSION)
 public class CategoryController implements CategoryApi {
     private static final Logger logger = LoggerFactory.getLogger(CategoryController.class);
 
@@ -51,7 +52,7 @@ public class CategoryController implements CategoryApi {
     }
 
     @Override
-    @PutMapping("/base-id/{id}")
+    @PatchMapping("/base-id/{id}")
     public ResponseEntity<CategoryResponse> changeBase(
             @PathVariable(value = "id") @NotNull Long id,
             @PathVariable(value = "base-id") @NotNull Long baseId) {
@@ -66,7 +67,7 @@ public class CategoryController implements CategoryApi {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity deleteItem(@PathVariable(value = "id") @NotNull Long id) {
         logger.debug("handle delete category request, id:{}", id);
-        categoryService.deletePrice(id);
+        categoryService.remove(id);
         return ResponseEntity.accepted().build();
     }
 

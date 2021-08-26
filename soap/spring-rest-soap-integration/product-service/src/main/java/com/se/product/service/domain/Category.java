@@ -1,9 +1,6 @@
 package com.se.product.service.domain;
 
 import com.se.product.service.validation.annotation.NullOrNotBlank;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -15,23 +12,22 @@ import java.util.Set;
 @Entity
 @Table(name = "category")
 public class Category {
+    @ManyToMany(mappedBy = "categories")
+    Set<Product> products = new HashSet<>();
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-     private Long id;
+    private Long id;
 
     @Column(unique = true)
     @NullOrNotBlank(message = "Category name can not be blank")
     private String name;
 
-    @Column(unique = true,name = "code")
+    @Column(unique = true, name = "code")
     @NullOrNotBlank(message = "Category code can not be blank")
     private String code;
 
     @Column(unique = true)
     private Long baseCategory;
-
-    @ManyToMany(mappedBy = "categories")
-    Set<Product> products = new HashSet<>();
 
     public Category() {
     }

@@ -1,42 +1,46 @@
 package com.se.product.service.endpoint;
 
-import com.se.product.service.model.response.CategoryResponse;
-import com.se.product.service.model.soap.Category;
-import com.se.product.service.model.soap.GetCategoryByIdRequest;
-import com.se.product.service.model.soap.GetCategoryResponse;
-import com.se.product.service.service.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+
+import com.se.product.service.model.soap.SoapCategoryRequest;
+import com.se.product.service.model.soap.SoapCategoryResponse;
+import com.se.product.service.model.soap.SoapCreateCategory;
+import com.se.product.service.service.adaptee.CategoryAdaptee;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
+/**
+ * register the class with Spring WS as a Web Service Endpoint
+ */
 @Endpoint
 public class CategoryEndpoint {
 
-
-    String a;
+    private static final Logger logger = LoggerFactory.getLogger(CategoryEndpoint.class);
     private static final String NAMESPACE_URI = "http://www.service.product.se.com/model/soap";
 
-    @Autowired
-    CategoryService categoryService;
+    private final CategoryAdaptee categoryAdaptee;
+
+    public CategoryEndpoint(CategoryAdaptee categoryAdaptee) {
+        this.categoryAdaptee = categoryAdaptee;
+    }
 
 
-    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getCategoryByIdRequest")
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapCategoryRequest")
     @ResponsePayload
-    public GetCategoryResponse getCountry(@RequestPayload GetCategoryByIdRequest request) {
-        GetCategoryResponse response = new GetCategoryResponse();
+    public SoapCategoryResponse getCategory(@RequestPayload SoapCategoryRequest request) {
+        logger.info("Get category request, id:{}", request.getBaseCategoryId());
+        return categoryAdaptee.create(request);
+    }
 
-        CategoryResponse сategoryResponse = categoryService.getById(request.getId());
-        //TODO se: Refactored
-        Category category = new Category();
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "soapCreateCategory")
+    @ResponsePayload
+    public SoapCategoryResponse createCategory(@RequestPayload SoapCreateCategory request) {
 
-        category.setCode(сategoryResponse.getCategoryRequest().getCode());
-        category.setName(сategoryResponse.getCategoryRequest().getName());
-        category.setId(сategoryResponse.getId());
-
-        response.setCategory(category);
-
-        return response;
+        logger.info("Create category request, id:{}", request.getBaseCategoryId());
+        return categoryAdaptee.update(request);
     }
 }

@@ -1,7 +1,8 @@
 package com.se.sample.soap;
 
-import com.baeldung.springsoap.client.gen.Currency;
-import com.baeldung.springsoap.client.gen.GetCountryResponse;
+
+
+import com.se.sample.springsoap.gen.GetCountryResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
