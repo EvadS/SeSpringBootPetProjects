@@ -8,6 +8,8 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -22,6 +24,12 @@ public class GreetingHandler {
         Long count = request.queryParam("count")
                 .map(Long::valueOf)
                 .orElse(3l);
+
+        String [] arr = {};
+        //?sort=numberOfHands,desc&name,asc
+        String  sort = request.queryParam("sort")
+                //.map(Long::valueOf)
+                .orElse("");
 
 
         Flux<Message> data = Flux
