@@ -3,13 +3,13 @@ package com.se.sample;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.*;
 
 import static org.junit.Assert.assertTrue;
 
 public class Java8ComparatorUnitTest {
 
+    List<SortCritera> sortlist;
     private Employee[] employees;
     private Employee[] employeesNullable;
     private Employee[] employeesArrayWithNulls;
@@ -23,12 +23,15 @@ public class Java8ComparatorUnitTest {
     private Employee[] sortedEmployeesByNameAge;
     private Employee[] someMoreEmployees;
     private Employee[] sortedEmployeesByAgeName;
+    private Employee[] employeesList;
+    private final boolean someFlags = true;
 
     @Before
     public void initData() {
-        employees = new Employee[] { new Employee("John", 25, 3000, 9922001), new Employee("Ace", 22, 2000, 5924001), new Employee("Keith", 35, 4000, 3924401) };
+        employees = new Employee[]{new Employee("John", 25, 3000, 9922001), new Employee("Ace", 22, 2000, 5924001), new Employee("Keith", 35, 4000, 3924401)};
 
-        employeesNullable = new Employee[] {
+
+        employeesNullable = new Employee[]{
                 new Employee("John", 25, 3000, 9922001),
                 new Employee(null, 22, 2000, 5924001),
                 new Employee("Keith", 35, 4000, 3924401),
@@ -36,45 +39,44 @@ public class Java8ComparatorUnitTest {
                 new Employee("null", null, 4000, 3924401)
         };
 
-        employeesArrayWithNulls = new Employee[] {
+        employeesArrayWithNulls = new Employee[]{
                 new Employee("John", 25, 3000, 9922001), null,
                 new Employee("Ace", 22, 2000, 5924001), null,
                 new Employee("Keith", 35, 4000, 3924401)
         };
 
-        sortedEmployeesArray_WithNullsFirst = new Employee[] {
+        sortedEmployeesArray_WithNullsFirst = new Employee[]{
                 null, null,
                 new Employee("Ace", 22, 2000, 5924001),
                 new Employee("John", 25, 3000, 9922001),
                 new Employee("Keith", 35, 4000, 3924401)
         };
 
-        sortedEmployeesArray_WithNullsLast = new Employee[] {
+        sortedEmployeesArray_WithNullsLast = new Employee[]{
                 new Employee("Ace", 22, 2000, 5924001),
                 new Employee("John", 25, 3000, 9922001),
                 new Employee("Keith", 35, 4000, 3924401), null, null
         };
 
 
-        sortedEmployeesByName = new Employee[] { new Employee("Ace", 22, 2000, 5924001), new Employee("John", 25, 3000, 9922001), new Employee("Keith", 35, 4000, 3924401) };
-        sortedEmployeesByNameDesc = new Employee[] { new Employee("Keith", 35, 4000, 3924401), new Employee("John", 25, 3000, 9922001), new Employee("Ace", 22, 2000, 5924001) };
+        sortedEmployeesByName = new Employee[]{new Employee("Ace", 22, 2000, 5924001), new Employee("John", 25, 3000, 9922001), new Employee("Keith", 35, 4000, 3924401)};
+        sortedEmployeesByNameDesc = new Employee[]{new Employee("Keith", 35, 4000, 3924401), new Employee("John", 25, 3000, 9922001), new Employee("Ace", 22, 2000, 5924001)};
 
-        sortedEmployeesByAge = new Employee[] { new Employee("Ace", 22, 2000, 5924001), new Employee("John", 25, 3000, 9922001), new Employee("Keith", 35, 4000, 3924401) };
+        sortedEmployeesByAge = new Employee[]{new Employee("Ace", 22, 2000, 5924001), new Employee("John", 25, 3000, 9922001), new Employee("Keith", 35, 4000, 3924401)};
 
-        sortedEmployeesByMobile = new Employee[] { new Employee("Keith", 35, 4000, 3924401), new Employee("Ace", 22, 2000, 5924001), new Employee("John", 25, 3000, 9922001), };
+        sortedEmployeesByMobile = new Employee[]{new Employee("Keith", 35, 4000, 3924401), new Employee("Ace", 22, 2000, 5924001), new Employee("John", 25, 3000, 9922001),};
 
-        sortedEmployeesBySalary = new Employee[] { new Employee("Ace", 22, 2000, 5924001), new Employee("John", 25, 3000, 9922001), new Employee("Keith", 35, 4000, 3924401), };
+        sortedEmployeesBySalary = new Employee[]{new Employee("Ace", 22, 2000, 5924001), new Employee("John", 25, 3000, 9922001), new Employee("Keith", 35, 4000, 3924401),};
 
 
+        someMoreEmployees = new Employee[]{new Employee("Jake", 25, 3000, 9922001), new Employee("Jake", 22, 2000, 5924001), new Employee("Ace", 22, 3000, 6423001), new Employee("Keith", 35, 4000, 3924401)};
 
-        someMoreEmployees = new Employee[] { new Employee("Jake", 25, 3000, 9922001), new Employee("Jake", 22, 2000, 5924001), new Employee("Ace", 22, 3000, 6423001), new Employee("Keith", 35, 4000, 3924401) };
-
-        sortedEmployeesByAgeName = new Employee[] { new Employee("Ace", 22, 3000, 6423001), new Employee("Jake", 22, 2000, 5924001), new Employee("Jake", 25, 3000, 9922001), new Employee("Keith", 35, 4000, 3924401) };
-        sortedEmployeesByNameAge = new Employee[] { new Employee("Ace", 22, 3000, 6423001), new Employee("Jake", 22, 2000, 5924001), new Employee("Jake", 25, 3000, 9922001), new Employee("Keith", 35, 4000, 3924401) };
+        sortedEmployeesByAgeName = new Employee[]{new Employee("Ace", 22, 3000, 6423001), new Employee("Jake", 22, 2000, 5924001), new Employee("Jake", 25, 3000, 9922001), new Employee("Keith", 35, 4000, 3924401)};
+        sortedEmployeesByNameAge = new Employee[]{new Employee("Ace", 22, 3000, 6423001), new Employee("Jake", 22, 2000, 5924001), new Employee("Jake", 25, 3000, 9922001), new Employee("Keith", 35, 4000, 3924401)};
     }
 
     @Test
-    public void whenThenComparing_thenSortedByAgeName(){
+    public void whenThenComparing_thenSortedByAgeName() {
         Comparator<Employee> employee_Age_Name_Comparator
                 = Comparator.comparing(Employee::getAge)
                 .thenComparing(Employee::getName);
@@ -90,7 +92,7 @@ public class Java8ComparatorUnitTest {
         Comparator<Employee> employeeNameComparator_nullFirst = Comparator.nullsFirst(employeeNameComparator);
 
         Arrays.sort(employeesArrayWithNulls, employeeNameComparator_nullFirst);
-         System.out.println(Arrays.toString(employeesArrayWithNulls));
+        System.out.println(Arrays.toString(employeesArrayWithNulls));
         assertTrue(Arrays.equals(employeesArrayWithNulls, sortedEmployeesArray_WithNullsFirst));
     }
 
@@ -120,11 +122,14 @@ public class Java8ComparatorUnitTest {
     }
 
     @Test
-    public void null_save_comparator_test(){
+    public void null_save_comparator_test() {
         Comparator<Employee> COMPARATOR1 =
                 Comparator.comparing(Employee::getName, Comparator.nullsLast(Comparator.naturalOrder()))
-                        .thenComparing(Employee::getSalary, Comparator.nullsLast(Comparator.naturalOrder()))
-                        .thenComparing(Employee::getAge, Comparator.nullsLast(Comparator.naturalOrder()));
+                        .thenComparing(Employee::getSalary, Comparator.nullsLast(Comparator.naturalOrder()));
+
+        if (someFlags) {
+            COMPARATOR1.thenComparing(Employee::getAge, Comparator.nullsLast(Comparator.naturalOrder()));
+        }
 
         System.out.println("before --> ");
         Arrays.stream(employeesNullable).forEach(name -> {
@@ -135,6 +140,63 @@ public class Java8ComparatorUnitTest {
 
         System.out.println("after --> ");
         Arrays.stream(employeesNullable).forEach(name -> {
+            System.out.println(name);
+        });
+    }
+
+    @Test
+    public void test() {
+        // to store all the corresponding comparators for each possible key:
+        HashMap<String, Comparator<Employee>> comparators = new HashMap<>();
+        comparators.put("name", Comparator.comparing(Employee::getName, Comparator.nullsLast(Comparator.naturalOrder())));
+        comparators.put("age", Comparator.comparing(Employee::getAge,  Comparator.nullsFirst(Comparator.naturalOrder())));
+
+        List<Employee> employeesList = new ArrayList<>();
+        employeesList.add(new Employee("John", 25, 3000, 9922001));
+        employeesList.add(new Employee("Test", 22, 2000, 5924001));
+        employeesList.add(new Employee("Keith", 35, 4000, 3924401));
+        employeesList.add(new Employee("Evgeniy", 25, 4000, 3924401));
+        employeesList.add(new Employee("Evgeniy", 18, 4000, 3924401));
+        employeesList.add(new Employee("null", null, 4000, 3924401));
+
+        System.out.println("before --> ");
+        employeesList.stream().forEach(name -> {
+            System.out.println(name);
+        });
+
+        sortlist = new ArrayList<>();
+        sortlist.add(new SortCritera("name", "ASC"));
+        sortlist.add(new SortCritera("age", "DESC"));
+
+        Comparator<Employee> comparator = comparators.get(sortlist.get(0).getKey());
+        if (sortlist.get(0).getOrder().equals("DESC")) {
+            comparator = comparator.reversed();
+        }
+
+        for (int i = 1; i < sortlist.size(); i++) {
+            if (sortlist.get(i).getOrder().equals("DESC")) {
+                comparator = comparator.thenComparing(
+                        comparators.get(sortlist.get(i).getKey()).reversed());
+            } else {
+                comparator = comparator.thenComparing(comparators.get(sortlist.get(i).getKey()));
+            }
+        }
+
+        System.out.println("sorted param");
+        sortlist.stream().forEach(name -> {
+            System.out.println(name);
+        });
+
+
+        sortlist.stream().map(sc -> {
+            Comparator<Employee> c = comparators.get(sc.getKey());
+            return sc.getOrder().equals("DESC") ? c.reversed() : c;
+        }).reduce(Comparator::thenComparing)
+                .ifPresent(x -> Collections.sort(employeesList, x));
+
+
+        System.out.println("after --> ");
+        employeesList.stream().forEach(name -> {
             System.out.println(name);
         });
 
