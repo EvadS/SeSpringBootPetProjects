@@ -14,24 +14,35 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/controller")
 public class MainController {
-    //http://localhost:8080/controller/test?queries=firstName,asc&queries=lastName,desc
+
+    @GetMapping
+    public Flux<Message> list(@RequestParam(defaultValue = "0") Long start,
+                              @RequestParam(defaultValue = "2") Long count
+    ) {
+        Flux<Message> data = Flux
+                .just("Hello Reactive!",
+                        "More than one",
+                        "Third post",
+                        "Fourth post",
+                        "Fifth post"
+
+                )
+                .skip(start)
+                .take(count)
+                .map(Message::new);
+
+        return data;
+    }
+
+
+    // TODO: I tested array of sort parameters
+    // sort array --->
     //http://localhost:8080/controller/test?queries=firstName,asc&queries=lastName,desc
     @GetMapping("/test")
     @ResponseBody
     public String test(@RequestParam String[] queries) {
-        int a = 0;
-
         //  final String[] queries = sort.split("&");
         Sort orders = parseSortQuery(queries, ",");
-
-        HashMap<String, Comparator<SupplierModel>> comparators = new HashMap<>();
-
-        List<String> collect = orders.stream()
-                .map(i -> i.getProperty())
-                .collect(Collectors.toList());
-
-
-
         return ":  -->: " + orders;
     }
 
@@ -65,6 +76,7 @@ public class MainController {
         return orders.isEmpty() ? null : Sort.by(orders);
     }
 
+    // < --- sort array
 //    private Sort parseSortQuery(final String[] query, String delimiter) {
 //
 //        final List<Sort.Order> orders = new ArrayList<>();
@@ -91,28 +103,4 @@ public class MainController {
 //        }
 //        return orders.isEmpty() ? null :  Sort.by(orders);
 //    }
-
-    @GetMapping
-    public Flux<Message> list(@RequestParam(defaultValue = "0") Long start,
-                              @RequestParam(defaultValue = "2") Long count
-    ) {
-        Flux<Message> data = Flux
-                .just("Hello Reactive!",
-                        "More than one",
-                        "Third post",
-                        "Fourth post",
-                        "Fifth post"
-
-                )
-                .skip(start)
-                .take(count)
-                .map(Message::new);
-
-        return data;
-    }
-
-    class SupplierModel{
-        public String name;
-        public  int age;
-    }
 }
