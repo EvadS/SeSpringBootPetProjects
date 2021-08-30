@@ -2,11 +2,15 @@ package com.example.controller;
 
 import com.example.domain.Product;
 import com.example.service.ProductService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import javax.validation.Valid;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.web.reactive.function.server.EntityResponse.fromPublisher;
@@ -36,7 +40,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public Mono<Product> createProduct(@RequestBody Mono<Product> productMono){
+    public Mono<Product> createProduct(@Valid @RequestBody Mono<Product> productMono){
         return productMono.flatMap(this.productService::createProduct);
     }
 
