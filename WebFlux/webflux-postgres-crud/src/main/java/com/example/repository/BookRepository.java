@@ -1,5 +1,6 @@
-package com.example.domain;
+package com.example.repository;
 
+import com.example.domain.Book;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 
 /**

@@ -1,4 +1,4 @@
-package com.example;
+package com.example.controller;
 
 /**
  * @author Skiba Evgeniy
@@ -6,7 +6,7 @@ package com.example;
  */
 
 import com.example.domain.Book;
-import com.example.domain.BookRepository;
+import com.example.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
