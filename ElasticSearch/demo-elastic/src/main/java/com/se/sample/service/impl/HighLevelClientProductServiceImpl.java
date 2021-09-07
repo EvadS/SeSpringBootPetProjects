@@ -8,14 +8,7 @@ package com.se.sample.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.se.sample.domain.Product;
 import com.se.sample.service.HighLevelClientProductService;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
@@ -39,8 +32,11 @@ import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.springframework.data.elasticsearch.core.index.MappingBuilder;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * If you’re
@@ -191,5 +187,4 @@ public class HighLevelClientProductServiceImpl implements HighLevelClientProduct
         }
         return false;
     }
-
 }
