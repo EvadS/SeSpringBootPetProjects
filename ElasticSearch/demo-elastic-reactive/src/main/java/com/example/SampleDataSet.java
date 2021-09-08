@@ -28,9 +28,6 @@ public class SampleDataSet {
     @Autowired
     EmployeeRepository repository;
 
-//    @Autowired
-//    ReactiveElasticsearchTemplate template;
-
     @Autowired
     ReactiveElasticsearchClient client;
 
