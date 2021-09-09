@@ -22,6 +22,17 @@ public class Employee {
     private int age;
     private String position;
 
+    @Field(name="customer_id")
+    private String customerId;
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
+
     public String getId() {
         return id;
     }
