@@ -3,6 +3,7 @@ package com.example.controller;
 import com.example.model.Employee;
 import com.example.repository.EmployeeRepository;
 import com.example.service.EmployeeService;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,17 +12,17 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/employees")
 public class EmployeeController {
 
     Logger logger = LoggerFactory.getLogger(EmployeeController.class);
 
-    @Autowired
-    EmployeeRepository repository;
+    private final  EmployeeRepository repository;
 
-    @Autowired
-    EmployeeService employeeService;
+
+    private final EmployeeService employeeService;
 
     @PostMapping
     public Mono<Employee> add(@RequestBody Employee employee) {
