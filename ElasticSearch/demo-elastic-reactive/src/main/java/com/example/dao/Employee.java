@@ -1,4 +1,4 @@
-package com.example.model;
+package com.example.dao;
 
 /**
  * @author Skiba Evgeniy
@@ -9,17 +9,29 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 @Document(indexName = "sample")
 public class Employee {
 
     @Id
     private String id;
+
     @Field(type = FieldType.Object)
     private Organization organization;
     @Field(type = FieldType.Object)
     private Department department;
+
+    @NotBlank(message = "{employee.name.not.null}")
     private String name;
+
+    @Min(value = 10, message = "{age.min.requirement}")
+    @Max(value = 50, message = "{age.max.requirement}")
     private int age;
+
     private String position;
 
     @Field(name="customer_id")

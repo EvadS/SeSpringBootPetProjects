@@ -1,21 +1,17 @@
 package com.example.repository;
 
-import com.example.model.Department;
-import com.example.model.Employee;
-import com.example.model.Organization;
+import com.example.dao.Department;
+import com.example.dao.Employee;
+import com.example.dao.Organization;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.elasticsearch.ElasticsearchContainer;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Skiba Evgeniy

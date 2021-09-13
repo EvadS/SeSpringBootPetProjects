@@ -1,6 +1,6 @@
 package com.example.service.impl;
 
-import com.example.model.Employee;
+import com.example.dao.Employee;
 import com.example.repository.EmployeeRepository;
 import com.example.service.EmployeeService;
 import org.springframework.data.domain.Page;

@@ -22,14 +22,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 @RunWith(SpringRunner.class)
-@WebFluxTest(TestController.class)
+@WebFluxTest(DemoController.class)
 @ContextConfiguration(classes = {
-        TestController.class,
+        DemoController.class,
 })
 public class TestControllerTest {
 
     @Autowired
-    private TestController controller;
+    private DemoController controller;
 
     @Test
     public void test(){

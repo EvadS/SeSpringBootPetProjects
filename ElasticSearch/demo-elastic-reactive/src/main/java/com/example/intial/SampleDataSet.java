@@ -1,15 +1,15 @@
-package com.example;
+package com.example.intial;
 
 
-import com.example.model.Department;
-import com.example.model.Employee;
-import com.example.model.Organization;
+import com.example.dao.Department;
+import com.example.dao.Employee;
+import com.example.dao.Organization;
 import com.example.repository.EmployeeRepository;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.client.reactive.ReactiveElasticsearchClient;
-import org.springframework.data.elasticsearch.core.ReactiveElasticsearchTemplate;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+@AllArgsConstructor
 public class SampleDataSet {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SampleDataSet.class);
