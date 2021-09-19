@@ -1,0 +1,14 @@
+#spring:
+#  application:
+#    name: sample-spring-elasticsearch
+#  data:
+#    elasticsearch:
+#      client:
+#        reactive:
+#          endpoints: ${ELASTIC_ADDRESS:localhost}:${ELASTIC_PORT:9200}
+#  elasticsearch:
+#    rest:
+#      uris: http:/localhost:9200
+
+initial-import:
+  enabled: false

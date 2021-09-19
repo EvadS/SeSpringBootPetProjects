@@ -39,6 +39,7 @@ public class EmployeeControllerIntegrationTest {
         Employee employee = new Employee("1", "Employee 1 Name");
 
         given(employeeRepository.findEmployeeById("1")).willReturn(Mono.just(employee));
+
         testClient.get()
                 .uri("/employees/1")
                 .exchange()

@@ -7,24 +7,43 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @RestController
 @RequestMapping("/controller")
 public class MainController {
-//http://localhost:8080/controller/test?queries=firstName,asc&queries=lastName,desc
+
+    @GetMapping
+    public Flux<Message> list(@RequestParam(defaultValue = "0") Long start,
+                              @RequestParam(defaultValue = "2") Long count
+    ) {
+        Flux<Message> data = Flux
+                .just("Hello Reactive!",
+                        "More than one",
+                        "Third post",
+                        "Fourth post",
+                        "Fifth post"
+
+                )
+                .skip(start)
+                .take(count)
+                .map(Message::new);
+
+        return data;
+    }
+
+
+    // TODO: I tested array of sort parameters
+    // sort array --->
+    //http://localhost:8080/controller/test?queries=firstName,asc&queries=lastName,desc
     @GetMapping("/test")
     @ResponseBody
-    public String test(@RequestParam String[] queries){
-        int a =0;
-
-      //  final String[] queries = sort.split("&");
+    public String test(@RequestParam String[] queries) {
+        //  final String[] queries = sort.split("&");
         Sort orders = parseSortQuery(queries, ",");
-
-        return  ":  -->: "+ orders;
+        return ":  -->: " + orders;
     }
 
 //firstName,asc&lastName,desc
@@ -54,9 +73,10 @@ public class MainController {
                 orders.add(new Sort.Order(direction, property));
             }
         }
-        return orders.isEmpty() ? null :  Sort.by(orders);
+        return orders.isEmpty() ? null : Sort.by(orders);
     }
 
+    // < --- sort array
 //    private Sort parseSortQuery(final String[] query, String delimiter) {
 //
 //        final List<Sort.Order> orders = new ArrayList<>();
@@ -83,23 +103,4 @@ public class MainController {
 //        }
 //        return orders.isEmpty() ? null :  Sort.by(orders);
 //    }
-
-    @GetMapping
-    public Flux<Message> list(@RequestParam(defaultValue = "0") Long start,
-                              @RequestParam(defaultValue = "2") Long count
-    ) {
-        Flux<Message> data = Flux
-                .just("Hello Reactive!",
-                        "More than one",
-                        "Third post",
-                        "Fourth post",
-                        "Fifth post"
-
-                )
-                .skip(start)
-                .take(count)
-                .map(Message::new);
-
-        return data;
-    }
 }
