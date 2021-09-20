@@ -1,0 +1,6 @@
+spring:
+  data:
+    elasticsearch:
+      client:
+        reactive:
+          endpoints: ${ELASTIC_ADDRESS:localhost}:${ELASTIC_PORT:9200}
