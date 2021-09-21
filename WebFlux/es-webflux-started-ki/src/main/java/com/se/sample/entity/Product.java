@@ -1,4 +1,4 @@
-package com.se.sample.entity.model;
+package com.se.sample.entity;
 
 
 

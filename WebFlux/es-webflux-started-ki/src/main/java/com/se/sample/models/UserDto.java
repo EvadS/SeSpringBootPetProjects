@@ -1,10 +1,10 @@
-package com.se.sample.entity.dto;
+package com.se.sample.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import com.se.sample.entity.enums.UserRoles;
+import com.se.sample.models.enums.UserRoles;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

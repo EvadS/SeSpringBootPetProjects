@@ -1,4 +1,4 @@
-package com.se.sample.entity.dto.response;
+package com.se.sample.models.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +11,6 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductRequest {
-
 
 
     @NotNull(message = "Name cannot be null")

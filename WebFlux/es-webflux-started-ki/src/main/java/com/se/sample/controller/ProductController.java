@@ -1,20 +1,15 @@
 package com.se.sample.controller;
 
 
-import com.se.sample.entity.dto.ProductResponse;
-import com.se.sample.entity.dto.response.ProductItemResponse;
-import com.se.sample.entity.dto.response.ProductRequest;
-import com.se.sample.entity.mapper.ProductMapper;
-import com.se.sample.entity.model.Product;
+import com.se.sample.models.response.ProductResponse;
+import com.se.sample.models.request.ProductItemResponse;
+import com.se.sample.models.request.ProductRequest;
 import com.se.sample.helper.PageSupport;
 import com.se.sample.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 // TODO: move to properties

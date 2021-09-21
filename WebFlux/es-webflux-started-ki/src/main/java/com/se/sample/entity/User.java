@@ -1,8 +1,8 @@
-package com.se.sample.entity.model;
+package com.se.sample.entity;
 
 
 
-import com.se.sample.entity.enums.UserRoles;
+import com.se.sample.models.enums.UserRoles;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

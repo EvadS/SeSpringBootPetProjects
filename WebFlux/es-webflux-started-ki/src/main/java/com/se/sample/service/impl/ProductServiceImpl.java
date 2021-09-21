@@ -1,16 +1,15 @@
 package com.se.sample.service.impl;
 
-import com.se.sample.entity.dto.ProductResponse;
-import com.se.sample.entity.dto.response.ProductItemResponse;
-import com.se.sample.entity.dto.response.ProductRequest;
-import com.se.sample.entity.mapper.ProductMapper;
+import com.se.sample.models.response.ProductResponse;
+import com.se.sample.models.request.ProductItemResponse;
+import com.se.sample.models.request.ProductRequest;
+import com.se.sample.models.mapper.ProductMapper;
 import com.se.sample.entity.model.Product;
 import com.se.sample.helper.PageSupport;
 import com.se.sample.repository.ProductRepository;
 import com.se.sample.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;

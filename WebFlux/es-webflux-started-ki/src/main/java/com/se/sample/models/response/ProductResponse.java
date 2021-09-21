@@ -1,4 +1,4 @@
-package com.se.sample.entity.dto;
+package com.se.sample.models.response;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

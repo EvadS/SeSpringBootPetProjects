@@ -1,8 +1,8 @@
 package com.se.sample.service;
 
-import com.se.sample.entity.dto.ProductResponse;
-import com.se.sample.entity.dto.response.ProductItemResponse;
-import com.se.sample.entity.dto.response.ProductRequest;
+import com.se.sample.models.response.ProductResponse;
+import com.se.sample.models.request.ProductItemResponse;
+import com.se.sample.models.request.ProductRequest;
 import com.se.sample.entity.model.Product;
 import com.se.sample.helper.PageSupport;
 import org.springframework.data.domain.PageRequest;

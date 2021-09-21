@@ -1,9 +1,9 @@
-package com.se.sample.entity.mapper;
+package com.se.sample.models.mapper;
 
 
-import com.se.sample.entity.dto.UserDto;
-import com.se.sample.entity.enums.UserRoles;
-import com.se.sample.entity.model.User;
+import com.se.sample.models.UserDto;
+import com.se.sample.models.enums.UserRoles;
+import com.se.sample.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

@@ -1,6 +1,6 @@
 package com.se.sample.service.impl;
 
-import com.se.sample.entity.dto.UserDto;
+import com.se.sample.models.UserDto;
 import com.se.sample.service.UserService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
