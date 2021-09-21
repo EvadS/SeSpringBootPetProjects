@@ -1,17 +1,19 @@
 package com.se.sample;
 
+import com.se.sample.config.ElasticsearchConfig;
 import com.se.sample.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.elasticsearch.repository.config.EnableReactiveElasticsearchRepositories;
 
 @Slf4j
 @SpringBootApplication
 @EnableReactiveElasticsearchRepositories
-
+@ConfigurationPropertiesScan(basePackageClasses = {ElasticsearchConfig.class})
 public class EsWebfluxStartedKitApplication {
 
     public static void main(String[] args) {

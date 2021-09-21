@@ -6,9 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.DateFormat;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
+
+import java.util.Date;
 
 @Data
 @Builder
@@ -35,4 +38,8 @@ public class Product {
 
     @Field(type = FieldType.Keyword, name = "manufacturer")
     private String manufacturer;
+
+    @Field(name="created_at", type = FieldType.Date, format = DateFormat.date_time)
+    private Date createdAt;
+
 }

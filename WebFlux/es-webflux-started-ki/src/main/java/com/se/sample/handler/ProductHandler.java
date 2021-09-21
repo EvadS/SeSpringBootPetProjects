@@ -2,6 +2,7 @@ package com.se.sample.handler;
 
 
 
+import com.se.sample.entity.dto.response.ProductRequest;
 import com.se.sample.entity.model.Product;
 import com.se.sample.service.ProductService;
 import org.springframework.http.HttpStatus;
@@ -40,10 +41,11 @@ public class ProductHandler {
     }
 
     public Mono<ServerResponse> save(ServerRequest request) {
-        final Mono<Product> person = request.bodyToMono(Product.class);
+        final Mono<ProductRequest> person = request.bodyToMono(ProductRequest.class);
         return ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(fromPublisher(person.flatMap(productService::save), Product.class));
+                .body(fromPublisher(
+                        person.flatMap(productService::save), Product.class));
     }
 
     public Mono<ServerResponse> delete(ServerRequest request) {
