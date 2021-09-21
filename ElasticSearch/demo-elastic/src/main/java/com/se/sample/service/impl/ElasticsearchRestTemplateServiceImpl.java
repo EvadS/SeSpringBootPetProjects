@@ -45,11 +45,13 @@ public class ElasticsearchRestTemplateServiceImpl implements ElasticsearchRestTe
     }
 
     public List<Product> getProductsByName(String name) {
-        Query query = new NativeSearchQueryBuilder()
-                .withQuery(QueryBuilders.matchQuery("name", name))
+        NativeSearchQueryBuilder nativeSearch = new NativeSearchQueryBuilder()
+                .withQuery(QueryBuilders.matchQuery("name", name));
+
+        Query query22 = nativeSearch
                 .build();
 
-        SearchHits<Product> searchHits = elasticsearchRestTemplate.search(query, Product.class);
+        SearchHits<Product> searchHits = elasticsearchRestTemplate.search(query22, Product.class);
 
         return searchHits.get().map(SearchHit::getContent).collect(Collectors.toList());
     }

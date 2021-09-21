@@ -1,11 +1,18 @@
 package com.se.sample.controller;
 
 
+import com.se.sample.models.filter.ESSearchFilter;
 import com.se.sample.models.response.ProductResponse;
 import com.se.sample.models.request.ProductItemResponse;
 import com.se.sample.models.request.ProductRequest;
 import com.se.sample.errors.ErrorDetail;
 import com.se.sample.helper.PageSupport;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import org.springdoc.core.converters.models.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -121,33 +128,36 @@ public interface IProductController {
 //
 //
 
-//    @Operation(
-//            summary = "Search Employees ",
-//            description = "Allow to search employee in Elastic search (with pagination)",
-//            method = "POST",
-//            parameters = {
-//                    @Parameter(name = "page", in = ParameterIn.QUERY, schema = @Schema(type = "integer", defaultValue = "0"),
-//                            description = "Results page you want to retrieve (0..N)"),
-//                    @Parameter(name = "size", in = ParameterIn.QUERY, schema = @Schema(type = "integer", defaultValue = "10"),
-//                            description = "Number of records per page. "),
-//                    @Parameter(name = "sort", in = ParameterIn.QUERY, schema = @Schema(type = "string", defaultValue = "id,asc"),
-//                            description = "Sorting criteria in the format: property,asc|dec. " +
-//                                    "Default sort order is ascending.")
-//            },
-//            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json",
-//                    schema = @Schema(implementation = ESSearchFilter.class)),
-//                    required = true),
-//            responses = {
-//                    @ApiResponse(responseCode = "200", description = "Successfully Searched Employee data",
-//                            content = @Content(
-//                                    mediaType = "application/json",
-//                                    schema = @Schema(implementation = EmployeeDTO.class))),
-//                    @ApiResponse(responseCode = "4xx", description = "Error retrieving Employee data",
-//                            content = @Content(
-//                                    mediaType = "application/json",
-//                                    schema = @Schema(implementation = ErrorDetail.class)))})
-//    ResponseEntity<Page<EmployeeDTO>> searchEmployees(@Parameter(hidden = true) @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable,
-//                                                      @RequestBody ESSearchFilter esSearchFilter);
+    @Operation(
+            summary = "Search Employees ",
+            description = "Allow to search employee in Elastic search (with pagination)",
+            method = "POST",
+            parameters = {
+                    @Parameter(name = "page", in = ParameterIn.QUERY, schema = @Schema(type = "integer", defaultValue = "0"),
+                            description = "Results page you want to retrieve (0..N)"),
+                    @Parameter(name = "size", in = ParameterIn.QUERY, schema = @Schema(type = "integer", defaultValue = "10"),
+                            description = "Number of records per page. "),
+                    @Parameter(name = "sort", in = ParameterIn.QUERY, schema = @Schema(type = "string", defaultValue = "id,asc"),
+                            description = "Sorting criteria in the format: property,asc|dec. " +
+                                    "Default sort order is ascending.")
+            },
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ESSearchFilter.class)),
+                    required = true),
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Successfully Searched Employee data",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ProductResponse.class))),
+                    @ApiResponse(responseCode = "4xx", description = "Error retrieving Employee data",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorDetail.class)))})
+    ResponseEntity<Page<ProductResponse>> searchProducts(@Parameter(hidden = true)
+                                                         @PageableDefault(sort = "id", direction = Sort.Direction.ASC)
+                                                         @RequestParam(name = "page", defaultValue = FIRST_PAGE_NUM) int page,
+                                                         @RequestParam(name = "size", defaultValue = DEFAULT_PAGE_SIZE) int size,
+                                               @RequestBody ESSearchFilter esSearchFilter);
 //
 //    @Operation(
 //            summary = "Search Employees Multi Match ",

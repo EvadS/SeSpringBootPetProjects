@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.data.elasticsearch.client.ClientConfiguration;
 import org.springframework.data.elasticsearch.client.RestClients;
 import org.springframework.data.elasticsearch.config.AbstractElasticsearchConfiguration;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 
@@ -35,7 +36,7 @@ public class ElasticsearchConfig extends AbstractElasticsearchConfiguration {
     @Value("${spring.data.elasticsearch.client.reactive.endpoints}")
     private String elassandraHostAndPort;
 
-    @Bean
+    @Bean(name = { "elasticsearchOperations", "elasticsearchTemplate" })
     @Override
     public RestHighLevelClient elasticsearchClient() {
         ClientConfiguration clientConfiguration = ClientConfiguration.builder()
@@ -58,4 +59,7 @@ public class ElasticsearchConfig extends AbstractElasticsearchConfiguration {
     private void init(){
         int a =0;
     }
+
+
+
 }

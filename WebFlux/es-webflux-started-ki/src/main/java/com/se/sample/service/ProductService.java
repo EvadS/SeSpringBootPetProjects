@@ -1,10 +1,14 @@
 package com.se.sample.service;
 
+import com.se.sample.entity.Product;
+import com.se.sample.models.filter.ESSearchFilter;
 import com.se.sample.models.response.ProductResponse;
 import com.se.sample.models.request.ProductItemResponse;
 import com.se.sample.models.request.ProductRequest;
-import com.se.sample.entity.model.Product;
+
 import com.se.sample.helper.PageSupport;
+import org.springdoc.core.converters.models.Pageable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -21,4 +25,8 @@ public interface ProductService {
     Mono delete(String id);
 
     Mono<PageSupport<ProductResponse>> getPageResponse(PageRequest of);
+
+    Page<ProductResponse> findAll(org.springframework.data.domain.Pageable pageable);
+
+    Page<ProductResponse> searchProductByCriteria(ESSearchFilter esSearchFilter, org.springframework.data.domain.Pageable pageable);
 }

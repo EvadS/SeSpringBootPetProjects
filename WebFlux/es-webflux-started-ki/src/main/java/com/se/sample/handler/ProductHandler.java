@@ -2,8 +2,9 @@ package com.se.sample.handler;
 
 
 
+import com.se.sample.entity.Product;
 import com.se.sample.models.request.ProductRequest;
-import com.se.sample.entity.model.Product;
+
 import com.se.sample.service.ProductService;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;

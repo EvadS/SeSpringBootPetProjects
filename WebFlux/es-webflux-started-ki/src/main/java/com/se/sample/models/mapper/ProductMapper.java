@@ -1,10 +1,11 @@
 package com.se.sample.models.mapper;
 
+import com.se.sample.entity.Product;
 import com.se.sample.models.response.ProductResponse;
 import com.se.sample.models.request.ProductItemResponse;
 import com.se.sample.models.request.ProductRequest;
 import com.se.sample.models.enums.UserRoles;
-import com.se.sample.entity.model.Product;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;

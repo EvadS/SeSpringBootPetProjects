@@ -1,7 +1,8 @@
 package com.se.sample.repository;
 
 
-import com.se.sample.entity.model.Product;
+
+import com.se.sample.entity.Product;
 import org.springframework.data.elasticsearch.repository.ReactiveElasticsearchRepository;
 import org.springframework.stereotype.Repository;
 
