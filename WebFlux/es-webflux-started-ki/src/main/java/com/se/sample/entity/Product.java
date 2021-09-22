@@ -12,6 +12,8 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
@@ -25,6 +27,9 @@ public class Product {
     @Id
     private String id;
     @Field(type = FieldType.Keyword, name = "name")
+
+    @NotNull(message = "Name cannot be null")
+    @NotBlank(message = "Name cannot be Empty")
     private String name;
 
     @Field(type = FieldType.Double, name = "price")

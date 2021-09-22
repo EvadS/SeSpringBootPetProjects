@@ -12,6 +12,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.support.WebExchangeBindException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.nio.file.AccessDeniedException;
@@ -41,6 +42,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import javax.validation.ConstraintViolationException;
 
 
 /**
@@ -72,6 +74,19 @@ public class ExceptionControllerAdvice {
         problem.setStatus(HttpStatus.NOT_FOUND.value());
 
         return new ResponseEntity<>(problem, overrideContentType(), HttpStatus.NOT_FOUND);
+    }
+
+    //TODO: HERE--------------
+    // work but incorrect
+    @ExceptionHandler(WebExchangeBindException.class)
+    public HttpEntity<ErrorDetail> handleWebExchangeBindException(
+            WebExchangeBindException e) {
+
+        LOGGER.error("Constraint Violation: {}", e.getMessage());
+
+        return validationError(e.getMessage(), e.getFieldErrors().stream()
+                .map(violation -> new ErrorDetail("Invalid Parameter", violation.getField()))
+                .collect(Collectors.toList()));
     }
 
     /**
@@ -154,7 +169,11 @@ public class ExceptionControllerAdvice {
         return new ResponseEntity<>(problem, overrideContentType(), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(javax.validation.ConstraintViolationException.class)
+
+
+
+
+    @ExceptionHandler(ConstraintViolationException.class)
     public HttpEntity<ErrorDetail> handleConstraintViolationsFromJavax(
             javax.validation.ConstraintViolationException e) {
 
