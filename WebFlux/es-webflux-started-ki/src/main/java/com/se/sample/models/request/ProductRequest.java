@@ -13,15 +13,12 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class ProductRequest {
 
-
     @NotNull(message = "Name cannot be null")
     @NotBlank(message = "Name cannot be Empty")
     private String name;
 
-    @Min(0)
     private Double price;
 
-    @Min(0)
     private Integer quantity;
 
     private String category;

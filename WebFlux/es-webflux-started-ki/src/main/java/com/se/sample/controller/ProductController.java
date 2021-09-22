@@ -43,8 +43,17 @@ public class ProductController implements  IProductController {
     @PostMapping
     @Override
     public Mono<ResponseEntity<ProductResponse>> save(@Valid  @RequestBody final
-                                                          ProductRequest productRequest) {
-        return productService.save(productRequest);
+                                                       ProductRequest productRequest) {
+        Mono savedProduct = productService.save(productRequest);
+        Mono map = savedProduct.map(
+                i -> {
+                    return ResponseEntity.ok(savedProduct);
+                }
+        );
+
+        return  map;
+
+
     }
 
     @PutMapping("/{id}")

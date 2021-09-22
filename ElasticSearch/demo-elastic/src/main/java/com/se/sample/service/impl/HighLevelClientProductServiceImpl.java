@@ -48,7 +48,6 @@ import java.util.stream.Stream;
  * to do basic things like CRUD or managing your Elasticsearch.
  */
 
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
