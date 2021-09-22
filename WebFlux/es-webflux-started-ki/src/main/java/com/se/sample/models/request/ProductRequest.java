@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -17,8 +18,10 @@ public class ProductRequest {
     @NotBlank(message = "Name cannot be Empty")
     private String name;
 
+    @Min(0)
     private Double price;
 
+    @Min(0)
     private Integer quantity;
 
     private String category;

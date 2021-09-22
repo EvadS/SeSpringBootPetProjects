@@ -18,7 +18,7 @@ public interface ProductService {
 
     Mono<ProductResponse> getById(String id);
 
-    Mono<ProductResponse> update(String id, Product product);
+    Mono<ProductResponse> update(String id, ProductRequest product);
 
     Mono save(ProductRequest productRequest);
 

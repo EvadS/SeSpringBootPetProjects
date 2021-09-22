@@ -2,6 +2,7 @@ package com.se.sample.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.se.sample.entity.Product;
+import com.se.sample.errors.exception.ResourceNotFoundException;
 import com.se.sample.helper.FilterBuilderHelper;
 import com.se.sample.helper.PageSupport;
 import com.se.sample.models.filter.ESSearchFilter;
@@ -68,8 +69,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Mono<ProductResponse> update(final String id, final Product product) {
+    public Mono<ProductResponse> update(final String id, final ProductRequest product) {
 //        return productRepository.save(product);
+
+
 
         return productRepository.findById(id)
                 .flatMap(item -> {
@@ -83,7 +86,15 @@ public class ProductServiceImpl implements ProductService {
                             });
 
 
-                });
+                })
+                .switchIfEmpty(Mono.error(new ResourceNotFoundException("product", "id", id)));
+
+
+
+     //   bucketRepository.findById(bucketId)
+////                .map(saveBucket -> ResponseEntity.ok(saveBucket))
+////                .defaultIfEmpty(ResponseEntity.notFound().build());
+////            .switchIfEmpty(Mono.error(new ResourceNotFoundException("Data not found")));
     }
 
     @Override

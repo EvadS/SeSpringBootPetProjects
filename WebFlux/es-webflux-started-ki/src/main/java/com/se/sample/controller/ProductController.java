@@ -17,6 +17,7 @@ import reactor.core.publisher.Mono;
 
 // TODO: move to properties
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 
 import java.util.List;
 
@@ -29,50 +30,8 @@ import static com.se.sample.helper.PageSupport.DEFAULT_PAGE_SIZE;
 public class ProductController implements  IProductController {
 
     private final ProductService productService;
-//
-//    @GetMapping("/getAll")
-//    public Flux<Product> getAll() {
-//        return productService.getAll();
-//    }
-//
-//    //    public Mono<ResponseEntity<Bucket>> getBucketById(@PathVariable(value = "id") String bucketId) {
-////        return bucketRepository.findById(bucketId)
-////                .map(saveBucket -> ResponseEntity.ok(saveBucket))
-////                .defaultIfEmpty(ResponseEntity.notFound().build());
-////            .switchIfEmpty(Mono.error(new BucketNotFoundException("Data not found")));
-////            .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
-////    }
-//
-//
-//
-//    @PutMapping("/update/{id}")
-//    public Mono<ResponseEntity<ProductResponse>> updateById(@PathVariable("id") final String id, @RequestBody final Product product) {
-//
-//        return productService.update(id,product)
-//                .map(updatedUser -> ResponseEntity.ok(updatedUser))
-//                .defaultIfEmpty(ResponseEntity.badRequest().build());
-//    }
-//
-//    @PostMapping("/create")
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public Mono save(@Valid  @RequestBody final ProductRequest productRequest) {
-//        return productService.save(productRequest);
-//    }
-//
 
-//
-//
-//    //@Apioperation ("importing all data from the database")
-//    @GetMapping("/paged")
-//    public Mono<PageSupport<ProductResponse>> getEntitiesPage(
-//            @RequestParam(name = "page", defaultValue = FIRST_PAGE_NUM) int page,
-//            @RequestParam(name = "size", defaultValue = DEFAULT_PAGE_SIZE) int size
-//    ) {
-//
-//        Mono<PageSupport<ProductResponse>> pageResponse = productService.getPageResponse(PageRequest.of(page, size));
-//        return pageResponse;
-//    }
-//
+
     @GetMapping("/{id}")
     @Override
     public Mono<ResponseEntity<ProductResponse>> getProductById(@PathVariable("id") final String id) {
@@ -83,8 +42,21 @@ public class ProductController implements  IProductController {
 
     @PostMapping
     @Override
-    public Mono<ResponseEntity<ProductResponse>> save(@Valid  @RequestBody final ProductRequest productRequest) {
+    public Mono<ResponseEntity<ProductResponse>> save(@Valid  @RequestBody final
+                                                          ProductRequest productRequest) {
         return productService.save(productRequest);
+    }
+
+    @PutMapping("/{id}")
+    @Override
+    public Mono<ResponseEntity<ProductResponse>> update(@Valid
+            @NotBlank(message = "id is required field")  @PathVariable("id") final String id,
+            @RequestBody final ProductRequest productRequest) {
+
+         return productService.update(id,productRequest)
+             .map(u -> ResponseEntity.ok(u))
+                .defaultIfEmpty(ResponseEntity.badRequest().build());
+
     }
 
     @DeleteMapping("/{id}")

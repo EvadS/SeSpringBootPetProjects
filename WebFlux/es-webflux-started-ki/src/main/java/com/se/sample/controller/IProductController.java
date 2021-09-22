@@ -7,18 +7,19 @@ import com.se.sample.models.request.ProductItemResponse;
 import com.se.sample.models.request.ProductRequest;
 import com.se.sample.errors.ErrorDetail;
 import com.se.sample.helper.PageSupport;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.info.Info;
 import org.springdoc.core.converters.models.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-
-
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -31,13 +32,15 @@ import java.util.List;
 import static com.se.sample.helper.PageSupport.DEFAULT_PAGE_SIZE;
 import static com.se.sample.helper.PageSupport.FIRST_PAGE_NUM;
 
+@OpenAPIDefinition(info = @Info(title = "Product API",
+        version = "1.0", description = "Product Information"))
+
 public interface IProductController {
-//
+
     @Operation(
             summary = "Get Product By Id",
             description = "Allow to get Product by Id",
             method = "GET",
-
             responses = {
                     @ApiResponse(responseCode = "200", description = "Successfully retrieved Product data",
                             content = @Content(
@@ -54,13 +57,12 @@ public interface IProductController {
             summary = "Save Product",
             description = "Allow to save Products",
             method = "POST",
-
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = ProductRequest.class)),
                     required = true),
 
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Successfully saved Product data",
+                    @ApiResponse(responseCode = "201", description = "Successfully created Product data",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ProductResponse.class))),
@@ -68,14 +70,36 @@ public interface IProductController {
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorDetail.class)))})
-    Mono<ResponseEntity<ProductResponse>> save(@RequestBody final ProductRequest productRequest);
+    Mono<ResponseEntity<ProductResponse>> save(
+            @RequestBody final ProductRequest productRequest);
 
 
-        @Operation(
+    @Operation(
+            summary = "Update Product",
+            description = "Allow to update Products",
+            method = "PUT",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ProductRequest.class)),
+                    required = true),
+
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Successfully updated Product data",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ProductResponse.class))),
+                    @ApiResponse(responseCode = "4xx", description = "Error retrieving Product data",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorDetail.class)))})
+    Mono<ResponseEntity<ProductResponse>> update(
+            @PathVariable("id") final String id,
+            @RequestBody final ProductRequest productRequest);
+
+
+    @Operation(
             summary = "Delete Product By Id",
             description = "Allow to delete Product by Id",
             method = "DELETE",
-
             responses = {
                     @ApiResponse(responseCode = "200", description = "Successfully deleted Product data",
                             content = @Content(
@@ -93,7 +117,6 @@ public interface IProductController {
             summary = "Get All ",
             description = "Allow to get all products ",
             method = "GET",
-
             responses = {
                     @ApiResponse(responseCode = "200", description = "Successfully retrieved Product  data",
                             content = @Content(
@@ -109,7 +132,6 @@ public interface IProductController {
             summary = "paged All ",
             description = "Allow to get paged  products ",
             method = "GET",
-
             responses = {
                     @ApiResponse(responseCode = "200", description = "Successfully retrieved Product  data",
                             content = @Content(
