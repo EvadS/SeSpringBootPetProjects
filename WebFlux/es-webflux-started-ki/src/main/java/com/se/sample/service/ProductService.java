@@ -28,5 +28,4 @@ public interface ProductService {
 
     Page<ProductResponse> findAll(org.springframework.data.domain.Pageable pageable);
 
-    Page<ProductResponse> searchProductByCriteria(ESSearchFilter esSearchFilter, org.springframework.data.domain.Pageable pageable);
 }

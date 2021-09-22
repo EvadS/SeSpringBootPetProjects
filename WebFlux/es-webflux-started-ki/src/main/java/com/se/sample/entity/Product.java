@@ -17,8 +17,10 @@ import java.util.Date;
 @Data
 @Builder
 @AllArgsConstructor
-@Document(indexName = "persons")
+@Document(indexName = "product-index")
 public class Product {
+
+    public static final String PRODUCT_INDEX = "product-index";
 
     @Id
     private String id;

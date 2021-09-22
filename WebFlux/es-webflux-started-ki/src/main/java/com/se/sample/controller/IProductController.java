@@ -126,7 +126,7 @@ public interface IProductController {
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorDetail.class)))})
-    Mono<List<ProductItemResponse>> getall();
+    Mono<List<ProductItemResponse>> getAll();
 
     @Operation(
             summary = "paged All ",

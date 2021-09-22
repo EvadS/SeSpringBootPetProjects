@@ -20,6 +20,8 @@
         <maven.compiler.plugin.version>3.6.1</maven.compiler.plugin.version>
         <lombok.version>1.18.20</lombok.version>
         <openapi.version>1.5.9</openapi.version>
+
+        <checkstyle-maven-plugin.version>3.1.2</checkstyle-maven-plugin.version>
     </properties>
 
     <dependencies>
@@ -143,7 +145,27 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${checkstyle-maven-plugin.version}</version>
+                <configuration>
+                    <configLocation>src/main/resources/checkstyle.xml</configLocation>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
+
+
     </build>
+
+
 
 </project>

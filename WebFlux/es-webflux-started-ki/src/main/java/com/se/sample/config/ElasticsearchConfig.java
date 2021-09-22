@@ -26,6 +26,10 @@ import javax.annotation.PostConstruct;
  * @author
  */
 
+/**
+ * Spring Data Elasticsearch uses Java High Level REST Client (JHLC) to connect to the Elasticsearch serve
+ *
+ */
 @Profile("!test")
 @Configuration
 @ComponentScan(basePackages = {"com.se.sample.config"})
@@ -36,7 +40,7 @@ public class ElasticsearchConfig extends AbstractElasticsearchConfiguration {
     @Value("${spring.data.elasticsearch.client.reactive.endpoints}")
     private String elassandraHostAndPort;
 
-    @Bean(name = { "elasticsearchOperations", "elasticsearchTemplate" })
+@Bean
     @Override
     public RestHighLevelClient elasticsearchClient() {
         ClientConfiguration clientConfiguration = ClientConfiguration.builder()

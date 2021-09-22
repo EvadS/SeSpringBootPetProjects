@@ -24,8 +24,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.SearchHits;
+import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
@@ -38,14 +42,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+
+
 @Service
 @Transactional
 @AllArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
-
-    //private ElasticsearchOperations elasticsearchRestTemplate;
 
     private final ObjectMapper objectMapper;
 
@@ -136,58 +140,10 @@ public class ProductServiceImpl implements ProductService {
         return null;
     }
 
-
-    @Override
-    public Page<ProductResponse> searchProductByCriteria(ESSearchFilter esSearchFilter,
-                                                         org.springframework.data.domain.Pageable pageable) {
+    @Autowired
+    private ElasticsearchOperations elasticsearchOperations;
 
 
-        QueryBuilder query = FilterBuilderHelper.build(esSearchFilter);
-        NativeSearchQuery nativeSearchQuery = null;
-
-        nativeSearchQuery = new NativeSearchQueryBuilder().withPageable(
-                pageable).withQuery(query).build();
-
-        SearchRequest searchRequest = new SearchRequest();
-        SearchSourceBuilder sourceBuilder = SearchSourceBuilder.searchSource();
-
-        sourceBuilder.query(nativeSearchQuery.getQuery());
-
-        searchRequest.source(sourceBuilder);
-
-        try {
-            SearchResponse response = elasticsearchRestTemplate.search(searchRequest, RequestOptions.DEFAULT);
-
-            List<ProductResponse> collect = Arrays.stream(response.getHits().getHits()).map(
-                    i -> this.convert(i)).collect(Collectors.toList());
-
-            toProductList(response.getHits().getHits()).stream().findFirst().orElse(null);
-
-//            List<String> names = Arrays.stream(response.getHits().getHits())
-//                    .map(h -> h.().get(FooIndexDefinition.FIELD_NAME).toString())
-//                    .collect(MoreCollectors.toList());
-
-
-            int a = 0;
-        } catch (Exception   e) {
-
-            int b = 0;
-            e.printStackTrace();
-        }
-
-        return null;
-
-
-//        QueryBuilder query = FilterBuilderHelper.build(esSearchFilter);
-//        NativeSearchQuery nativeSearchQuery = null;
-//        if (null != pageable) {
-//            nativeSearchQuery = new NativeSearchQueryBuilder().withPageable(pageable).withQuery(query).build();
-//        } else {
-//            nativeSearchQuery = new NativeSearchQueryBuilder().withQuery(query).build();
-//        }
-//        return employeeESRepo.search(nativeSearchQuery);
-
-    }
 
     private List<Product> toProductList(SearchHit[] searchHits) throws Exception {
         List<Product> productList = new ArrayList<>();
