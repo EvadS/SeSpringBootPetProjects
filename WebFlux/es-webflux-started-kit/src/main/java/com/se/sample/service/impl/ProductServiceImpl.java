@@ -1,6 +1,7 @@
 package com.se.sample.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.se.sample.ProductValidator;
 import com.se.sample.entity.Product;
 import com.se.sample.errors.exception.ResourceNotFoundException;
 import com.se.sample.helper.FilterBuilderHelper;
@@ -32,6 +33,7 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilde
 import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -52,6 +54,8 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
     private final ObjectMapper objectMapper;
+
+    private ProductValidator productValidator;
 
     @Autowired
     RestHighLevelClient elasticsearchRestTemplate;
@@ -103,6 +107,19 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Mono save(final ProductRequest productRequest) {
+
+        //TODO Validation: for learning --->
+        List<String> errors = productValidator.validateEmployee(productRequest);
+        if (!CollectionUtils.isEmpty(errors)) {
+            errors.stream().forEach(i->
+            {
+                System.out.println("****" + i.toString());
+            });
+            //throw new InvalidResourceException(errors);
+        }
+        // <-- for learning
+
+
         Product product = ProductMapper.INSTANCE.toProduct(productRequest);
         return productRepository.save(product);
     }

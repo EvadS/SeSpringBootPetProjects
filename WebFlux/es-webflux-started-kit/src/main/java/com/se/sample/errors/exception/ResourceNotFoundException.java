@@ -6,12 +6,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Getter
-@ResponseStatus(value = HttpStatus.NOT_FOUND)
+//@ResponseStatus(value = HttpStatus.NOT_FOUND)
 public class ResourceNotFoundException extends RuntimeException {
     private String resourceName;
     private String fieldName;
     private Object fieldValue;
 
+//    @Getter
+//    private final HttpStatus status;
 
     /**
      * Instantiates a new instance of {@link ResourceNotFoundException}.
