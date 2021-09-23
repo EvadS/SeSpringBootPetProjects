@@ -7,6 +7,7 @@ import com.se.sample.models.request.ProductItemResponse;
 import com.se.sample.models.request.ProductRequest;
 import com.se.sample.models.response.ProductResponse;
 import com.se.sample.service.ProductService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpServerErrorException;
 import reactor.core.publisher.Mono;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -25,13 +28,14 @@ import static com.se.sample.helper.PageSupport.FIRST_PAGE_NUM;
 @RestController
 @RequestMapping("/products")
 @AllArgsConstructor
+@Tag(name = "product", description = "the product API with documentation annotations")
 public class ProductController implements IProductController {
 
     private final ProductService productService;
 
     @Override
     @GetMapping("/{id}")
-    public Mono<ResponseEntity<ProductResponse>> getProductById(@PathVariable("id") final String id) {
+    public Mono<ResponseEntity<ProductResponse>> getById(@PathVariable("id") final String id) {
         return productService.getById(id)
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.notFound().build());
@@ -61,7 +65,7 @@ public class ProductController implements IProductController {
 
     @Override
     @DeleteMapping("/{id}")
-    public Mono<ResponseEntity<Void>> deleteEmployeeById(@PathVariable("id") String id) {
+    public Mono<ResponseEntity<Void>> deleteById(@PathVariable("id") String id) {
         return productService.delete(id)
                 .map(r -> ResponseEntity.ok().<Void>build())
                 .defaultIfEmpty(ResponseEntity.notFound().build());
@@ -87,9 +91,9 @@ public class ProductController implements IProductController {
 
     @PostMapping(value = "/search")
     @Override
-    public ResponseEntity<Page<ProductResponse>> searchProducts(@RequestParam(name = "page", defaultValue = FIRST_PAGE_NUM) int page,
-                                                                @RequestParam(name = "size", defaultValue = DEFAULT_PAGE_SIZE) int size,
-                                                                @RequestBody(required = false) ESSearchFilter esSearchFilter) {
+    public ResponseEntity<Page<ProductResponse>> search(@RequestParam(name = "page", defaultValue = FIRST_PAGE_NUM) int page,
+                                                        @RequestParam(name = "size", defaultValue = DEFAULT_PAGE_SIZE) int size,
+                                                        @RequestBody(required = false) ESSearchFilter esSearchFilter) {
 
         System.out.println("NOT IMPLENTED");
        return null;
