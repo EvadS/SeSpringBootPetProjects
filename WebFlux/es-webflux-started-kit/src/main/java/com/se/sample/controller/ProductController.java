@@ -1,6 +1,7 @@
 package com.se.sample.controller;
 
 
+import com.se.sample.controller.api.ProductApi;
 import com.se.sample.helper.PageSupport;
 import com.se.sample.models.filter.ESSearchFilter;
 import com.se.sample.models.request.ProductItemResponse;
@@ -11,12 +12,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpServerErrorException;
 import reactor.core.publisher.Mono;
-
-import io.swagger.v3.oas.annotations.tags.Tag;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -29,13 +28,13 @@ import static com.se.sample.helper.PageSupport.FIRST_PAGE_NUM;
 @RequestMapping("/products")
 @AllArgsConstructor
 @Tag(name = "product", description = "the product API with documentation annotations")
-public class ProductController implements IProductController {
+public class ProductController implements ProductApi {
 
     private final ProductService productService;
 
     @Override
     @GetMapping("/{id}")
-    public Mono<ResponseEntity<ProductResponse>> getById(@PathVariable("id") final String id) {
+    public Mono<ResponseEntity<ProductResponse>> getOne(@PathVariable("id") final String id) {
         return productService.getById(id)
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.notFound().build());
@@ -56,37 +55,38 @@ public class ProductController implements IProductController {
     public Mono<ResponseEntity<ProductResponse>> update(@Valid
                                                         @NotBlank(message = "id is required field") @PathVariable("id") final String id,
                                                         @RequestBody final ProductRequest productRequest) {
-
         return productService.update(id, productRequest)
-                .map(u -> ResponseEntity.ok(u))
-                .defaultIfEmpty(ResponseEntity.badRequest().build());
-
+                .map(u -> ResponseEntity.ok(u));
+        // .defaultIfEmpty(ResponseEntity.badRequest().build());
     }
 
     @Override
     @DeleteMapping("/{id}")
     public Mono<ResponseEntity<Void>> deleteById(@PathVariable("id") String id) {
         return productService.delete(id)
-                .map(r -> ResponseEntity.ok().<Void>build())
-                .defaultIfEmpty(ResponseEntity.notFound().build());
+                .map(r -> ResponseEntity.ok().<Void>build());
     }
 
     @Override
     @GetMapping("/all")
-    public Mono<List<ProductItemResponse>> getAll() {
-
-        Mono<List<ProductItemResponse>> listMono = productService.getAll()
-                .collectList();
-
-        return listMono;
+    public Mono<ResponseEntity<List<ProductItemResponse>>> getAll() {
+        return productService.getAll()
+                .collectList()
+                .map(dtos -> ResponseEntity.status(HttpStatus.OK).body(dtos));
     }
 
     @GetMapping("/paged")
     @Override
-    public Mono<PageSupport<ProductResponse>> paged(@RequestParam(name = "page", defaultValue = FIRST_PAGE_NUM) int page,
-                                                    @RequestParam(name = "size", defaultValue = DEFAULT_PAGE_SIZE) int size) {
+    public Mono<ResponseEntity<PageSupport<ProductResponse>>> paged(@RequestParam(name = "page", defaultValue = FIRST_PAGE_NUM) int page,
+                                                                    @RequestParam(name = "size", defaultValue = DEFAULT_PAGE_SIZE) int size) {
+
+
         Mono<PageSupport<ProductResponse>> pageResponse = productService.getPageResponse(PageRequest.of(page, size));
-        return pageResponse;
+
+        Mono<ResponseEntity<PageSupport<ProductResponse>>> monPageResponse = pageResponse.
+                map(r -> ResponseEntity.ok(r));
+
+        return monPageResponse;
     }
 
     @PostMapping(value = "/search")

@@ -1,4 +1,4 @@
-package com.se.sample.controller;
+package com.se.sample.controller.api;
 
 
 import com.se.sample.constants.GeneralConstants;
@@ -34,9 +34,7 @@ import static com.se.sample.helper.PageSupport.FIRST_PAGE_NUM;
 
 @OpenAPIDefinition(info = @Info(title = "Product API",
         version = "1.0", description = "Product Information"))
-public interface IProductController {
-    ;
-
+public interface ProductApi {
     // get by id block -->
     @Operation(
             summary = "Get Product By Id",
@@ -57,7 +55,7 @@ public interface IProductController {
                             description = GeneralConstants.HTTP_INTERNAL_ERROR,
                             content = @Content(schema = @Schema(implementation = ErrorDetail.class))),
             })
-    Mono<ResponseEntity<ProductResponse>> getById(
+    public Mono<ResponseEntity<ProductResponse>> getOne(
             @Parameter(description = "unique identifier to be searched")
             @PathVariable(name = "id") final String id);
     // <<-- get by id block
@@ -97,7 +95,7 @@ public interface IProductController {
 //                                    mediaType = "application/json",
 //                                    schema = @Schema(implementation = ErrorDetail.class)))
             })
-    Mono<ResponseEntity<ProductResponse>> save(
+    public Mono<ResponseEntity<ProductResponse>> save(
             @Valid @RequestBody final ProductRequest productRequest);
     //<<-- Create item block
 
@@ -135,7 +133,7 @@ public interface IProductController {
                             content = @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorDetail.class)))
             })
-    Mono<ResponseEntity<ProductResponse>> update(
+    public Mono<ResponseEntity<ProductResponse>> update(
             @Parameter(name = "id", description = "unique identifier",
                     in = ParameterIn.PATH, required = true)
             @PathVariable("id") final String id,
@@ -162,7 +160,7 @@ public interface IProductController {
                             content = @Content(schema = @Schema(implementation = ErrorDetail.class))),
 
             })
-    Mono<ResponseEntity<Void>> deleteById(
+    public Mono<ResponseEntity<Void>> deleteById(
             @Parameter(name = "id", description = "unique identifier",
                     in = ParameterIn.PATH, required = true)
             @PathVariable(name = "id") final String id);
@@ -182,7 +180,7 @@ public interface IProductController {
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorDetail.class)))})
-    Mono<List<ProductItemResponse>> getAll();
+    public Mono<ResponseEntity<List<ProductItemResponse>>> getAll();
     //<<-- get all block
 
     @Operation(
@@ -197,7 +195,7 @@ public interface IProductController {
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorDetail.class)))})
-    Mono<PageSupport<ProductResponse>> paged(
+    public Mono<ResponseEntity<PageSupport<ProductResponse>>> paged(
             @Parameter(name = "page", description = "zero base page index",
                     in = ParameterIn.PATH, required = true)
             @RequestParam(name = "page", defaultValue = FIRST_PAGE_NUM) int page,
@@ -233,11 +231,11 @@ public interface IProductController {
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = ErrorDetail.class)))})
-    ResponseEntity<Page<ProductResponse>> search(@Parameter(hidden = true)
-                                                 @PageableDefault(sort = "id", direction = Sort.Direction.ASC)
-                                                 @RequestParam(name = "page", defaultValue = FIRST_PAGE_NUM) int page,
-                                                 @RequestParam(name = "size", defaultValue = DEFAULT_PAGE_SIZE) int size,
-                                                 @RequestBody ESSearchFilter esSearchFilter);
+    public ResponseEntity<Page<ProductResponse>> search(@Parameter(hidden = true)
+                                                        @PageableDefault(sort = "id", direction = Sort.Direction.ASC)
+                                                        @RequestParam(name = "page", defaultValue = FIRST_PAGE_NUM) int page,
+                                                        @RequestParam(name = "size", defaultValue = DEFAULT_PAGE_SIZE) int size,
+                                                        @RequestBody ESSearchFilter esSearchFilter);
 //
 //    @Operation(
 //            summary = "Search Employees Multi Match ",
