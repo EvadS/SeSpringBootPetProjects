@@ -6,6 +6,7 @@ import com.se.sample.entity.Product;
 import com.se.sample.models.mapper.ProductMapper;
 import com.se.sample.models.request.ProductRequest;
 
+import com.se.sample.repository.ProductRepository;
 import com.se.sample.service.ProductService;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -15,7 +16,7 @@ import reactor.core.publisher.Mono;
 
 import static org.springframework.web.reactive.function.BodyInserters.fromPublisher;
 import static org.springframework.web.reactive.function.server.ServerResponse.ok;
-
+import com.se.sample.errors.exception.ResourceNotFoundException;
 import javax.validation.Validator;
 
 @Component
@@ -25,6 +26,10 @@ public class ProductHandler {
     private final Validator validator;
     private final RequestHandler requestHandler;
 
+    // TODO: for test handling
+    private ProductRepository productRepository;
+
+
     public ProductHandler(ProductService personService, Validator validator, RequestHandler requestHandler) {
         this.productService = personService;
         this.validator = validator;
@@ -32,7 +37,14 @@ public class ProductHandler {
     }
 
     public Mono<ServerResponse> findById(ServerRequest request) {
+        // TODO: for test handling
+
         String id = request.pathVariable("id");
+        productRepository.findById(id)
+                .switchIfEmpty(Mono.error(new ResourceNotFoundException("user","id",id)));
+
+
+
         return ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(productService.getById(id), Product.class);
@@ -52,6 +64,10 @@ public class ProductHandler {
                 .body(fromPublisher(
                         person.flatMap(productService::save), Product.class));
 
+/*
+FlatMap аналогичен map, за исключением того, что он как-бы “распаковывает” возвращаемое значение лямбда-выражения,
+если само значение содержится в Publisher<T>.
+ */
 
 //        return requestHandler.requireValidBody(body -> {
 ////            Mono<Book> bookMono = body.map(addBook -> Book.of(addBook.getTitle(),

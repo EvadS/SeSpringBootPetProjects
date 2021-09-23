@@ -4,6 +4,7 @@ import com.se.sample.config.ElasticsearchConfig;
 import com.se.sample.entity.Product;
 import com.se.sample.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.elasticsearch.client.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -22,6 +23,7 @@ import org.springframework.data.elasticsearch.repository.config.EnableReactiveEl
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.se.sample.entity.Product.PRODUCT_INDEX;
@@ -55,6 +57,7 @@ private ElasticsearchOperations elasticsearchOperations;
             log.info("Application started");
         };
     }
+
 
     public  void getProductByName() {
 

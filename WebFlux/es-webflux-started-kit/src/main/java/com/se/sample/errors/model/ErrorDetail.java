@@ -1,4 +1,4 @@
-package com.se.sample.errors;
+package com.se.sample.errors.model;
 
 
 

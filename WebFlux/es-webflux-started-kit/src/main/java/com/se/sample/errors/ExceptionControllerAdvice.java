@@ -1,9 +1,9 @@
 package com.se.sample.errors;
 
 import com.se.sample.errors.exception.ResourceNotFoundException;
+import com.se.sample.errors.model.ErrorDetail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,35 +12,14 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.support.WebExchangeBindException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import java.nio.file.AccessDeniedException;
-import java.sql.SQLSyntaxErrorException;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import java.nio.file.AccessDeniedException;
-import java.sql.SQLSyntaxErrorException;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
-
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import javax.validation.ConstraintViolationException;
 
@@ -50,7 +29,9 @@ import javax.validation.ConstraintViolationException;
  *
  */
 
-@ControllerAdvice
+
+@RestControllerAdvice
+//@ControllerAdvice
 public class ExceptionControllerAdvice {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionControllerAdvice.class);
 
@@ -171,7 +152,12 @@ public class ExceptionControllerAdvice {
 
 
 
-
+//    @ExceptionHandler(value = { NoHandlerFoundException.class })
+//    @ResponseStatus(HttpStatus.NOT_FOUND)
+//    public ApiErrorResponse noHandlerFoundException(Exception ex) {
+//        LOG.error(ex.getCause().toString());
+//        return new ApiErrorResponse(404, "Resource Not Found");
+//    }
 
     @ExceptionHandler(ConstraintViolationException.class)
     public HttpEntity<ErrorDetail> handleConstraintViolationsFromJavax(
@@ -179,6 +165,7 @@ public class ExceptionControllerAdvice {
 
         LOGGER.error("Constraint Violation: {}", e.getMessage());
 
+        //return new ApiErrorResponse(400, "Bad Request");
         return validationError(e.getMessage(), e.getConstraintViolations().stream()
                 .map(violation -> new ErrorDetail("Invalid Parameter", violation.getMessage()))
                 .collect(Collectors.toList()));
