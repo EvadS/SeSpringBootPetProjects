@@ -79,6 +79,10 @@ public interface ProductApi {
                             description = GeneralConstants.HTTP_BAD_REQUEST,
                             content = @Content(schema = @Schema(implementation = ErrorDetail.class))),
                     @ApiResponse(
+                            responseCode = "409",
+                            description = GeneralConstants.HTTP_ALREADY_EXISTS,
+                            content = @Content(schema = @Schema(implementation = ErrorDetail.class))),
+                    @ApiResponse(
                             responseCode = "412",
                             description = GeneralConstants.HTTP_BAD_REQUEST,
                             content = @Content(schema = @Schema(implementation = ErrorDetail.class))),
@@ -89,15 +93,12 @@ public interface ProductApi {
                     @ApiResponse(
                             responseCode = "422",
                             description = GeneralConstants.VALIDATION_ERROR,
-                            content = @Content(schema = @Schema(implementation = ErrorDetail.class))),
-//                    @ApiResponse(responseCode = "4xx", description = "Error retrieving Product data",
-//                            content = @Content(
-//                                    mediaType = "application/json",
-//                                    schema = @Schema(implementation = ErrorDetail.class)))
+                            content = @Content(schema = @Schema(implementation = ErrorDetail.class)))
             })
     public Mono<ResponseEntity<ProductResponse>> save(
             @Valid @RequestBody final ProductRequest productRequest);
     //<<-- Create item block
+
 
     // update item block -->
     @Operation(

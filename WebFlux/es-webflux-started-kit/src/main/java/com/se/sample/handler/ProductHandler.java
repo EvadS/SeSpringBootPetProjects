@@ -1,11 +1,9 @@
 package com.se.sample.handler;
 
 
-
 import com.se.sample.entity.Product;
 import com.se.sample.errors.exception.ResourceNotFoundException;
 import com.se.sample.models.request.ProductRequest;
-
 import com.se.sample.repository.ProductRepository;
 import com.se.sample.service.ProductService;
 import org.springframework.http.MediaType;
@@ -14,10 +12,11 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
-import static org.springframework.web.reactive.function.BodyInserters.fromPublisher;
-import static org.springframework.web.reactive.function.server.ServerResponse.ok;
-
 import javax.validation.Validator;
+
+import static org.springframework.web.reactive.function.BodyInserters.fromPublisher;
+import static org.springframework.web.reactive.function.server.ServerResponse.created;
+import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
 @Component
 public class ProductHandler {
@@ -58,7 +57,7 @@ public class ProductHandler {
     //http://localhost:8080/create
     public Mono<ServerResponse> save(ServerRequest request) {
         final Mono<ProductRequest> person = request.bodyToMono(ProductRequest.class);
-        return ok()
+        return created(null)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(fromPublisher(
                         person.flatMap(productService::save), Product.class));

@@ -27,7 +27,7 @@ import static com.se.sample.helper.PageSupport.FIRST_PAGE_NUM;
 @RestController
 @RequestMapping("/products")
 @AllArgsConstructor
-@Tag(name = "product", description = "the product API with documentation annotations")
+@Tag(name = "Product", description = "the product API with documentation annotations")
 public class ProductController implements ProductApi {
 
     private final ProductService productService;
@@ -73,6 +73,8 @@ public class ProductController implements ProductApi {
         return productService.getAll()
                 .collectList()
                 .map(dtos -> ResponseEntity.status(HttpStatus.OK).body(dtos));
+        //return bookService.getAllBooks()
+        //				.map(list -> new ResponseEntity<List<Book>>(list, HttpStatus.OK))
     }
 
     @GetMapping("/paged")
