@@ -1,6 +1,5 @@
 package com.se.sample.controller;
 
-
 import com.se.sample.controller.api.ProductApi;
 import com.se.sample.helper.PageSupport;
 import com.se.sample.models.filter.ESSearchFilter;
@@ -73,21 +72,16 @@ public class ProductController implements ProductApi {
         return productService.getAll()
                 .collectList()
                 .map(dtos -> ResponseEntity.status(HttpStatus.OK).body(dtos));
-        //return bookService.getAllBooks()
-        //				.map(list -> new ResponseEntity<List<Book>>(list, HttpStatus.OK))
     }
 
     @GetMapping("/paged")
     @Override
     public Mono<ResponseEntity<PageSupport<ProductResponse>>> paged(@RequestParam(name = "page", defaultValue = FIRST_PAGE_NUM) int page,
                                                                     @RequestParam(name = "size", defaultValue = DEFAULT_PAGE_SIZE) int size) {
-
-
         Mono<PageSupport<ProductResponse>> pageResponse = productService.getPageResponse(PageRequest.of(page, size));
 
         Mono<ResponseEntity<PageSupport<ProductResponse>>> monPageResponse = pageResponse.
                 map(r -> ResponseEntity.ok(r));
-
         return monPageResponse;
     }
 
@@ -96,8 +90,7 @@ public class ProductController implements ProductApi {
     public ResponseEntity<Page<ProductResponse>> search(@RequestParam(name = "page", defaultValue = FIRST_PAGE_NUM) int page,
                                                         @RequestParam(name = "size", defaultValue = DEFAULT_PAGE_SIZE) int size,
                                                         @RequestBody(required = false) ESSearchFilter esSearchFilter) {
-
-        System.out.println("NOT IMPLENTED");
+       System.out.println("NOT IMPLENTED");
        return null;
     }
 }

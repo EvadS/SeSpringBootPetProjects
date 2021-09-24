@@ -1,6 +1,20 @@
-#spring:
-#  data:
-#    elasticsearch:
-#      client:
-#        reactive:
-#          endpoints: ${ELASTIC_ADDRESS:localhost}:${ELASTIC_PORT:9200}
+server:
+  port: ${SERVICE_PORT:7001}
+
+elasticsearch:
+  clustername: elasticsearch
+  host: localhost
+  port: 9300
+  indexName: employee_index
+#Datasource configuration
+spring:
+  data:
+    elasticsearch:
+      properties:
+        index:
+          search:
+            slowlog:
+              threshold:
+                query:
+                  info: 1ms
+       

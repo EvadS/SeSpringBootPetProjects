@@ -25,22 +25,18 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
-        </dependency>
-
         <!-- Runtime, for Embedded Elasticsearch,
      comment this if connect to external elastic search server-->
-        <dependency>
-            <groupId>net.java.dev.jna</groupId>
-            <artifactId>jna</artifactId>
-            <scope>runtime</scope>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>net.java.dev.jna</groupId>-->
+        <!--            <artifactId>jna</artifactId>-->
+        <!--            <scope>runtime</scope>-->
+        <!--        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-elasticsearch</artifactId>
+            <version>4.2.4</version>
         </dependency>
 
         <dependency>
@@ -58,21 +54,13 @@
             <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
 
-
-
-        <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>elasticsearch</artifactId>
-            <version>1.12.2</version>
-            <scope>test</scope>
-        </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -99,14 +87,13 @@
             <version>${openapi.version}</version>
         </dependency>
 
-
-
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>elasticsearch</artifactId>
-            <version>1.11.1</version>
+            <version>1.12.2</version>
             <scope>test</scope>
         </dependency>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
