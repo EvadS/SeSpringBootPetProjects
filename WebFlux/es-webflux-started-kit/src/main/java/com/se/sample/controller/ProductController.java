@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -88,7 +89,13 @@ public class ProductController implements ProductApi {
     public ResponseEntity<Page<ProductResponse>> search(@RequestParam(name = "page", defaultValue = FIRST_PAGE_NUM) int page,
                                                         @RequestParam(name = "size", defaultValue = DEFAULT_PAGE_SIZE) int size,
                                                         @RequestBody(required = false) ESSearchFilter esSearchFilter) {
-       System.out.println("NOT IMPLENTED");
-       return null;
+        System.out.println("NOT IMPLENTED");
+        return null;
+    }
+
+    //TODO: for test
+    @GetMapping(value = "/error", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Mono<String> exceptionReturn() {
+        return Mono.error(new RuntimeException("test error"));
     }
 }
