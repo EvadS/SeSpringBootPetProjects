@@ -1,6 +1,5 @@
 package com.se.sample.service.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.se.sample.ProductValidator;
 import com.se.sample.entity.Product;
 import com.se.sample.errors.exception.ResourceNotFoundException;
@@ -25,7 +24,6 @@ import org.springframework.util.CollectionUtils;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -39,7 +37,7 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
 
-    private final ObjectMapper objectMapper;
+//    private final ObjectMapper objectMapper;
 
     private ProductValidator productValidator;
 
@@ -147,14 +145,13 @@ public class ProductServiceImpl implements ProductService {
     private ElasticsearchOperations elasticsearchOperations;
 
 
-
-    private List<Product> toProductList(SearchHit[] searchHits) throws Exception {
-        List<Product> productList = new ArrayList<>();
-        for (SearchHit searchHit : searchHits) {
-            productList.add(objectMapper.readValue(searchHit.getSourceAsString(), Product.class));
-        }
-        return productList;
-    }
+//    private List<Product> toProductList(SearchHit[] searchHits) throws Exception {
+//        List<Product> productList = new ArrayList<>();
+//        for (SearchHit searchHit : searchHits) {
+//            productList.add(objectMapper.readValue(searchHit.getSourceAsString(), Product.class));
+//        }
+//        return productList;
+//    }
 
     private ProductResponse convert(SearchHit i) {
 

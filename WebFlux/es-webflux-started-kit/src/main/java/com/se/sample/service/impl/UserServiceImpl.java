@@ -1,6 +1,8 @@
 package com.se.sample.service.impl;
 
 import com.se.sample.models.UserDto;
+import com.se.sample.models.request.UserRequest;
+import com.se.sample.models.response.UserResponse;
 import com.se.sample.service.UserService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -19,5 +21,20 @@ public class UserServiceImpl implements UserService {
 //                .switchIfEmpty(Mono.error(UserNotFoundException::new));
 
         return Mono.empty();
+    }
+
+    @Override
+    public Mono<UserResponse> createUser(UserRequest request) {
+        return null;
+    }
+
+    @Override
+    public Mono<UserResponse> getById(int id) {
+        return null;
+    }
+
+    @Override
+    public Mono<String> deleteById(int id) {
+        return null;
     }
 }

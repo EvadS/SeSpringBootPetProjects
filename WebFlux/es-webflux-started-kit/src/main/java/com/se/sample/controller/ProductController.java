@@ -56,7 +56,6 @@ public class ProductController implements ProductApi {
                                                         @RequestBody final ProductRequest productRequest) {
         return productService.update(id, productRequest)
                 .map(u -> ResponseEntity.ok(u));
-        // .defaultIfEmpty(ResponseEntity.badRequest().build());
     }
 
     @Override
@@ -80,9 +79,8 @@ public class ProductController implements ProductApi {
                                                                     @RequestParam(name = "size", defaultValue = DEFAULT_PAGE_SIZE) int size) {
         Mono<PageSupport<ProductResponse>> pageResponse = productService.getPageResponse(PageRequest.of(page, size));
 
-        Mono<ResponseEntity<PageSupport<ProductResponse>>> monPageResponse = pageResponse.
+        return pageResponse.
                 map(r -> ResponseEntity.ok(r));
-        return monPageResponse;
     }
 
     @PostMapping(value = "/search")

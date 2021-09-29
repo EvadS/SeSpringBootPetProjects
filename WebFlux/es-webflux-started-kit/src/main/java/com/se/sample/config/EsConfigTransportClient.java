@@ -14,6 +14,7 @@ import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
+import javax.annotation.PostConstruct;
 import java.net.InetAddress;
 
 @Profile("test")
@@ -30,6 +31,11 @@ public class EsConfigTransportClient {
 
     @Value("${elasticsearch.clustername}")
     private String EsClusterName;
+
+    @PostConstruct
+    private void init() {
+        System.out.println("HERE !!!");
+    }
 
     @Bean
     public Client client() throws Exception {
