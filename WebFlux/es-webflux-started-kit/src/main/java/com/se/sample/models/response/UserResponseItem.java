@@ -1,4 +1,4 @@
-package com.se.sample.models.request;
+package com.se.sample.models.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,11 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-public class UserRequest {
+public class UserResponseItem {
 
-    private String password;
+    private Long id;
     private String firstName;
     private String lastName;
-    private String phone;
     private String email;
 }

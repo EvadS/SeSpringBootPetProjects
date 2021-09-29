@@ -1,4 +1,4 @@
-package com.se.sample.router;
+package com.se.sample.components;
 
 
 import com.se.sample.constants.GeneralConstants;

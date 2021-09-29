@@ -13,4 +13,5 @@ public interface UserRepository extends ReactiveElasticsearchRepository<User, Lo
 
     Mono<User> findUserByEmail(final String email);
 
+
 }
