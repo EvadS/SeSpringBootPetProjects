@@ -20,6 +20,7 @@ import java.util.Collections;
 @Data
 @Builder
 
+// TODO :add validations
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(indexName = "sample")
@@ -35,6 +36,8 @@ public class User implements UserDetails {
 // TODO: should be unique
     private String email;
     private UserRoles role;
+
+    private Long birthDate;
     private boolean active = true;
 
     @Override

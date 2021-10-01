@@ -10,11 +10,5 @@ public class GreetController {
     public String index() {
         return "hello";
 
-        try {
-
-        }catch() {
-
-        }
-
     }
 }

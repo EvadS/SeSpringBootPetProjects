@@ -21,4 +21,6 @@ public class GeneralConstants {
 public static final String NOT_FOUND = "Item by current search param was not found";
     public static final String HTTP_ALREADY_EXISTS = "Resource already exists";
     public static final String INCORRECT_REQUEST_PARAM = "Unprocessable Entity";
+
+    public static  final  String dateFormat = "dd MMM yyyy";
 }
