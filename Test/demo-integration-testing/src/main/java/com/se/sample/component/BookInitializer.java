@@ -1,8 +1,9 @@
-package com.se.sample;
+package com.se.sample.component;
 
 
 import com.github.javafaker.Faker;
 import com.se.sample.entity.Book;
+import com.se.sample.repository.BookRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;

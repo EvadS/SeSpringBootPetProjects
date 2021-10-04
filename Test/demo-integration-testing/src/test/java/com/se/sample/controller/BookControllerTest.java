@@ -2,10 +2,9 @@ package com.se.sample.controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.se.sample.BookController;
-import com.se.sample.BookNotFoundException;
-import com.se.sample.BookRequest;
-import com.se.sample.BookService;
+import com.se.sample.exception.BookNotFoundException;
+import com.se.sample.model.BookRequest;
+import com.se.sample.service.BookService;
 import com.se.sample.entity.Book;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +18,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
