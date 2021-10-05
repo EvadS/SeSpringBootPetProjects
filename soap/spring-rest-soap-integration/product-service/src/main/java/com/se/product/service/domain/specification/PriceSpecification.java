@@ -33,6 +33,7 @@ public final class PriceSpecification extends SearchSpecification<Price, PriceSe
 
             }
 
+
             return root.get(attribute).in(currencyTypeIds);
         };
     }

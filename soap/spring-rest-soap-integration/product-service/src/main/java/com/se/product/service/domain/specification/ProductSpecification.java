@@ -28,6 +28,7 @@ public class ProductSpecification extends SearchSpecification<Product, PagedProd
                             .and(categoryNameContains(request.getCategoryName()))
                             .and(productCostBetweenBase(request.getCostFrom(), request.getCostTo()))
             )
+
                     .toPredicate(root, query, cb);
         };
     }
