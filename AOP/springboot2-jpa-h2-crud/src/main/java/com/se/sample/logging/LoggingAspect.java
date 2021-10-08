@@ -1,9 +1,11 @@
 package com.se.sample.logging;
 
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +17,12 @@ import org.springframework.util.StopWatch;
 public class LoggingAspect {
     public static final Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
 
+    private String methodText;
+
+    @Before(value = "@annotation(log)")
+    public void audit(JoinPoint joinPoint,LogExecutionTime log) {
+        methodText = log.textArgument();
+    }
     /**
      * This method uses Around advice which ensures that an advice can run before
      * and after the method execution, to and log the execution time of the method
@@ -48,11 +56,8 @@ public class LoggingAspect {
 //            logger.info(stopWatch.prettyPrint());
 //        }
 
-        long startTime = System.currentTimeMillis();
-        long endTime = System.currentTimeMillis();
-
         if (logger.isInfoEnabled()) {
-            logger.info("Method:{}, Execution time: {}",methodName , stopWatch.getTotalTimeMillis());
+            logger.info("Method:{}, Execution time: {} ms",methodText , stopWatch.getTotalTimeMillis());
         }
         return result;
     }
