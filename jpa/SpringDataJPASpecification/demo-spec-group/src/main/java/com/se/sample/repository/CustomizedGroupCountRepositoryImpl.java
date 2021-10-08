@@ -37,11 +37,13 @@ public class CustomizedGroupCountRepositoryImpl implements CustomizedGroupCountR
         query.where(where.toPredicate(root, query, criteriaBuilder));
         query.groupBy(expression);
         final List<Tuple> resultList = entityManager.createQuery(query).getResultList();
-        return resultList.stream()
+        Object ojb =  resultList.stream()
                 .collect(toMap(
                         t -> t.get(0, AlarmMsg.AlarmLevel.class),
                         t -> t.get(1, Long.class))
                 );
+
+        return null;
     }
 }
 

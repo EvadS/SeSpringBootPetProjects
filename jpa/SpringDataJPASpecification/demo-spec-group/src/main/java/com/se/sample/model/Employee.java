@@ -1,10 +1,13 @@
 package com.se.sample.model;
 
+import lombok.Data;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
+@Data
 public class Employee {
     @Id
     @GeneratedValue
@@ -13,6 +16,7 @@ public class Employee {
     private String dept;
 
     private long salary;
+    private String company;
 
     public String getName() {
         return name;
@@ -38,13 +42,7 @@ public class Employee {
         this.dept = dept;
     }
 
-    public static Employee create(String name, String dept, long salary) {
-        Employee employee = new Employee();
-        employee.setName(name);
-        employee.setDept(dept);
-        employee.setSalary(salary);
-        return employee;
-    }
+
 
     @Override
     public String toString() {

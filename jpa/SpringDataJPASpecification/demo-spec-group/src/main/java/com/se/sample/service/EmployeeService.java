@@ -8,6 +8,11 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.SingularAttribute;
 import java.util.List;
 import java.util.Map;
@@ -18,22 +23,27 @@ public class EmployeeService {
     @Autowired
     EmployeeRepository employeeRepository;
 
-//    public  void findEmployeeCountGroupByDept() {
-////        System.out.println("-- Employee count group by dept --");
-//        EntityManager entityManager = entityManagerFactory.createEntityManager();
-//        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-//        CriteriaQuery<Object[]> query = criteriaBuilder.createQuery(Object[].class);
-//        Root<Employee> employee = query.from(Employee.class);
-////
-//
-//        query.multiselect(employee.get(Employee_.dept), criteriaBuilder.count(employee));
-//        TypedQuery<Object[]> typedQuery = entityManager.createQuery(query);
-//        List<Object[]> resultList = typedQuery.getResultList();
-//        resultList.forEach(objects ->
-//                System.out.printf("Dept: %s, Count: %s%n", objects[0], objects[1]));
-////
-//    }
+@Autowired
+    EntityManager entityManager;
 
+    public void test1(){
+
+    }
+
+
+    public static Specification<Employee> personWorksIn(final String companyName) {
+//        return new Specification<Employee>() {
+//            @Override
+//            public Predicate toPredicate(Root<Employee> root,
+//                                         CriteriaQuery<?> criteriaQuery,
+//                                         CriteriaBuilder criteriaBuilder) {
+//                Join<Person, Company> company = root.join("workingPlaces");
+//                return criteriaBuilder.equal(company.get("name"), companyName);
+//            }
+//        };
+
+        return null;
+    }
 
 
     @Autowired
