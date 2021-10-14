@@ -1,7 +1,9 @@
 package com.se.sample.controller;
 
 import com.se.sample.controller.api.ProductApi;
+import com.se.sample.entity.Product;
 import com.se.sample.helper.PageSupport;
+import com.se.sample.models.SearchRequestDTO;
 import com.se.sample.models.filter.ESSearchFilter;
 import com.se.sample.models.request.ProductItemResponse;
 import com.se.sample.models.request.ProductRequest;
@@ -90,6 +92,8 @@ public class ProductController implements ProductApi {
                                                         @RequestParam(name = "size", defaultValue = DEFAULT_PAGE_SIZE) int size,
                                                         @RequestBody(required = false) ESSearchFilter esSearchFilter) {
         System.out.println("NOT IMPLENTED");
+
+        //https://github.com/liliumbosniacum/elasticsearch/blob/master/src/main/java/com/lilium/elasticsearch/search/PagedRequestDTO.java
         return null;
     }
 
@@ -97,5 +101,11 @@ public class ProductController implements ProductApi {
     @GetMapping(value = "/error", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Mono<String> exceptionReturn() {
         return Mono.error(new RuntimeException("test error"));
+    }
+
+
+    @PostMapping("/search2")
+    public List<Product> search(@RequestBody final SearchRequestDTO dto) {
+        return productService.search(dto);
     }
 }

@@ -21,7 +21,7 @@ public class ArticleService {
     }
 
     public List<String> getArticleList(String startsWithFilter) {
-        if (StringUtil.isNullOrEmpty(startsWithFilter)) {
+        if (StringUtil.isNullOrEmpty(startsWithFilter)  || StringUtils.containsWhitespace(startsWithFilter)) {
             throw new IllegalArgumentException("startsWithFilter can't be blank");
         }
 

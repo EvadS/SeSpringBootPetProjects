@@ -54,6 +54,7 @@ public class JoinPointAfterThrowingAspectIntegrationTest {
         articleService.getArticleList(" ");
 
         assertThat(messages, hasSize(1));
+        int a =0;
         assertTrue(messages.contains("SEVERE startsWithFilter can't be blank"));
     }
 

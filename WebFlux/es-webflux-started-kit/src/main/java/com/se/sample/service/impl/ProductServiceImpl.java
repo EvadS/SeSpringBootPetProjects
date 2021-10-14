@@ -1,16 +1,24 @@
 package com.se.sample.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.se.sample.ProductValidator;
 import com.se.sample.entity.Product;
 import com.se.sample.errors.exception.ResourceNotFoundException;
+import com.se.sample.helper.Indices;
 import com.se.sample.helper.PageSupport;
+import com.se.sample.models.SearchRequestDTO;
 import com.se.sample.models.mapper.ProductMapper;
 import com.se.sample.models.request.ProductItemResponse;
 import com.se.sample.models.request.ProductRequest;
 import com.se.sample.models.response.ProductResponse;
 import com.se.sample.repository.ProductRepository;
 import com.se.sample.service.ProductService;
+import com.se.sample.util.SearchUtil;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.search.SearchHit;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,18 +32,23 @@ import org.springframework.util.CollectionUtils;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 
-
+@Slf4j
 @Service
 @Transactional
 @AllArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
+    private static final ObjectMapper MAPPER = new ObjectMapper();
+    ;
     private final ProductRepository productRepository;
+
 
 //    private final ObjectMapper objectMapper;
 
@@ -43,6 +56,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     RestHighLevelClient elasticsearchRestTemplate;
+
+//    private final RestHighLevelClient client;
 
     @Override
     public Flux<ProductItemResponse> getAll() {
@@ -65,7 +80,6 @@ public class ProductServiceImpl implements ProductService {
 //        return productRepository.save(product);
 
 
-
         return productRepository.findById(id)
                 .flatMap(item -> {
                     item.setCategory(product.getCategory());
@@ -82,8 +96,7 @@ public class ProductServiceImpl implements ProductService {
                 .switchIfEmpty(Mono.error(new ResourceNotFoundException("product", "id", id)));
 
 
-
-     //   bucketRepository.findById(bucketId)
+        //   bucketRepository.findById(bucketId)
 ////                .map(saveBucket -> ResponseEntity.ok(saveBucket))
 ////                .defaultIfEmpty(ResponseEntity.notFound().build());
 ////            .switchIfEmpty(Mono.error(new ResourceNotFoundException("Data not found")));
@@ -122,6 +135,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Mono<PageSupport<ProductResponse>> getPageResponse(PageRequest page) {
+        // TODO: get all records from data base. Not correct
         Mono<PageSupport<ProductResponse>> map = productRepository.findAll()
                 .collectList()
                 .map(list -> new PageSupport<>(
@@ -139,6 +153,44 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<ProductResponse> findAll(Pageable pageable) {
         return null;
+    }
+
+    @Override
+    public List<Product> search(SearchRequestDTO dto) {
+        final SearchRequest request = SearchUtil.buildSearchRequest(
+                Indices.PERSON_INDEX,
+                dto
+        );
+
+        return searchInternal(request);
+
+    }
+
+    //
+    private List<Product> searchInternal(final SearchRequest request) {
+        if (request == null) {
+            log.error("Failed to build search request");
+            return Collections.emptyList();
+        }
+
+        try {
+            final SearchResponse response = elasticsearchRestTemplate.search(request, RequestOptions.DEFAULT);
+
+            final SearchHit[] searchHits = response.getHits().getHits();
+            final List<Product> vehicles = new ArrayList<>(searchHits.length);
+            for (SearchHit hit : searchHits) {
+                Product e = MAPPER.readValue(hit.getSourceAsString(), Product.class);
+                e.setId(hit.getId());
+                vehicles.add(
+                        e
+                );
+            }
+
+            return vehicles;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return Collections.emptyList();
+        }
     }
 
     @Autowired

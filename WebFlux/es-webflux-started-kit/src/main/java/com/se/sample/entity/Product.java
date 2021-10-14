@@ -1,9 +1,12 @@
 package com.se.sample.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.se.sample.helper.Indices;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.DateFormat;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -16,16 +19,16 @@ import java.util.Date;
 
 @Data
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor
-@Document(indexName = "product-index")
+@Document(indexName = Indices.PERSON_INDEX)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Product {
-
-    public static final String PRODUCT_INDEX = "product-index";
 
     @Id
     private String id;
-    @Field(type = FieldType.Keyword, name = "name")
 
+    @Field(type = FieldType.Keyword, name = "name")
     @NotNull(message = "Name cannot be null")
     @NotBlank(message = "Name cannot be Empty")
     private String name;

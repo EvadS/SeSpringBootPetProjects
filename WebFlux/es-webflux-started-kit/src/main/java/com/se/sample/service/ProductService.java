@@ -1,17 +1,17 @@
 package com.se.sample.service;
 
 import com.se.sample.entity.Product;
-import com.se.sample.models.filter.ESSearchFilter;
-import com.se.sample.models.response.ProductResponse;
+import com.se.sample.helper.PageSupport;
+import com.se.sample.models.SearchRequestDTO;
 import com.se.sample.models.request.ProductItemResponse;
 import com.se.sample.models.request.ProductRequest;
-
-import com.se.sample.helper.PageSupport;
-import org.springdoc.core.converters.models.Pageable;
+import com.se.sample.models.response.ProductResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 public interface ProductService {
     Flux<ProductItemResponse> getAll();
@@ -28,4 +28,6 @@ public interface ProductService {
 
     Page<ProductResponse> findAll(org.springframework.data.domain.Pageable pageable);
 
+    // TODO: convert to Product Response
+    List<Product> search(SearchRequestDTO dto);
 }
