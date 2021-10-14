@@ -46,18 +46,12 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
-    ;
     private final ProductRepository productRepository;
-
-
-//    private final ObjectMapper objectMapper;
-
     private ProductValidator productValidator;
 
     @Autowired
-    RestHighLevelClient elasticsearchRestTemplate;
+    RestHighLevelClient client;
 
-//    private final RestHighLevelClient client;
 
     @Override
     public Flux<ProductItemResponse> getAll() {
@@ -157,12 +151,21 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> search(SearchRequestDTO dto) {
+
         final SearchRequest request = SearchUtil.buildSearchRequest(
                 Indices.PERSON_INDEX,
                 dto
         );
 
         return searchInternal(request);
+
+//        return Mono
+//                .<GetResponse>create(sink ->
+//                        client.getAsync(new GetRequest("people", "person", userName), listenerToSink(sink))
+//                )
+//                .filter(GetResponse::isExists)
+//                .map(GetResponse::getSource)
+//                .map(map -> objectMapper.convertValue(map, Person.class));
 
     }
 
@@ -174,7 +177,7 @@ public class ProductServiceImpl implements ProductService {
         }
 
         try {
-            final SearchResponse response = elasticsearchRestTemplate.search(request, RequestOptions.DEFAULT);
+            final SearchResponse response = client.search(request, RequestOptions.DEFAULT);
 
             final SearchHit[] searchHits = response.getHits().getHits();
             final List<Product> vehicles = new ArrayList<>(searchHits.length);
