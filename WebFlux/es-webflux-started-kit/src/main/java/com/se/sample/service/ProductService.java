@@ -29,5 +29,5 @@ public interface ProductService {
     Page<ProductResponse> findAll(org.springframework.data.domain.Pageable pageable);
 
     // TODO: convert to Product Response
-    List<Product> search(SearchRequestDTO dto);
+    Mono<Product> search(SearchRequestDTO dto);
 }

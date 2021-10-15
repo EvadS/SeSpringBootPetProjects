@@ -16,6 +16,9 @@ import com.se.sample.service.ProductService;
 import com.se.sample.util.SearchUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.elasticsearch.action.ActionListener;
+import org.elasticsearch.action.get.GetRequest;
+import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -31,11 +34,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.publisher.MonoSink;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -52,7 +53,6 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     RestHighLevelClient client;
 
-
     @Override
     public Flux<ProductItemResponse> getAll() {
         return productRepository.findAll()
@@ -65,14 +65,11 @@ public class ProductServiceImpl implements ProductService {
         Mono<ProductResponse> product = productRepository.findById(id)
                 .map(ProductMapper.INSTANCE::toProductResponse);
 
-
         return product;
     }
 
     @Override
     public Mono<ProductResponse> update(final String id, final ProductRequest product) {
-//        return productRepository.save(product);
-
 
         return productRepository.findById(id)
                 .flatMap(item -> {
@@ -150,23 +147,43 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> search(SearchRequestDTO dto) {
+    public Mono<Product> search(SearchRequestDTO dto) {
 
-        final SearchRequest request = SearchUtil.buildSearchRequest(
-                Indices.PERSON_INDEX,
-                dto
-        );
+//        final SearchRequest request = SearchUtil.buildSearchRequest(
+//                Indices.PERSON_INDEX,
+//                dto
+//        );
+//
+//        return searchInternal(request);
+ObjectMapper objectMapper = new ObjectMapper();
 
-        return searchInternal(request);
+        return  Mono.<GetResponse> create(sink ->
+                        client.getAsync(new GetRequest(Indices.PERSON_INDEX,  "MkNvDXwBt7Mcg3CaGiB0"),
+                                RequestOptions.DEFAULT, listenerToSink(sink))
+                )
+               // .filter(GetResponse::isExists)
+                //.map(GetResponse::getSource)
+                .map(i-> {
 
-//        return Mono
-//                .<GetResponse>create(sink ->
-//                        client.getAsync(new GetRequest("people", "person", userName), listenerToSink(sink))
-//                )
-//                .filter(GetResponse::isExists)
-//                .map(GetResponse::getSource)
-//                .map(map -> objectMapper.convertValue(map, Person.class));
+                    Map<String, Object> r =  i.getSource();
+                    return r;
+                })
 
+                .map(map -> objectMapper.convertValue(map, Product.class));
+    }
+
+    private <T> ActionListener<T> listenerToSink(MonoSink<T> sink) {
+        return new ActionListener<T>() {
+            @Override
+            public void onResponse(T response) {
+                sink.success(response);
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                sink.error(e);
+            }
+        };
     }
 
     //
@@ -198,6 +215,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ElasticsearchOperations elasticsearchOperations;
+
 
 
 //    private List<Product> toProductList(SearchHit[] searchHits) throws Exception {

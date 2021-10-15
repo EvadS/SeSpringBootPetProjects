@@ -11,6 +11,7 @@ import com.se.sample.models.response.ProductResponse;
 import com.se.sample.service.ProductService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,7 @@ import java.util.List;
 import static com.se.sample.helper.PageSupport.DEFAULT_PAGE_SIZE;
 import static com.se.sample.helper.PageSupport.FIRST_PAGE_NUM;
 
+@Slf4j
 @RestController
 @RequestMapping("/products")
 @AllArgsConstructor
@@ -105,7 +107,11 @@ public class ProductController implements ProductApi {
 
 
     @PostMapping("/search2")
-    public List<Product> search(@RequestBody final SearchRequestDTO dto) {
-        return productService.search(dto);
+    public Mono<ResponseEntity<Product>> search(@RequestBody final SearchRequestDTO dto) {
+        Mono<Product> search = productService.search(dto);
+
+        search.subscribe(i->{log.info(i.toString());});
+        return  search.
+                map(r -> ResponseEntity.ok(r));
     }
 }
