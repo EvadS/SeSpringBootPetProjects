@@ -2,6 +2,9 @@ package io.pivotal.literx;
 
 import java.util.function.*;
 
+/**
+ * Demo how to work with functio
+ */
 public class FunctionalsDemo {
 
     public  void test (){
