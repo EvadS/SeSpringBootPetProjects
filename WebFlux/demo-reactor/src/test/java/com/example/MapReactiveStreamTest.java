@@ -1,10 +1,17 @@
 package com.example;
 
 import org.junit.jupiter.api.Test;
+import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 import reactor.util.function.Tuple2;
 
+import java.util.Locale;
+import java.util.function.Function;
+
+/**
+ *  преобразовaние Stream одного типа данных в Stream другого типа.
+ */
 public class MapReactiveStreamTest {
 
     @Test
@@ -80,5 +87,41 @@ public class MapReactiveStreamTest {
         StepVerifier.create(zip.log())
                 .expectNextCount(3)
                 .verifyComplete();
+    }
+
+    @Test
+    void mapTest6() {
+
+        String[] numArray = {"one","two", "three", "four", "five"};
+        Flux<String> flux = Flux.fromArray(numArray);
+        flux.map(data -> data + 2)
+                .subscribe(System.out::println);
+
+        System.out.println("===================================");
+        Function<String, String> mapperValueOf = String::toUpperCase;
+
+        Function<String, Publisher<String>> mapperValueOf2 =
+                s -> Flux.just(s.toUpperCase());
+
+        flux.map(mapperValueOf)
+                .subscribe(System.out::println);
+
+        flux.flatMap(mapperValueOf2)
+                .subscribe(System.out::println);
+
+    }
+
+    @Test
+    void mapTest7() {
+        String[] numArray = {"one","two", "three", "four", "five"};
+
+        Flux<String> flux = Flux.fromArray(numArray);
+
+        flux.flatMap(this::toUpperCaseConvert)
+                .subscribe(System.out::println);
+    }
+
+    private  Flux<String> toUpperCaseConvert(String s) {
+        return Flux.just(s.toUpperCase(Locale.FRANCE));
     }
 }

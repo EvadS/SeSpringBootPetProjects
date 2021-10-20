@@ -7,6 +7,9 @@ import reactor.test.StepVerifier;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * фильтрация
+ */
 class FilterReactiveStreamTest {
 
     List<String> cities = Arrays.asList("Chennai", "Pune", "Mumbai", "Kolkatta");

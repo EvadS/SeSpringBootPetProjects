@@ -6,6 +6,9 @@ import reactor.core.publisher.Flux;
 
 import java.time.Duration;
 
+/**
+ * Холодные игарячие подписчики
+ */
 public class ColdHotPublisher {
 
     @Test
