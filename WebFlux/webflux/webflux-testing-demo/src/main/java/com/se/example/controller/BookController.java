@@ -38,6 +38,10 @@ public class BookController {
 //                        .contentType(this.mediaType)
 //                        .build());
 
+//        return userService
+//                .getUserById(id)
+//                .orElseThrow(() -> new UserNotFoundException(String.format("User with id [%s] not found", id)));
+
 
         Mono<Book> e = bookService.findById(id);
        // HttpStatus status = e != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;

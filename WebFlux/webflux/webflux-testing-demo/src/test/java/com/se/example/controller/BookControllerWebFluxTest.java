@@ -47,14 +47,18 @@ import static org.mockito.Mockito.times;
 //@Tag(TestCase.INTEGRATION)
 class BookControllerWebFluxTest {
 
+    // тесты не пработаеют поскольку есть routes
 
     @MockBean
     BookRepository repository;
 
     private BookService bookService;
 
+
+    //GlobalErrorWebExceptionHandler
     @Autowired
     private WebTestClient webClient;
+
 
     @BeforeClass
     public  void init(){
