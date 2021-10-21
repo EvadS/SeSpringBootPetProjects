@@ -16,4 +16,23 @@ public class ProductResponse {
 
     @Schema(title = "category of product")
     private String category;
+
+    @Schema(title = "name of product")
+    private String name;
+
+    @Schema(title = "available count of product")
+    private Integer quantity;
+
+    @Schema(title = "description of product")
+    private String description;
+
+    @Schema(title = "manufacturer of product")
+    private String manufacturer;
+
+    @Schema(title = "created timestamp in ms")
+    private Long createdDate;
+
+    @Schema(title = "last update timestamp in ms")
+    private Long updatedAt;
+
 }

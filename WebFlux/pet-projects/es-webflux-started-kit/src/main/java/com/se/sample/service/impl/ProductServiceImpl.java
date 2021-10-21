@@ -76,6 +76,7 @@ public class ProductServiceImpl implements ProductService {
     public Mono<ProductResponse> update(final String id, final ProductRequest product) {
 
         Mono<ProductResponse> error = Mono.error(new ResourceNotFoundException("Product", "id", id));
+
         return productRepository.findById(id)
                 .flatMap(item -> {
                     item.setCategory(product.getCategory());
@@ -111,7 +112,7 @@ public class ProductServiceImpl implements ProductService {
                 .flatMap(item -> {
                     if (item.booleanValue()) {
                         log.debug("Product already exists. Request: {}", productRequest);
-                        throw new AlreadyExistException("Product", "name", productRequest.getName());
+                        return Mono.error(new AlreadyExistException("Product", "name", productRequest.getName()));
 
                     } else {
                         Product product = ProductMapper.INSTANCE.toProduct(productRequest);
@@ -128,15 +129,17 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Mono delete(final String id) {
-        final Mono<Product> dbPerson = productRepository.findById(id);
-        if (Objects.isNull(dbPerson)) {
-            return Mono.empty();
-        }
+//        final Mono<Product> dbPerson = productRepository.findById(id);
+//        if (Objects.isNull(dbPerson)) {
+//            return Mono.empty();
+//        }
         return productRepository.findById(id)
-                .switchIfEmpty(Mono.empty()).filter(Objects::nonNull)
+                .switchIfEmpty(  Mono.error(new ResourceNotFoundException("Product", "name", id)))   // Mono.empty()).filter(Objects::nonNull)
                 .flatMap(productToBeDeleted -> productRepository
                         .delete(productToBeDeleted).then(Mono.just(productToBeDeleted)));
     }
+
+
 
     @Override
     public Mono<PageSupport<ProductResponse>> getPageResponse(PageRequest page) {
