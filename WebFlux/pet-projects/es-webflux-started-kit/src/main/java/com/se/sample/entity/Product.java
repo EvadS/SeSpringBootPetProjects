@@ -2,11 +2,14 @@ package com.se.sample.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.se.sample.entity.base.AuditMetadata;
 import com.se.sample.helper.Indices;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.UniqueElements;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.DateFormat;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -15,12 +18,14 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.Instant;
 import java.util.Date;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+//@TypeAlias("human")
 @Document(indexName = Indices.PERSON_INDEX)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Product {
@@ -31,6 +36,7 @@ public class Product {
     @Field(type = FieldType.Keyword, name = "name")
     @NotNull(message = "Name cannot be null")
     @NotBlank(message = "Name cannot be Empty")
+    @UniqueElements
     private String name;
 
     @Field(type = FieldType.Double, name = "price")
@@ -48,7 +54,5 @@ public class Product {
     @Field(type = FieldType.Keyword, name = "manufacturer")
     private String manufacturer;
 
-    @Field(name = "created_at", type = FieldType.Date, format = DateFormat.date_time)
-    private Date createdAt = new Date();
-
+    private AuditMetadata auditingMetadata;
 }

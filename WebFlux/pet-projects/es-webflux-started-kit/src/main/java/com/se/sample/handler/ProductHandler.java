@@ -4,6 +4,7 @@ package com.se.sample.handler;
 import com.se.sample.entity.Product;
 import com.se.sample.errors.exception.ResourceNotFoundException;
 import com.se.sample.models.request.ProductRequest;
+import com.se.sample.models.response.ProductResponse;
 import com.se.sample.repository.ProductRepository;
 import com.se.sample.service.ProductService;
 import org.springframework.http.MediaType;
@@ -57,10 +58,11 @@ public class ProductHandler {
     //http://localhost:8080/create
     public Mono<ServerResponse> save(ServerRequest request) {
         final Mono<ProductRequest> person = request.bodyToMono(ProductRequest.class);
+
         return created(null)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(fromPublisher(
-                        person.flatMap(productService::save), Product.class));
+                        person.flatMap(productService::save), ProductResponse.class));
 
 /*
 FlatMap аналогичен map, за исключением того, что он как-бы “распаковывает” возвращаемое значение лямбда-выражения,

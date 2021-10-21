@@ -3,6 +3,7 @@ package com.se.sample.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.se.sample.ProductValidator;
 import com.se.sample.entity.Product;
+import com.se.sample.errors.exception.AlreadyExistException;
 import com.se.sample.errors.exception.ResourceNotFoundException;
 import com.se.sample.helper.Indices;
 import com.se.sample.helper.PageSupport;
@@ -13,7 +14,6 @@ import com.se.sample.models.request.ProductRequest;
 import com.se.sample.models.response.ProductResponse;
 import com.se.sample.repository.ProductRepository;
 import com.se.sample.service.ProductService;
-import com.se.sample.util.SearchUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.ActionListener;
@@ -48,8 +48,10 @@ public class ProductServiceImpl implements ProductService {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
     private final ProductRepository productRepository;
-    private ProductValidator productValidator;
+    private final ProductValidator productValidator;
 
+    @Autowired
+    private final ElasticsearchOperations elasticsearchOperations;
     @Autowired
     RestHighLevelClient client;
 
@@ -63,6 +65,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Mono<ProductResponse> getById(final String id) {
         Mono<ProductResponse> product = productRepository.findById(id)
+                .switchIfEmpty(Mono.error(
+                        new ResourceNotFoundException("Product", "id", id)))
                 .map(ProductMapper.INSTANCE::toProductResponse);
 
         return product;
@@ -71,6 +75,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Mono<ProductResponse> update(final String id, final ProductRequest product) {
 
+        Mono<ProductResponse> error = Mono.error(new ResourceNotFoundException("Product", "id", id));
         return productRepository.findById(id)
                 .flatMap(item -> {
                     item.setCategory(product.getCategory());
@@ -84,32 +89,41 @@ public class ProductServiceImpl implements ProductService {
 
 
                 })
-                .switchIfEmpty(Mono.error(new ResourceNotFoundException("product", "id", id)));
-
-
-        //   bucketRepository.findById(bucketId)
-////                .map(saveBucket -> ResponseEntity.ok(saveBucket))
-////                .defaultIfEmpty(ResponseEntity.notFound().build());
-////            .switchIfEmpty(Mono.error(new ResourceNotFoundException("Data not found")));
+                .switchIfEmpty(error);
     }
 
     @Override
-    public Mono save(final ProductRequest productRequest) {
+    public Mono<ProductResponse> save(final ProductRequest productRequest) {
 
         //TODO Validation: for learning --->
         List<String> errors = productValidator.validateEmployee(productRequest);
         if (!CollectionUtils.isEmpty(errors)) {
-            errors.stream().forEach(i->
+            errors.stream().forEach(i ->
             {
-                System.out.println("****" + i.toString());
+                // TODO: throw constraint validation exception
+                System.out.println("****" + i);
             });
             //throw new InvalidResourceException(errors);
         }
         // <-- for learning
 
+        return productRepository.existsByName(productRequest.getName())
+                .flatMap(item -> {
+                    if (item.booleanValue()) {
+                        log.debug("Product already exists. Request: {}", productRequest);
+                        throw new AlreadyExistException("Product", "name", productRequest.getName());
 
-        Product product = ProductMapper.INSTANCE.toProduct(productRequest);
-        return productRepository.save(product);
+                    } else {
+                        Product product = ProductMapper.INSTANCE.toProduct(productRequest);
+                        Mono<Product> savedProduct = productRepository.save(product);
+
+                        savedProduct.subscribe(sp -> {
+                            log.info("Product saved, id: {}, name: {}", sp.getId(), sp.getName());
+                        });
+
+                        return savedProduct.map(ProductMapper.INSTANCE::toProductResponse);
+                    }
+                });
     }
 
     @Override
@@ -155,17 +169,17 @@ public class ProductServiceImpl implements ProductService {
 //        );
 //
 //        return searchInternal(request);
-ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper();
 
-        return  Mono.<GetResponse> create(sink ->
-                        client.getAsync(new GetRequest(Indices.PERSON_INDEX,  "MkNvDXwBt7Mcg3CaGiB0"),
-                                RequestOptions.DEFAULT, listenerToSink(sink))
-                )
-               // .filter(GetResponse::isExists)
+        return Mono.<GetResponse>create(sink ->
+                client.getAsync(new GetRequest(Indices.PERSON_INDEX, "MkNvDXwBt7Mcg3CaGiB0"),
+                        RequestOptions.DEFAULT, listenerToSink(sink))
+        )
+                // .filter(GetResponse::isExists)
                 //.map(GetResponse::getSource)
-                .map(i-> {
+                .map(i -> {
 
-                    Map<String, Object> r =  i.getSource();
+                    Map<String, Object> r = i.getSource();
                     return r;
                 })
 
@@ -212,10 +226,6 @@ ObjectMapper objectMapper = new ObjectMapper();
             return Collections.emptyList();
         }
     }
-
-    @Autowired
-    private ElasticsearchOperations elasticsearchOperations;
-
 
 
 //    private List<Product> toProductList(SearchHit[] searchHits) throws Exception {

@@ -10,6 +10,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
+import reactor.core.publisher.Mono;
 
 @Mapper(imports = {UserRoles.class})
 public interface ProductMapper {
@@ -36,5 +37,4 @@ public interface ProductMapper {
             @Mapping(target="name", source="name")
     })
     ProductItemResponse toProductItemResponse(Product product);
-
 }

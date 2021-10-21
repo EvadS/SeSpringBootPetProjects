@@ -15,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -40,8 +39,7 @@ public class ProductController implements ProductApi {
     @GetMapping("/{id}")
     public Mono<ResponseEntity<ProductResponse>> getOne(@PathVariable("id") final String id) {
         return productService.getById(id)
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.notFound().build());
+                .map(ResponseEntity::ok);
     }
 
     @Override
@@ -49,9 +47,7 @@ public class ProductController implements ProductApi {
     public Mono<ResponseEntity<ProductResponse>> save(@Valid @RequestBody final
                                                       ProductRequest productRequest) {
         Mono savedProduct = productService.save(productRequest);
-        Mono response = savedProduct.map(ResponseEntity::ok);
-
-        return response;
+        return savedProduct.map(i -> ResponseEntity.status(HttpStatus.CREATED).body(i));
     }
 
     @PutMapping("/{id}")
@@ -78,6 +74,7 @@ public class ProductController implements ProductApi {
                 .map(dtos -> ResponseEntity.status(HttpStatus.OK).body(dtos));
     }
 
+    @Deprecated
     @GetMapping("/paged")
     @Override
     public Mono<ResponseEntity<PageSupport<ProductResponse>>> paged(@RequestParam(name = "page", defaultValue = FIRST_PAGE_NUM) int page,
@@ -99,10 +96,9 @@ public class ProductController implements ProductApi {
         return null;
     }
 
-    //TODO: for test
-    @GetMapping(value = "/error", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Mono<String> exceptionReturn() {
-        return Mono.error(new RuntimeException("test error"));
+    @Override
+    public ResponseEntity<Page<ProductResponse>> findByPeriod(Integer start, int end) {
+        return null;
     }
 
 
@@ -110,8 +106,10 @@ public class ProductController implements ProductApi {
     public Mono<ResponseEntity<Product>> search(@RequestBody final SearchRequestDTO dto) {
         Mono<Product> search = productService.search(dto);
 
-        search.subscribe(i->{log.info(i.toString());});
-        return  search.
+        search.subscribe(i -> {
+            log.info(i.toString());
+        });
+        return search.
                 map(r -> ResponseEntity.ok(r));
     }
 }

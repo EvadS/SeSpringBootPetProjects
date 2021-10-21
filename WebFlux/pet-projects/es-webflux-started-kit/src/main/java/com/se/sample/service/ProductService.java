@@ -20,7 +20,7 @@ public interface ProductService {
 
     Mono<ProductResponse> update(String id, ProductRequest product);
 
-    Mono save(ProductRequest productRequest);
+    Mono<ProductResponse> save(ProductRequest productRequest);
 
     Mono delete(String id);
 

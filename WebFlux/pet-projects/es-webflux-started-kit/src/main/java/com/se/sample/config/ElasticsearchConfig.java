@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.data.elasticsearch.client.ClientConfiguration;
 import org.springframework.data.elasticsearch.client.RestClients;
 import org.springframework.data.elasticsearch.config.AbstractElasticsearchConfiguration;
+import org.springframework.data.elasticsearch.config.EnableElasticsearchAuditing;
+import org.springframework.data.elasticsearch.config.EnableReactiveElasticsearchAuditing;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 
@@ -29,6 +31,7 @@ import org.springframework.web.reactive.function.client.ExchangeStrategies;
  */
 @Profile("!test")
 @Configuration
+@EnableReactiveElasticsearchAuditing
 @ComponentScan(basePackages = {"com.se.sample.config"})
 @EnableElasticsearchRepositories(basePackages = "com.se.sample.repository")
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})

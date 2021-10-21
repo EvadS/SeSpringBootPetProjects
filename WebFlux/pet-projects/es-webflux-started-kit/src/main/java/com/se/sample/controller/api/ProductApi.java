@@ -83,10 +83,6 @@ public interface ProductApi {
                             description = GeneralConstants.HTTP_ALREADY_EXISTS,
                             content = @Content(schema = @Schema(implementation = ErrorDetail.class))),
                     @ApiResponse(
-                            responseCode = "412",
-                            description = GeneralConstants.HTTP_BAD_REQUEST,
-                            content = @Content(schema = @Schema(implementation = ErrorDetail.class))),
-                    @ApiResponse(
                             responseCode = "415",
                             description = GeneralConstants.INCORRECT_MEDIA_TYPE,
                             content = @Content(schema = @Schema(implementation = ErrorDetail.class))),
@@ -236,8 +232,39 @@ public interface ProductApi {
                                                         @PageableDefault(sort = "id", direction = Sort.Direction.ASC)
                                                         @RequestParam(name = "page", defaultValue = FIRST_PAGE_NUM) int page,
                                                         @RequestParam(name = "size", defaultValue = DEFAULT_PAGE_SIZE) int size,
+
+
                                                         @RequestBody ESSearchFilter esSearchFilter);
-//
+
+
+    @Operation(
+            summary = "Search products by period",
+            description = "Allow to search products in Elastic search by date period",
+            method = "GET",
+            parameters = {
+                    @Parameter(name = "page", in = ParameterIn.PATH,
+                            schema = @Schema(type = "integer",
+                            description = "Start period time as timestamp(ms)")),
+                    @Parameter(name = "size", in = ParameterIn.PATH,
+                            schema = @Schema(type = "integer",
+                            description = "Start period time as timestamp(ms)"))
+            },
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ESSearchFilter.class)),
+                    required = true),
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Successfully Searched Product data",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ProductResponse.class))),
+                    @ApiResponse(responseCode = "4xx", description = "Error retrieving Product data",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorDetail.class)))})
+    ResponseEntity<Page<ProductResponse>> findByPeriod(
+            @RequestParam(name = "start") Integer start,
+            @RequestParam(name = "end") int end);
+
 //    @Operation(
 //            summary = "Search Employees Multi Match ",
 //            description = "Allow to perform multimatch employee  search in Elastic search (with pagination)",

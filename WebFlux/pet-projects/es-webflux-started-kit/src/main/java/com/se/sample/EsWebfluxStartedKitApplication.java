@@ -16,9 +16,6 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
 public class EsWebfluxStartedKitApplication {
 
-//    @Autowired
-//    private ElasticsearchOperations elasticsearchOperations;
-
 //
 //    @Bean
 //    @ConditionalOnProperty("initial-import.enabled")

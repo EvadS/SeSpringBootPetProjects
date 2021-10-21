@@ -26,7 +26,7 @@ public class ErrorDetail {
     private Integer status;
 
     @Schema(description = "List of additional errors")
-    private List<ErrorDetail> errors;
+    private List<ApiValidationError> errors;
 
     public ErrorDetail(final String title, final String detail) {
         this.title = title;
