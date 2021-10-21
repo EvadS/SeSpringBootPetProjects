@@ -4,6 +4,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @Schema(title = "Provide product full information model")
@@ -30,9 +33,9 @@ public class ProductResponse {
     private String manufacturer;
 
     @Schema(title = "created timestamp in ms")
-    private Long createdDate;
+    private Instant createdDate;
 
     @Schema(title = "last update timestamp in ms")
-    private Long updatedAt;
+    private LocalDateTime updatedAt;
 
 }

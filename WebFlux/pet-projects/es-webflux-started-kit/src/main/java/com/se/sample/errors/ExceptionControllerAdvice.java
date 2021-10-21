@@ -1,5 +1,6 @@
 package com.se.sample.errors;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.se.sample.errors.exception.AlreadyExistException;
 import com.se.sample.errors.exception.ResourceNotFoundException;
 import com.se.sample.errors.model.ApiValidationError;
@@ -53,23 +54,6 @@ public class ExceptionControllerAdvice {
         return validationError(exception.getReason(), validationErrorList);
     }
 
-    /**
-     * Handles incorrect json case
-     *
-     * @param e any exception of type {@link Exception}
-     * @return {@link ResponseEntity} containing standard body in case of errors
-     */
-    @ExceptionHandler(DecodingException.class)
-    public HttpEntity<ErrorDetail> handleEmptyResultDataAccessException(DecodingException e) {
-
-        LOGGER.error("Incorrect json : {}", e.getMessage());
-
-        ErrorDetail problem = new ErrorDetail("Resource not found",
-                "Requested resource cannot be found");
-        problem.setStatus(HttpStatus.BAD_REQUEST.value());
-
-        return new ResponseEntity<>(problem, overrideContentType(), HttpStatus.BAD_REQUEST);
-    }
 
     /**
      * Handles a case when requested resource cannot be found
@@ -136,7 +120,15 @@ public class ExceptionControllerAdvice {
      * 415 block UnsupportedMediaTypeStatusException
      */
 
-    @ExceptionHandler(UnsupportedMediaTypeStatusException.class)
+    /**
+     * Handles incorrect json case
+     *
+     * @param e any exception of type {@link Exception}
+     * @return {@link ResponseEntity} containing standard body in case of errors
+     */
+    @ExceptionHandler({UnsupportedMediaTypeStatusException.class,
+            JsonMappingException.class, DecodingException.class
+    })
     public HttpEntity<ErrorDetail> handleUnsupportedMediaTypeStatusException(UnsupportedMediaTypeStatusException e) {
 
         LOGGER.error("UnsupportedMediaTypeStatusException ");
@@ -237,8 +229,6 @@ public class ExceptionControllerAdvice {
 //        LOG.error(ex.getCause().toString());
 //        return new ApiErrorResponse(404, "Resource Not Found");
 //    }
-
-
 
 
 //    @ExceptionHandler(EmptyResultDataAccessException.class)

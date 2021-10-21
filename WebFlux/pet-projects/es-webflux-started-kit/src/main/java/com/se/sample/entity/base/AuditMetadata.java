@@ -9,8 +9,8 @@ import java.time.LocalDateTime;
 
 public abstract class AuditMetadata implements Serializable {
 
-    @CreatedDate
-    private Instant createdDate;
+//    @CreatedDate
+//    private Instant createdDate;
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
