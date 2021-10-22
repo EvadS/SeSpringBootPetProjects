@@ -63,7 +63,7 @@ public class Product {
     //in data base 1634823963976
     @LastModifiedDate
     @Field(type = FieldType.Long)
-     private LocalDateTime updatedAt;
+    private LocalDateTime updatedAt;
 
 
     ///  according to data base format, in data base will stored like "createdDate": "20211021T134603.976Z"

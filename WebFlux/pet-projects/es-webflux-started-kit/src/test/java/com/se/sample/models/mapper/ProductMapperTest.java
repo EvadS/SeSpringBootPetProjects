@@ -18,7 +18,7 @@ class ProductMapperTest {
 
 
     //TODO: the  is the problem with date time and object mapper
-//    @Test
+  //  @Test
     void toProductResponseShouldWorkCorrect() throws IOException {
 
         List<Product> daoProducts = ProductUtil.getDaoProducts();

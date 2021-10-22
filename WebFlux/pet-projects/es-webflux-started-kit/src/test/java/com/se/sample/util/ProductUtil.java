@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.se.sample.entity.Product;
 import com.se.sample.models.request.ProductItemResponse;
 import com.se.sample.models.response.ProductResponse;
@@ -15,6 +16,8 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class ProductUtil {
@@ -29,6 +32,11 @@ public class ProductUtil {
         ObjectMapper objectMapper = new ObjectMapper();
         Resource resource = new ClassPathResource(PRODUCT_DAO_PATH);
 
+
+        //time type `java.time.LocalDateTime` not supported by default:
+        objectMapper.registerModule(new JavaTimeModule());
+        DateFormat df = new SimpleDateFormat("uuuuMMdd'T'HHmmss.SSSXXX");
+        objectMapper.setDateFormat(df);
 
         File file = resource.getFile();
 
