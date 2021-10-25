@@ -6,6 +6,7 @@ import com.se.sample.models.response.ProductResponse;
 import com.se.sample.util.ProductUtil;
 import org.junit.jupiter.api.Test;
 
+import javax.validation.constraints.NotBlank;
 import java.io.IOException;
 import java.util.List;
 
@@ -21,6 +22,7 @@ class ProductMapperTest {
   //  @Test
     void toProductResponseShouldWorkCorrect() throws IOException {
 
+        @NotBlank
         List<Product> daoProducts = ProductUtil.getDaoProducts();
         Product productInput = daoProducts.get(0);
 
