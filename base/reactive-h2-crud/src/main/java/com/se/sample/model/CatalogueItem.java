@@ -35,12 +35,12 @@ public class CatalogueItem {
     @Column("DESCRIPTION")
     private String description;
 
-    @NonNull
-    @Column("CATEGORY")
-    @IEnumValidator(
-            enumClazz = Category.class,
-            message = "Invalid category provided"
-    )
+//    @NonNull
+//    @Column("CATEGORY")
+//    @IEnumValidator(
+//            enumClazz = Category.class,
+//            message = "Invalid category provided"
+//    )
     private String category;
 
     @NotNull(message = "Price cannot be null or empty")

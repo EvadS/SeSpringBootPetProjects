@@ -16,7 +16,7 @@ management:
 logging:
   level:
     root: INFO
-    com.toomuch2learn: DEBUG
+    com.se.sample: DEBUG
     org.springframework: INFO
     org.apache.catalina: ERROR
 
@@ -56,9 +56,10 @@ spring:
 
   # R2DBC Configuration
   r2dbc:
-    url: r2dbc:h2:mem:///cataloguedb
+    url: r2dbc:h2:file:///~/db/catalog-db
     username: sa
     password:
+#      for testing in first steps
     initialization-mode: always
 # ===============================
 # JPA / HIBERNATE

@@ -6,13 +6,16 @@ import com.se.sample.model.CatalogueItem;
 import com.se.sample.repository.CatalogueRepository;
 import com.se.sample.service.CatalogueCrudService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import org.springframework.data.domain.Sort;
 import java.time.Instant;
+import java.util.List;
 
+@Slf4j
 @Service
 //@AllArgsConstructor
 public class CatalogueCrudServiceImpl implements CatalogueCrudService {
@@ -43,7 +46,10 @@ public class CatalogueCrudServiceImpl implements CatalogueCrudService {
     public Flux<CatalogueItem> getCatalogueItems() {
         Sort sort = Sort.by(Sort.Direction.ASC, "name");
 
-        return catalogueRepository.findAll(sort);
+        Flux<CatalogueItem> all = catalogueRepository.findAll(sort);
+
+        all.subscribe(i-> log.info(i.toString()));
+        return all;
     }
 
     @Override
