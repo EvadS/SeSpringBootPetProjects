@@ -5,6 +5,7 @@ import com.se.sample.exception.FileStorageException;
 import com.se.sample.exception.ResourceNotFoundException;
 import com.se.sample.model.CatalogueItem;
 import com.se.sample.model.ResourceIdentity;
+import com.se.sample.model.request.CatalogueRequest;
 import com.se.sample.service.CatalogueCrudService;
 import com.se.sample.service.FileStorageService;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.FilePart;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -20,6 +22,7 @@ import reactor.core.publisher.Mono;
 import javax.validation.Valid;
 import java.time.Duration;
 
+@Validated
 @Slf4j
 @RestController
 @RequestMapping(CatalogueControllerAPIPaths.BASE_PATH)
@@ -80,7 +83,7 @@ public class CatalogueController {
      */
     @PostMapping(CatalogueControllerAPIPaths.CREATE)
     @ResponseStatus(value = HttpStatus.CREATED)
-    public Mono<ResponseEntity> addCatalogueItem(@Valid @RequestBody CatalogueItem catalogueItem) {
+    public Mono<ResponseEntity> addCatalogueItem(@Valid @RequestBody CatalogueRequest catalogueItem) {
 
         Mono<Long> id = catalogueCrudService.addCatalogItem(catalogueItem);
 

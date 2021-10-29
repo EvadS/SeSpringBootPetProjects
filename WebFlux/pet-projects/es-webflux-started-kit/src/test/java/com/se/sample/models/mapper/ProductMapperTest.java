@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import javax.validation.constraints.NotBlank;
 import java.io.IOException;
 import java.util.List;
+import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,7 +36,6 @@ class ProductMapperTest {
         assertEquals(expectedProductItemResponse.getName(),productItemResponse.getName() );
 
     }
-
 
     void toProductShouldWorkCorrect() {
     }

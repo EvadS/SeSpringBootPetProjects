@@ -19,26 +19,26 @@ import java.time.Instant;
         FileStorageProperties.class
 })
 @OpenAPIDefinition(info = @Info(title = "APIs", version = "1.0", description = "Documentation APIs v1.0"))
-public class ReactiveH2CrudApplication  implements CommandLineRunner {
+public class ReactiveH2CrudApplication{
     public static void main(String[] args) {
         SpringApplication.run(ReactiveH2CrudApplication.class, args);
     }
 
-    @Autowired
-    CatalogueRepository repo;
-    @Override
-    public void run(String... args) throws Exception {
-        CatalogueItem item = new CatalogueItem();
-        item.setSku("sku");
-        item.setName("name");
-        item.setDescription("Description");
-
-        item.setPrice(0.0);
-        item.setInventory(0);
-        item.setCreatedOn(Instant.now());
-        item.setUpdatedOn(Instant.now());
-
-        repo.save(item);
-
-    }
+//    @Autowired
+//    CatalogueRepository repo;
+//    @Override
+//    public void run(String... args) throws Exception {
+//        CatalogueItem item = new CatalogueItem();
+//        item.setSku("sku");
+//        item.setName("name");
+//        item.setDescription("Description");
+//
+//        item.setPrice(0.0);
+//        item.setInventory(0);
+//        item.setCreatedOn(Instant.now());
+//        item.setUpdatedOn(Instant.now());
+//
+//        repo.save(item);
+//
+//    }
 }

@@ -1,21 +1,15 @@
 package com.se.sample.controller;
 
-import static com.se.sample.configuration.CatalogueControllerAPIPaths.*;
-import static org.junit.jupiter.api.Assertions.*;
-
-
 import com.se.sample.CatalogueItemGenerator;
 import com.se.sample.ReactiveH2CrudApplication;
-import com.se.sample.configuration.CatalogueControllerAPIPaths;
 import com.se.sample.model.CatalogueItem;
+import com.se.sample.model.request.CatalogueRequest;
 import com.se.sample.service.CatalogueCrudService;
 import com.se.sample.service.FileStorageService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import static org.mockito.Mockito.*;
-
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,6 +27,10 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
+import static com.se.sample.configuration.CatalogueControllerAPIPaths.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.when;
+
 @Slf4j
 @SpringBootTest(
         classes = ReactiveH2CrudApplication.class,
@@ -40,10 +38,10 @@ import reactor.test.StepVerifier;
 )
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class CatalogueControllerTest {
+class CatalogueControllerTest {
 
     private static WebTestClient client;
-    private static CatalogueItem catalogueItem = CatalogueItemGenerator.generateCatalogueItem();
+    private static final CatalogueItem catalogueItem = CatalogueItemGenerator.generateCatalogueItem();
 
     @LocalServerPort
     int port;
@@ -56,7 +54,7 @@ public class CatalogueControllerTest {
 
     @Autowired
     public void setApplicationContext(ApplicationContext context) {
-        this.client
+        client
                 = WebTestClient
                 .bindToApplicationContext(context)
                 .configureClient()
@@ -66,9 +64,9 @@ public class CatalogueControllerTest {
 
     @Test
     @Order(10)
-    public void testGetAllCatalogueItems() {
+    void testGetAllCatalogueItems() {
 
-        this.client
+        client
                 .get()
                 .uri(GET_ITEMS)
                 .accept(MediaType.APPLICATION_JSON)
@@ -84,11 +82,11 @@ public class CatalogueControllerTest {
 
     @Test
     @Order(20)
-    public void testGetCatalogueItem() throws Exception {
+    void testGetCatalogueItem() throws Exception {
 
         createCatalogueItem();
 
-        this.client
+        client
                 .get()
                 .uri(replaceSKU(GET_ITEM))
                 .accept(MediaType.APPLICATION_JSON)
@@ -104,10 +102,10 @@ public class CatalogueControllerTest {
 
     @Test
     @Order(30)
-    public void testGetCatalogueItemsStream() throws Exception {
+    void testGetCatalogueItemsStream() throws Exception {
 
         FluxExchangeResult<CatalogueItem> result
-                = this.client
+                = client
                 .get()
                 .uri(GET_ITEMS_STREAM)
                 .accept(MediaType.TEXT_EVENT_STREAM)
@@ -127,11 +125,11 @@ public class CatalogueControllerTest {
 
     @Test
     @Order(40)
-    public void testCreateCatalogueItem() {
+    void testCreateCatalogueItem() {
         CatalogueItem item = CatalogueItemGenerator.generateCatalogueItem();
         item.setId(null);
 
-        this.client
+        client
                 .post()
                 .uri(CREATE)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -143,10 +141,10 @@ public class CatalogueControllerTest {
 
     @Test
     @Order(40)
-    public void testUpdateCatalogueItem() throws Exception {
+    void testUpdateCatalogueItem() throws Exception {
         createCatalogueItem();
 
-        this.client
+        client
                 .put()
                 .uri(replaceSKU(UPDATE))
                 .contentType(MediaType.APPLICATION_JSON)
@@ -157,10 +155,10 @@ public class CatalogueControllerTest {
 
     @Test
     @Order(50)
-    public void testDeleteCatalogueItem() throws Exception {
+    void testDeleteCatalogueItem() throws Exception {
         createCatalogueItem();
 
-        this.client
+        client
                 .delete()
                 .uri(replaceSKU(DELETE))
                 .exchange()
@@ -172,12 +170,14 @@ public class CatalogueControllerTest {
      */
     @Test
     @Order(60)
-    public void testCreateCatalogueItemWithInvalidCategory() {
+    void testCreateCatalogueItemWithInvalidCategory() {
 
-        CatalogueItem catalogueItem = CatalogueItemGenerator.generateCatalogueItem();
+        CatalogueRequest catalogueItem = CatalogueItemGenerator.generateCatalogueRequest();
         catalogueItem.setCategory("INVALID");
 
-        this.client
+
+        catalogueItem.setCategory("");
+        client
                 .post()
                 .uri(CREATE)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -192,9 +192,9 @@ public class CatalogueControllerTest {
      */
     @Test
     @Order(70)
-    public void testResourceNotFoundException() throws Exception{
+    void testResourceNotFoundException() throws Exception {
 
-        this.client
+        client
                 .get()
                 .uri(GET_ITEM.replaceAll("\\{sku\\}", "INVALID"))
                 .accept(MediaType.APPLICATION_JSON)
@@ -205,11 +205,12 @@ public class CatalogueControllerTest {
 
     /**
      * Test CatalogueItem Image file upload
+     *
      * @throws Exception
      */
     @Test
     @Order(80)
-    public void testCatalogueItemImageUpload() throws Exception {
+    void testCatalogueItemImageUpload() throws Exception {
 
         when(fileStorageService.storeFile(any())).thenReturn(Mono.just("FILE_NAME"));
 
@@ -219,7 +220,7 @@ public class CatalogueControllerTest {
         multipartBodyBuilder
                 .part("file", new ClassPathResource("application.yml"));
 
-        this.client
+        client
                 .post()
                 .uri(replaceSKU(UPLOAD_IMAGE))
                 .body(BodyInserters.fromMultipartData(multipartBodyBuilder.build()))
@@ -231,7 +232,7 @@ public class CatalogueControllerTest {
         CatalogueItem item = CatalogueItemGenerator.generateCatalogueItem();
         item.setId(null);
 
-        this.client
+        client
                 .post()
                 .uri(CREATE)
                 .contentType(MediaType.APPLICATION_JSON)

@@ -1,5 +1,9 @@
 #  Reactive CRUD REST-full APIs 
+
+![picture alt](images/bender_small.jpg)
+
 ## Spring Data R2DBC with H2 in-memory database
+
 ```http request
   http://localhost:8088/info
 ```
@@ -16,6 +20,7 @@
 ```http request
 mvn clean spring-boot:run
 ```
+
 
 ### Catalogue  Restful APIs
 | HTTP Method 	| API Name |	Path |	Response Status Code|
@@ -51,32 +56,35 @@ mvn clean spring-boot:run
   * Testing Websocket Endpoint
   * Firecamp to test web socket
 
-### Application Information
-
-### Testing Websocket Endpoint
-
-
 ## TODO list
 - [ ] data base structure
-- [ ] controller level
+- [x] controller level
+  - [x] rest controller 
+  - [x] ws controller
 - [x] service level
-  - [ ] test
-  - [ ] test2
+  - [ ] file storage 
+  - [x] catalog service
 - [ ] exception handling
-- [ ] integration testing
+- [x] integration testing
+- [x] jacoco report
+
+### Integration testing 
 
 
 
-![picture alt](images/bender_small.jpg)
-<br/>
+# [API tests with Junit5](https://2much2learn.com/crud-restful-api-testing-using-rest-assured/).
 
-<img src="images/bender_small.jpg" alt="alt text" title="Title" />
 
-spring-boot-devtools
-
+## spring-boot-devtools
 Press SHIFT+CTRL+A for Linux/Windows users or Command+SHIFT+A for Mac users, then type registry in the opened pop-up window. Scroll down to Registry using the down arrow key and hit ENTER on Registry. In the Registry window verify the option compiler.automake.allow.when.app.running is checked.
 
 ### Firecamp 
 
 localhost:8088/api/v1/ws/events
 
+### jacoco report 
+
+```http request
+mvn jacoco:report
+```
+Open target/site/jacoco/index.html file to get pictorial view.

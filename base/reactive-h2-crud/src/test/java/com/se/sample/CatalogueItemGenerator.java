@@ -4,6 +4,7 @@ package com.se.sample;
 //import com.toomuch2learn.reactive.crud.catalogue.model.CatalogueItem;
 
 import com.se.sample.model.CatalogueItem;
+import com.se.sample.model.request.CatalogueRequest;
 
 import java.time.Instant;
 import java.util.List;
@@ -18,6 +19,10 @@ public class CatalogueItemGenerator {
 
     public static CatalogueItem generateCatalogueItem() {
         return generateCatalogueItem(1000l);
+    }
+
+    public static CatalogueRequest generateCatalogueRequest() {
+        return generateCatalogueRequest(1000l);
     }
 
     /**
@@ -35,6 +40,20 @@ public class CatalogueItemGenerator {
         item.setInventory(10);
         item.setPrice(100.0);
         item.setCreatedOn(now);
+
+        return item;
+    }
+
+
+    private static CatalogueRequest generateCatalogueRequest(Long id) {
+        CatalogueRequest item = new CatalogueRequest();
+
+        item.setSku("SKU-1234");
+        item.setName("Item Name");
+        item.setDescription("Item Desc");
+        item.setCategory("Books");
+        item.setInventory(10);
+        item.setPrice(100.0);
 
         return item;
     }

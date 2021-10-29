@@ -2,7 +2,9 @@ package com.se.sample.service.impl;
 
 import com.se.sample.event.CatalogueItemEvent;
 import com.se.sample.exception.ResourceNotFoundException;
+import com.se.sample.mapper.CatalogMapper;
 import com.se.sample.model.CatalogueItem;
+import com.se.sample.model.request.CatalogueRequest;
 import com.se.sample.repository.CatalogueRepository;
 import com.se.sample.service.CatalogueCrudService;
 import lombok.AllArgsConstructor;
@@ -32,8 +34,9 @@ public class CatalogueCrudServiceImpl implements CatalogueCrudService {
 
 
     @Override
-    public Mono<Long> addCatalogItem(CatalogueItem catalogueItem) {
-        catalogueItem.setCreatedOn(Instant.now());
+    public Mono<Long> addCatalogItem(CatalogueRequest catalogRequest) {
+
+        CatalogueItem catalogueItem = CatalogMapper.INSTANCE.toCatalogueItem(catalogRequest);
 
         return
                 catalogueRepository
