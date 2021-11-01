@@ -2,6 +2,8 @@ package com.se.sample.controller;
 
 public class CatalogueControllerAPIPaths {
 
+
+    private CatalogueControllerAPIPaths(){}
     public static final String BASE_PATH = "/api/v1";
 
     public static final String CREATE = "/";
