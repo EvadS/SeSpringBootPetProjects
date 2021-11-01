@@ -1,8 +1,10 @@
 package com.se.sample.model;
 
+import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+@ApiModel
 @AllArgsConstructor
 public enum Category {
 

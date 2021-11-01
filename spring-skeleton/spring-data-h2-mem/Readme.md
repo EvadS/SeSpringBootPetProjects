@@ -24,6 +24,32 @@ We will be implementing the below `CRUD Restful APIs` to manage items for a Cata
 * Gradle v6.1.1
 * IntelliJ Idea v2019.3.2
 
+
+
+## Test
+swagger 
+```http request
+http://localhost:8080/swagger-ui.html
+```
+### Add new
+```http request
+http://localhost:8080/api/v1/
+```
+
+```json
+{
+  "category": "Books",
+  "createdOn": "2021-11-01T08:25:06.996Z",
+  "description": "string",
+  "id": 0,
+  "inventory": 0,
+  "name": "string",
+  "price": 0,
+  "sku": "string",
+  "updatedOn": "2021-11-01T08:25:06.996Z"
+}
+```
+
 ## Running the Spring Boot Application
 
 There are couple of ways to run a Spring Boot Application. During development, the ideal one would be to run the main class which is annotated with `SpringBootApplication` i.e, CrudCatalogueApplication.java in this project. And the other ways are running through maven or gradle.
