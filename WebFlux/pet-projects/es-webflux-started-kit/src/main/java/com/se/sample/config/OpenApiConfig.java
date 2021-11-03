@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Configuration;
 //@OpenAPIDefinition(
 //        info = @Info(
 //                title = "Spring Reactive API",
-//                version = "v1",
-//                description = @Value("${application-description"),
+//                version = "${application-version}",
+//                description = @Value("${application-description"),// TODO : sample
 //                contact = @Contact(
 //                        email = "evad.se@gmail.com"
 //                )
