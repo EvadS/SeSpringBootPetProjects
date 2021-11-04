@@ -1,0 +1,55 @@
+databaseChangeLog:
+- changeSet:
+    id: 1636032400445-1
+    author: evad-se2 (generated)
+    changes:
+    - addColumn:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: roler_id
+            type: bigint
+        tableName: roles
+- changeSet:
+    id: 1636032400445-2
+    author: evad-se2 (generated)
+    changes:
+    - createIndex:
+        columns:
+        - column:
+            name: roler_id
+        indexName: IX_rolesPK
+        tableName: roles
+        unique: true
+- changeSet:
+    id: 1636032400445-3
+    author: evad-se2 (generated)
+    changes:
+    - dropColumn:
+        columnName: id
+        tableName: roles
+- changeSet:
+    id: 1636032400445-4
+    author: evad-se2 (generated)
+    changes:
+    - dropForeignKeyConstraint:
+        baseTableName: users_roles
+        constraintName: FKj6m8fwv7oqv74fcehir1a9ffy
+    - addForeignKeyConstraint:
+        baseColumnNames: role_id
+        baseTableName: users_roles
+        constraintName: FKj6m8fwv7oqv74fcehir1a9ffy
+        referencedColumnNames: roler_id
+        referencedTableName: roles
+- changeSet:
+    id: 1636032400445-5
+    author: evad-se2 (generated)
+    changes:
+    - dropPrimaryKey:
+        tableName: roles
+    - addPrimaryKey:
+        columnNames: roler_id
+        constraintName: rolesPK
+        tableName: roles
+
