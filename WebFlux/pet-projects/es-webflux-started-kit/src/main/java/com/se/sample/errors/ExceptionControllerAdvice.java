@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.support.WebExchangeBindException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -40,7 +42,9 @@ public class ExceptionControllerAdvice {
     @ExceptionHandler({WebExchangeBindException.class,
             ConstraintViolationException.class
     })
-    public HttpEntity<ErrorDetail> handleWebExchangeBindException(WebExchangeBindException exception) {
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorDetail handleWebExchangeBindException(WebExchangeBindException exception) {
 
         LOGGER.error("Constraint Violation: {}", exception.getMessage());
 
@@ -62,7 +66,9 @@ public class ExceptionControllerAdvice {
      * @return {@link ResponseEntity} containing standard body in case of errors
      */
     @ExceptionHandler(ResourceNotFoundException.class)
-    public HttpEntity<ErrorDetail> handleResourceNotFoundException(ResourceNotFoundException e) {
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseBody
+    public ErrorDetail handleResourceNotFoundException(ResourceNotFoundException e) {
 
         LOGGER.error("Resource {} ,by: {} value {} cannot be found", e.getResourceName(),
                 e.getFieldName(), e.getFieldValue());
@@ -71,7 +77,7 @@ public class ExceptionControllerAdvice {
                 e.getMessage());
         problem.setStatus(HttpStatus.NOT_FOUND.value());
 
-        return new ResponseEntity<>(problem, overrideContentType(), HttpStatus.NOT_FOUND);
+        return problem;
     }
 
 
@@ -89,13 +95,13 @@ public class ExceptionControllerAdvice {
 
         ErrorDetail problem = new ErrorDetail("Resource already exists",
                 e.getMessage());
-        problem.setStatus(HttpStatus.NOT_FOUND.value());
+        problem.setStatus(HttpStatus.CONFLICT.value());
 
-        return new ResponseEntity<>(problem, overrideContentType(), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(problem, overrideContentType(), HttpStatus.CONFLICT);
     }
 
     /*******************************************************
-     * 415 NOT FOUND BLOCK
+     * 415 block UnsupportedMediaTypeStatusException
      *******************************************************/
 
     /**
@@ -115,11 +121,7 @@ public class ExceptionControllerAdvice {
         return new ResponseEntity<>(problem, overrideContentType(), HttpStatus.BAD_REQUEST);
     }
 
-
-    /**
-     * 415 block UnsupportedMediaTypeStatusException
-     */
-
+/*** 422  */
     /**
      * Handles incorrect json case
      *
@@ -299,7 +301,7 @@ public class ExceptionControllerAdvice {
         return httpHeaders;
     }
 
-    public HttpEntity<ErrorDetail> validationError(final String exceptionMessage,
+    public ErrorDetail validationError(final String exceptionMessage,
                                                    final List<ApiValidationError> details) {
 
         final ErrorDetail problem = new ErrorDetail("Field type mismatch", exceptionMessage);
@@ -307,6 +309,6 @@ public class ExceptionControllerAdvice {
         problem.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.value());
         problem.setErrors(details);
 
-        return new ResponseEntity<>(problem, overrideContentType(), HttpStatus.BAD_REQUEST);
+        return problem;
     }
 }

@@ -103,7 +103,7 @@
                 <configuration>
                     <propertyFile>${project.build.outputDirectory}/liquibase-maven-plugin.properties</propertyFile>
                     <systemProperties>
-                        <user.name>evad-se</user.name>
+                        <user.name>evad-se2</user.name>
                     </systemProperties>
                     <logging>info</logging>
                 </configuration>
