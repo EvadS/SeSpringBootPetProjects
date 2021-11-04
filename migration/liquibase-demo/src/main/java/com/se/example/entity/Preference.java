@@ -15,12 +15,9 @@ public class Preference {
     @Column(name="customer_id", nullable = false)
     private String customerId;
 
-
-    private String childName;
     @ManyToOne
-    @JoinColumn(name = "scr_mst_users_id", nullable = true)
+    @JoinColumn(name = "scr_mst_users_customer_id_user_id", nullable = true)
     private UserEntity userEntity;
-
 
     public Preference() {
     }
@@ -40,15 +37,6 @@ public class Preference {
     public void setCustomerId(String customerId) {
         this.customerId = customerId;
     }
-
-    public String getChildName() {
-        return childName;
-    }
-
-    public void setChildName(String childName) {
-        this.childName = childName;
-    }
-
 
     public UserEntity getUserEntity() {
         return userEntity;
