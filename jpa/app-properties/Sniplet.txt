@@ -1,0 +1,16 @@
+
+Полезные настроки 
+
+## Генерим базу из классов и заполняем
+spring.jpa.show-sql=true
+# mode how hibernate generate data base
+spring.jpa.hibernate.ddl-auto=create
+spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
+
+
+
+как заполнить:  в resources/database создать data.sql и вставить скрипты заполнения 
+
+spring.jpa.generate-ddl=true
+spring.datasource.data=classpath:/database/data.sql
+-----------------------------------------------------------------------------------

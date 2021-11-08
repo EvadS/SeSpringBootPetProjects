@@ -1,0 +1,30 @@
+# ===============================
+# DATABASE CONNECTION
+# ===============================
+ spring.jpa.database=POSTGRESQL
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.datasource.url=jdbc:postgresql://tran-vmware-pc:5432/Test
+spring.datasource.username=postgres
+spring.datasource.password=12345
+ 
+# ===============================
+# JPA / HIBERNATE
+# ===============================
+ 
+spring.jpa.show-sql=true
+# Hibernate ddl auto (create, create-drop, validate, update)
+spring.jpa.hibernate.ddl-auto=update
+
+# The SQL dialect makes Hibernate generate better SQL for the chosen database
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+ 
+ 
+# Fix Postgres JPA Error:
+# Method org.postgresql.jdbc.PgConnection.createClob() is not yet implemented.
+spring.jpa.properties.hibernate.temp.use_jdbc_metadata_defaults=false
+
+#void a warning message in the logs when you start the spring-boot application
+spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
+
+logging.level.org.hibernate.SQL=DEBUG
+logging.level.org.hibernate.type=TRACE

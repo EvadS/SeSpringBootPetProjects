@@ -1,9 +1,15 @@
 # Getting Started
 Liquibase maven sample
 
-## part 1 
+## part 0 
+ create new entity with spring 
+```json
+  spring.jpa.hibernate.ddl-auto=create
+```
+ table will be created
 
-Добавляем в файл application.properties настройку
+
+## part 1 
 ```json
 spring.jpa.hibernate.ddl-auto=none
 ```

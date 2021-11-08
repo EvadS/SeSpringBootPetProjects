@@ -1,0 +1,16 @@
+databaseChangeLog:
+- changeSet:
+    id: 1636029161286-1
+    author: evad-se2 (generated)
+    changes:
+    - dropColumn:
+        columnName: first_name
+        tableName: users
+- changeSet:
+    id: 1636029161286-2
+    author: evad-se2 (generated)
+    changes:
+    - dropColumn:
+        columnName: last_name
+        tableName: users
+

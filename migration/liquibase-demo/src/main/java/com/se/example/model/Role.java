@@ -5,13 +5,13 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
 
-//@Entity
+@Entity
 @Table(name = "roles")
 public class Role implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "roler_id")
     private Long id;
 
     @Column(name = "name", unique = true, nullable = false)
@@ -19,6 +19,7 @@ public class Role implements Serializable {
 
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
+
 
     public Role() {
     }

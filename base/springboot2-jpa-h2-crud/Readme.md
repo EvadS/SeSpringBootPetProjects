@@ -1,3 +1,0 @@
-
-
-Base jpa crud
