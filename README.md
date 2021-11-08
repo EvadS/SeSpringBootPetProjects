@@ -1,48 +1,47 @@
-# SeSpringBootLearning
-
-Several Boot skeletons samples.
-## Git recomendations 
+# SpringBootLearning Demos and snippets
+Several Boot skeletons and demo samples.
+## Git recommendations 
 
 Git commit text rules 
 
-1. Отделяйте заголовок от тела пустой строкой
-2. Ограничивайте заголовок 50 символами
-3. Пишите заголовок с заглавной буквы
-4. Не ставьте точку в конце заголовка
-5. Используйте повелительное наклонение в заголовке
-6. Переходите на следующую строку в теле на 72 символах
-7. В теле отвечайте на вопросы что и почему, а не как
+1. Separate the heading from the body with a blank line
+2. Limit your title to 50 characters
+3. Capitalize your title
+4. Don't put a period at the end of the headline
+5. Use an imperative in your headline
+6. Go to the next line in the body at 72 characters
+7.   In the body, answer the questions what and why, not how
 
-<b>Коммит</b> — это по сути <i>информация об изменениях</i>. Как-то правильнее, с моей точки зрения, ощущается вопрос 
+<b>Commit</b> — это по сути <i>information about changes </i>. Как-то правильнее, с моей точки зрения, ощущается вопрос 
  * <b>«Что эти изменения делают»</b>
  * <b>«Что сделают» </b> а не «Что эти изменения сделали». Т.к. это же не фиксированная точка в истории, коммиты можно переставлять местами, сливать, переносить в другие ветки и т.д.
 
-### Уточнения 
-#### Заголовок и тело 
-Разбиваем коммит пробелом на заголовок и тело. 
+### Clarification 
+#### Title and body 
+We split the commit with a space into a header and a body.
 
 ``` 
 git commit -am 'commit title
 
 commit body message'
 ```
-Выводим только строку заголовка
+Displaying only the title line
 ``` 
  git log --oneline 
 ```
-группируем коммиты по автору, опять же, для краткости показывает только заголовок
+grouping commits by an author, again, for brevity, only shows the title
 ```
  git shortlog 
 ```
 
-#### Поиск по коммитам 
+#### searching by commits 
 ```
 git log --oneline -5 --author 'Evad' --before "Fri Mar 2 2020"
 ```
 
 #### Заголовок
 
-Правильно составленный заголовок коммита должен завершать следующее предложение
+A well-formed commit header should end the following sentence
 
 ---
 If applied, this commit will <заголовок коммита>

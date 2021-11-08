@@ -1,0 +1,18 @@
+handle constraint validation exception
+
+ @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    ErrorDetail onMethodArgumentNotValidException(
+            MethodArgumentNotValidException e) {
+//        ValidationErrorResponse error = new ValidationErrorResponse();
+//        for (FieldError fieldError : e.getBindingResult().getFieldErrors()) {
+//            error.getViolations().add(
+//                    new Violation(fieldError.getField(), fieldError.getDefaultMessage()));
+//        }
+//        return error;
+
+        return validationError(e.getMessage(), e.getBindingResult().getFieldErrors().stream()
+                .map(violation -> new ErrorDetail("Invalid Parameter", violation.getDefaultMessage()))
+                .collect(Collectors.toList()));
+    }
