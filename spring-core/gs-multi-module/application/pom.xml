@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>com.example</groupId>
-    <artifactId>multi-module-application-complete</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>multi-module-application-complete</name>
+    <groupId>com.se.sample</groupId>
+    <artifactId>application</artifactId>
+    <version>0.0.1</version>
+    <name>ms-application-name</name>
 
     <description>Demo project for Spring Boot</description>
     <properties>
@@ -35,9 +35,10 @@
         </dependency>
 
         <dependency>
-            <groupId>com.example</groupId>
-            <artifactId>library-complete</artifactId>
-            <version>${project.version}</version>
+            <groupId>com.se.sample</groupId>
+            <artifactId>library</artifactId>
+            <version>0.0.2</version>
+            <scope>compile</scope>
         </dependency>
 
     </dependencies>

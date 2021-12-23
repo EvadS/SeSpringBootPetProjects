@@ -1,5 +1,6 @@
 package com.example.multimodule.application;
 
+
 import com.example.multimodule.service.MyService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

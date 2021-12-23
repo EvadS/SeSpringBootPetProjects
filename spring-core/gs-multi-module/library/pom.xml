@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>com.example</groupId>
-    <artifactId>library-complete</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>multi-module-library-complete</name>
+    <groupId>com.se.sample</groupId>
+    <artifactId>library</artifactId>
+    <version>0.0.2</version>
+    <name>ms-library</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
