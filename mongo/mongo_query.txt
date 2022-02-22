@@ -1,0 +1,44 @@
+Table
+
+{
+	"_id" : ObjectId("62030553cff47e00011ae7b4"),
+	"_class" : "com.sold.ms.riddler.domain.QuestionSetEntity",
+	"questionSetId" : NumberLong(18261),
+	"consumerId" : NumberLong(9093),
+	"quizId" : "SP1",
+	"fsboListPrice" : "",
+	"questionResponses" : [
+		{
+			"questionId" : "SP1_ADDR",
+			"responseOptionId" : "",
+			"responseAddress" : {
+				"streetAddress" : "2010 Monarch Ave, Sacramento, CA 95832, USA",
+				"city" : "Sacramento",
+				"state" : "CA",
+				"zip" : "95832",
+				"streetNumber" : "2010",
+				"streetName" : "Monarch Avenue",
+				"countyName" : "Sacramento County",
+				"lat" : 38.4786034,
+				"lng" : -121.4932591,
+				"validatedOnGoogle" : false
+			},
+			"propertyId" : NumberLong(115449)
+		}
+	],
+	"createdDate" : ISODate("2022-02-09T02:05:39.467+02:00"),
+	"updatedDate" : ISODate("2022-02-09T02:05:39.467+02:00")
+}
+
+
+###  поиск zip 36561 в массиве questionResponses
+```json
+    {
+        "questionResponses": {$elemMatch: {"responseAddress.zip" :  {$in : [ "36561"]}}}
+    }
+```
+
+
+### Поиск всех записей у который есть поле questionResponses.responseAddress.zip
+
+{ 'questionResponses.responseAddress.zip' : { $exists: true, $ne: null } }
