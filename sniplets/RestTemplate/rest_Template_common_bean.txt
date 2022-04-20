@@ -1,0 +1,139 @@
+package com.sold.ms.commons.config;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.sold.ms.commons.rest.CustomResponseErrorHandler;
+import com.sold.ms.commons.rest.filter.HeaderRequestInterceptor;
+import com.sold.ms.commons.rest.filter.MediaTypeInterceptor;
+import com.sold.ms.commons.util.deserializers.ObjectErrorDeserializer;
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.NoConnectionReuseStrategy;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.LaxRedirectStrategy;
+import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
+import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.http.client.AsyncClientHttpRequestInterceptor;
+import org.springframework.http.client.HttpComponentsAsyncClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.client.AsyncRestTemplate;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * Provides common/standardized setup for rest based APIs
+ */
+@Configuration
+public class RestConfiguration {
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        return Jackson2ObjectMapperBuilder.json()
+                .serializationInclusion(JsonInclude.Include.NON_NULL)
+                .propertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE)
+                .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+                .deserializerByType(ObjectError.class, new ObjectErrorDeserializer())
+                .build();
+    }
+
+    @Bean
+    public HeaderRequestInterceptor headerRequestInterceptor() {
+        return new HeaderRequestInterceptor();
+    }
+
+    @Bean
+    @LoadBalanced
+    @Primary
+    public RestTemplate restTemplate(RestTemplateBuilder builder, ObjectMapper objectMapper, HeaderRequestInterceptor interceptor) {
+        return createRestTemplate(builder, objectMapper, interceptor);
+    }
+
+    @Bean(name = "restTemplateNoDiscovery")
+    public RestTemplate restTemplateNoDiscovery(RestTemplateBuilder builder, ObjectMapper objectMapper, HeaderRequestInterceptor interceptor) {
+        return createRestTemplate(builder, objectMapper, interceptor);
+    }
+
+    @Bean(name = "asyncRestTemplateNoDiscovery")
+    public AsyncRestTemplate asyncRestTemplate(ObjectMapper objectMapper) {
+        AsyncRestTemplate restTemplate = new AsyncRestTemplate();
+        CloseableHttpAsyncClient client = HttpAsyncClientBuilder.create().setConnectionReuseStrategy(NoConnectionReuseStrategy.INSTANCE)
+            .setMaxConnPerRoute(20)
+            .setMaxConnTotal(200)
+            .setRedirectStrategy(new LaxRedirectStrategy())
+            .build();
+
+        HttpComponentsAsyncClientHttpRequestFactory requestFactory = new HttpComponentsAsyncClientHttpRequestFactory();
+        requestFactory.setAsyncClient(client);
+
+        restTemplate.setErrorHandler(new CustomResponseErrorHandler(objectMapper));
+        restTemplate.setAsyncRequestFactory(requestFactory);
+        List<AsyncClientHttpRequestInterceptor> interceptors = Arrays.asList(new MediaTypeInterceptor(), new HeaderRequestInterceptor());
+        restTemplate.getInterceptors().addAll(interceptors);
+        setObjectMapperOnAsyncRestTemplate(restTemplate, objectMapper);
+        return restTemplate;
+    }
+
+    private static RestTemplate createRestTemplate(RestTemplateBuilder builder, ObjectMapper objectMapper, HeaderRequestInterceptor interceptor) {
+        HttpClient httpClient = HttpClientBuilder.create()
+                .setConnectionReuseStrategy(NoConnectionReuseStrategy.INSTANCE)
+                .setMaxConnPerRoute(20)
+                .setMaxConnTotal(200)
+                .setRedirectStrategy(new LaxRedirectStrategy())
+                .build();
+
+        HttpComponentsClientHttpRequestFactory requestFactory =
+                new HttpComponentsClientHttpRequestFactory(httpClient);
+
+        RestTemplate restTemplate = builder
+                .errorHandler(new CustomResponseErrorHandler(objectMapper))
+                .requestFactory(requestFactory)
+                .build();
+        restTemplate.getInterceptors().add(interceptor);
+        setObjectMapperOnRestTemplate(restTemplate, objectMapper);
+        return restTemplate;
+    }
+
+    public static void setObjectMapperOnRestTemplate(RestTemplate template, ObjectMapper mapper) {
+        for (HttpMessageConverter converter : template.getMessageConverters()) {
+            if (converter instanceof MappingJackson2HttpMessageConverter) {
+                MappingJackson2HttpMessageConverter c = (MappingJackson2HttpMessageConverter) converter;
+                c.setObjectMapper(mapper);
+            }
+        }
+    }
+
+    public static void setObjectMapperOnAsyncRestTemplate(AsyncRestTemplate template, ObjectMapper mapper) {
+        List<HttpMessageConverter<?>> messageConverters = template.getMessageConverters();
+
+        Integer xmlConverterIndex = null;
+
+        for (int i = 0; i < messageConverters.size(); i++) {
+            if (messageConverters.get(i) instanceof MappingJackson2XmlHttpMessageConverter && xmlConverterIndex == null) {
+                xmlConverterIndex = i;
+            } else if (messageConverters.get(i) instanceof MappingJackson2HttpMessageConverter) {
+                MappingJackson2HttpMessageConverter converter = (MappingJackson2HttpMessageConverter) messageConverters.get(i);
+                converter.setObjectMapper(mapper);
+
+                if (xmlConverterIndex != null && xmlConverterIndex < i) {
+                    messageConverters.remove(converter);
+                    messageConverters.add(xmlConverterIndex, converter);
+                    xmlConverterIndex += 1;
+                }
+            }
+        }
+    }
+}
+
