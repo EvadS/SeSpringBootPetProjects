@@ -11,6 +11,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @ApiModelProperty(notes = "The database generated product ID")
     private Integer id;
+
     @Version
     @ApiModelProperty(notes = "The auto-generated version of the product")
     private Integer version;
@@ -23,20 +24,7 @@ public class Product {
     @ApiModelProperty(notes = "The price of the product", required = true)
     private BigDecimal price;
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Integer getVersion() {
-        return version;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
+    public Product() {
     }
 
     public Integer getId() {
@@ -47,12 +35,28 @@ public class Product {
         this.id = id;
     }
 
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
     public String getProductId() {
         return productId;
     }
 
     public void setProductId(String productId) {
         this.productId = productId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getImageUrl() {
