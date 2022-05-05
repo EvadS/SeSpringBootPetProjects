@@ -3,7 +3,6 @@ package io.pivotal.literx;
 //generic imports to help with simpler IDEs (ie tech.io)
 import java.time.temporal.ChronoUnit;
 import java.util.*;
-import java.util.function.*;
 import java.time.*;
 
 import reactor.core.publisher.Flux;

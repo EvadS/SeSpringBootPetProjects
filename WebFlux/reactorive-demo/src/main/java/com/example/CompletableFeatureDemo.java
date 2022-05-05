@@ -7,7 +7,11 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class Test1 {
+
+/**
+ * invistigated completable feature
+ */
+public class CompletableFeatureDemo {
     public static void main(String[] args) {
         Stream.of(1,2,3,4)
                 .peek(e -> System.out.println("Mapped value: " + e))
