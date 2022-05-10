@@ -1,0 +1,151 @@
+{
+    "dataSource": {
+        "type": "csv",
+        "filename": "blob:https://spnext.eng.cayuse.com/06969733-66a6-4be8-8c67-a4c07362a4d1",
+        "mapping": {
+            "Created Date": {
+                "type": "datetime"
+            },
+            "Date of 2nd Travel": {
+                "type": "datetime"
+            },
+            "Date of 3rd Travel": {
+                "type": "datetime"
+            },
+            "Date of Travel": {
+                "type": "datetime"
+            },
+            "dateprepared": {
+                "type": "datetime"
+            },
+            "Period 1 - End Date": {
+                "type": "datetime"
+            },
+            "Period 1 - Start Date": {
+                "type": "datetime"
+            },
+            "Period 2 - End Date": {
+                "type": "datetime"
+            },
+            "Period 2 - Start Date": {
+                "type": "datetime"
+            },
+            "Period 3 - End Date": {
+                "type": "datetime"
+            },
+            "Period 3 - Start Date": {
+                "type": "datetime"
+            },
+            "Period 4 - End Date": {
+                "type": "datetime"
+            },
+            "Period 4 - Start Date": {
+                "type": "datetime"
+            },
+            "Period 5 - End Date": {
+                "type": "datetime"
+            },
+            "Period 5 - Start Date": {
+                "type": "datetime"
+            },
+            "Project End Date": {
+                "type": "datetime"
+            },
+            "Project Start Date": {
+                "type": "datetime"
+            },
+            "projectenddate": {
+                "type": "datetime"
+            },
+            "projectstartdate": {
+                "type": "datetime"
+            },
+            "proposalsubmissiondate": {
+                "type": "datetime"
+            },
+            "Sponsor Deadline": {
+                "type": "datetime"
+            },
+            "Submission Deadline": {
+                "type": "datetime"
+            }
+        }
+    },
+    "slice": {
+        "columns": [
+            {
+                "uniqueName": "Project Title"
+            },
+            {
+                "uniqueName": "Proposal #"
+            },
+            {
+                "uniqueName": "PI"
+            },
+            {
+                "uniqueName": "Status"
+            },
+            {
+                "uniqueName": "Sponsor"
+            },
+            {
+                "uniqueName": "Prime Sponsor"
+            },
+            {
+                "uniqueName": "Admin Unit"
+            },
+            {
+                "uniqueName": "Project Start Date"
+            },
+            {
+                "uniqueName": "Project End Date"
+            },
+            {
+                "uniqueName": "Proposal Type"
+            },
+            {
+                "uniqueName": "Instrument Type"
+            },
+            {
+                "uniqueName": "Project #"
+            },
+            {
+                "uniqueName": "Total Sponsor Costs"
+            },
+            {
+                "uniqueName": "Sponsor Deadline"
+            },
+            {
+                "uniqueName": "[Measures]"
+            }
+        ],
+        "flatSort": [
+            {
+                "uniqueName": "Project Title",
+                "sort": "asc"
+            }
+        ]
+    },
+    "options": {
+        "grid": {
+            "type": "flat",
+            "showTotals": "off",
+            "showGrandTotals": "off"
+        }
+    },
+    "formats": [
+        {
+            "name": "",
+            "thousandsSeparator": " ",
+            "decimalSeparator": ".",
+            "maxSymbols": 20,
+            "currencySymbol": "",
+            "positiveCurrencyFormat": "$1",
+            "nullValue": " ",
+            "infinityValue": "Infinity",
+            "divideByZeroValue": "Infinity"
+        }
+    ],
+    "version": "2.9.11",
+    "creationDate": "2022-05-10T10:13:45.037Z"
+}
