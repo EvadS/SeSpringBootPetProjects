@@ -10,9 +10,17 @@ import java.util.stream.Collectors;
 
 public class PublisherDemo {
 
-    static  void demo1(){
+    static String test(){
+        return "a";
+    }
 
-        Publisher<Integer> intPublisher =  Flux.fromArray(new Integer[]{ 1,2,3,4,5,6,7 });
+     void demo1(){
+
+
+         Mono<String> defer = Mono.defer(() -> Mono.just(test()));
+
+
+         Publisher<Integer> intPublisher =  Flux.fromArray(new Integer[]{ 1,2,3,4,5,6,7 });
 
         StepVerifier.create(intPublisher)
                 .expectNext(1,2,3,4,5,6,7)
@@ -55,6 +63,6 @@ public class PublisherDemo {
 
 
     public static void main(String[] args) {
-        demo1();
+        new PublisherDemo().demo1();
     }
 }
