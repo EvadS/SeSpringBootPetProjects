@@ -1,7 +1,7 @@
-package com.se.sample;
+package com.se.sample.cold.publishers;
 
-import com.se.sample.model.People;
-import com.se.sample.model.Sex;
+import com.se.sample.cold.publishers.model.People;
+import com.se.sample.cold.publishers.model.Sex;
 import reactor.core.publisher.Flux;
 
 import java.util.Arrays;

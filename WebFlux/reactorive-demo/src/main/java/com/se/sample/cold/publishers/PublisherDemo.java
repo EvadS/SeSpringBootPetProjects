@@ -1,4 +1,4 @@
-package com.example;
+package com.se.sample.cold.publishers;
 
 import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;

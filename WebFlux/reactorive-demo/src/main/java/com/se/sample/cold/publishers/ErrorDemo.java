@@ -1,10 +1,10 @@
-package com.se.sample;
+package com.se.sample.cold.publishers;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.SignalType;
 
-public class ErrorDEmo {
+public class ErrorDemo {
 
 
     //doOnError  префикс doOn,
@@ -14,26 +14,24 @@ public class ErrorDEmo {
     //onErrorResume — восстановить и продолжить работу (выполнить метод резервного копирования.
 
     public static void main(String[] args) {
-        //hasElements
-        demoHasElements();
 
-        Flux<String> flux = Flux
-                .<String>error(new IllegalArgumentException())
-                .doOnError(System.out::println)
-        ;
+        demoHasElements();
 
         defaultIfEmptyDemo();
 
-        Flux.empty()
-                .switchIfEmpty(Flux.range(1,3))
-                .subscribe(System.out::println);
-
+        demo_switchIfEmpty();
 
         demo_onErrorReturn();
 
         demo_doOnError();
 
         demo_doFinally();
+    }
+
+    private static void demo_switchIfEmpty() {
+        Flux.empty()
+                .switchIfEmpty(Flux.range(1,3))
+                .subscribe(System.out::println);
     }
 
     private static void demo_doFinally() {
@@ -74,16 +72,12 @@ public class ErrorDEmo {
                 .subscribe(value -> System.out.println("true/false: " + value));
     }
 
-
     private static int testNumbers(int value) {
         if (value > 2) {
             throw new IllegalArgumentException("value is too high!");
         }
         return value;
     }
-
-
-
 
     private static void defaultIfEmptyDemo() {
         //defaultIfEmpty

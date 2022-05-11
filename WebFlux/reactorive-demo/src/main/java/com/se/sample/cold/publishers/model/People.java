@@ -1,4 +1,4 @@
-package com.se.sample.model;
+package com.se.sample.cold.publishers.model;
 
 public class People {
 

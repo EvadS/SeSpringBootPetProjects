@@ -1,4 +1,4 @@
-package com.se.sample;
+package com.se.sample.cold.publishers;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.SignalType;
