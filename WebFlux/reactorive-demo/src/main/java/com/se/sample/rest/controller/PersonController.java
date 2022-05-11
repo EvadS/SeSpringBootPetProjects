@@ -18,7 +18,6 @@ public class PersonController {
     private final PersonService personService;
     private final PersonRepository personRepository;
 
-
     @GetMapping("/all")
     public Flux<Person> getAll() {
         return personService.getAll();
@@ -44,31 +43,8 @@ public class PersonController {
         return personService.save(person);
     }
 
-    @DeleteMapping("/deletePerson/{id}")
+    @DeleteMapping("/{id}")
     public Mono delete(@PathVariable final String id) {
         return personService.delete(id);
-    }
-
-    @PutMapping("/tmp/{id}")
-    public Mono<ResponseEntity<Person>> getUserById(@PathVariable String userId, @RequestBody Person user) {
-
-        //Mono<Mono<Person>>
-        //Mono<Person> byId = personRepository.findById(userId);
-        // Mono<Mono<Person>> map = personRepository.findById(userId).map(personRepository::save);
-
-        //--------------------------------
-
-        return personRepository.findById(userId)
-                .flatMap(dbUser -> {
-                    dbUser.setAge(user.getAge());
-                    dbUser.setFirstName(user.getFirstName());
-                    dbUser.setLastName(user.getLastName());
-                    dbUser.setInterests(user.getInterests());
-
-                    return personRepository.save(dbUser);
-                })
-
-                .map(updatedUser -> ResponseEntity.ok(updatedUser))
-                .defaultIfEmpty(ResponseEntity.badRequest().build());
     }
 }

@@ -3,6 +3,7 @@ package com.se.sample.rest.service;
 import com.se.sample.rest.entity.Person;
 import com.se.sample.rest.repository.PersonRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
@@ -18,10 +19,11 @@ public class PersonService {
 
     /**
      * find person by first name
+     *
      * @param fName
      * @return
      */
-    public Flux<Person> getByName(String fName){
+    public Flux<Person> getByName(String fName) {
         //что следует сделать в потоке данных
         return personRepository
                 .findAll()
@@ -38,7 +40,19 @@ public class PersonService {
     }
 
     public Mono update(final String id, final Person person) {
-        return personRepository.save(person);
+        return personRepository.findById(id)
+                .flatMap(dbUser -> {
+                    dbUser.setAge(person.getAge());
+                    dbUser.setFirstName(person.getFirstName());
+                    dbUser.setLastName(person.getLastName());
+                    dbUser.setInterests(person.getInterests());
+
+                    return personRepository.save(dbUser);
+                })
+
+                .map(updatedUser -> ResponseEntity.ok(updatedUser))
+                .defaultIfEmpty(ResponseEntity.badRequest().build());
+
     }
 
     public Mono save(final Person person) {
