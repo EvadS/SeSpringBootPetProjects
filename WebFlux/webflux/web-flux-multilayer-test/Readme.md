@@ -6,3 +6,6 @@
 * RestClients
 * ReactiveCrudRepository
 * WebFluxTest
+
+
+здесь я разбирался с интеграционным тестированием

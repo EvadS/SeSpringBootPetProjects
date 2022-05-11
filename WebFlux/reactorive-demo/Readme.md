@@ -2,7 +2,7 @@
 
 # Getting starting with reactive developments
 
-
+## Kirill sereda tutorials
 |КАТЕГОРИЯ ОПЕРАТОРА| ПРИМЕРЫ |
 | ---: | :--- |
 |Создание новой последовательности |just, fromArray, fromIterable, fromStream|
