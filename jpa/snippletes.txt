@@ -1,0 +1,13 @@
+
+
+
+Spring Data REST
+
+@RepositoryRestResource(collectionResourceRel = "users", path = "users")
+interface UserRepository extends PagingAndSortingRepository<WebsiteUser, Long> {
+    List<WebsiteUser> findByName(@Param("name") String name);
+}
+
+http://localhost:8080/users
+
+http://localhost:8080/users/1
