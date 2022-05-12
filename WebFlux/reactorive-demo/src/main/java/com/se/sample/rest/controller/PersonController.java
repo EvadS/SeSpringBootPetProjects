@@ -1,11 +1,9 @@
 package com.se.sample.rest.controller;
 
 import com.se.sample.rest.entity.Person;
-import com.se.sample.rest.entity.Sex;
 import com.se.sample.rest.repository.PersonRepository;
 import com.se.sample.rest.service.PersonService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
