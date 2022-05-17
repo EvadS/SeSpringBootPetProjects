@@ -1,53 +1,64 @@
 package com.se.services.elasticsearch.config;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.apache.http.HttpHost;
+import org.apache.http.client.config.RequestConfig.Builder;
+import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
+import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestClientBuilder;
+import org.elasticsearch.client.RestClientBuilder.HttpClientConfigCallback;
+import org.elasticsearch.client.RestClientBuilder.RequestConfigCallback;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.elasticsearch.client.ClientConfiguration;
-import org.springframework.data.elasticsearch.client.reactive.ReactiveElasticsearchClient;
-import org.springframework.data.elasticsearch.client.reactive.ReactiveRestClients;
-import org.springframework.data.elasticsearch.core.ReactiveElasticsearchOperations;
-import org.springframework.data.elasticsearch.core.ReactiveElasticsearchTemplate;
-import org.springframework.data.elasticsearch.core.convert.ElasticsearchConverter;
-import org.springframework.data.elasticsearch.core.convert.MappingElasticsearchConverter;
-import org.springframework.data.elasticsearch.core.mapping.SimpleElasticsearchMappingContext;
-import org.springframework.web.reactive.function.client.ExchangeStrategies;
+
+import java.util.ArrayList;
 
 @Configuration
 public class ElasticsearchConfig {
 
-    @Bean
-    public ReactiveElasticsearchClient reactiveElasticsearchClient() {
-        ClientConfiguration clientConfiguration = ClientConfiguration.builder()
-                .connectedTo(elassandraHostAndPort)
-                .withWebClientConfigurer(webClient -> {
-                    ExchangeStrategies exchangeStrategies = ExchangeStrategies.builder()
-                            .codecs(configurer -> configurer.defaultCodecs()
-                                    .maxInMemorySize(-1))
-                            .build();
-                    return webClient.mutate().exchangeStrategies(exchangeStrategies).build();
-                })
-                .build();
+    private static final String hosts = "127.0.0.1"; // адрес кластера, используется для нескольких, разделенных
+    private static final int port = 9200; // номер используемого порта
+    private static final String schema = "http"; // Используемый протокол
+    private static ArrayList<HttpHost> hostList = null;
 
-        return ReactiveRestClients.create(clientConfiguration);
+    private static final int connectTimeOut = 1000; // тайм-аут соединения
+    private static final int socketTimeOut = 30000; // тайм-аут соединения
+    private static final int connectionRequestTimeOut = 500; // Получить тайм-аут соединения
+
+    private static final int maxConnectNum = 100; // Максимальное количество подключений
+    private static final int maxConnectPerRoute = 100; // Максимальное количество соединений маршрутизации
+
+    static {
+        hostList = new ArrayList<>();
+        String[] hostStrs = hosts.split(",");
+        for (String host : hostStrs) {
+            hostList.add(new HttpHost(host, port, schema));
+        }
     }
 
     @Bean
-    public ElasticsearchConverter elasticsearchConverter() {
-        return new MappingElasticsearchConverter(elasticsearchMappingContext());
+    public RestHighLevelClient client() {
+        RestClientBuilder builder = RestClient.builder(hostList.toArray(new HttpHost[0]));
+        // Конфигурация задержки асинхронного подключения httpclient
+        builder.setRequestConfigCallback(new RequestConfigCallback() {
+            @Override
+            public Builder customizeRequestConfig(Builder requestConfigBuilder) {
+                requestConfigBuilder.setConnectTimeout(connectTimeOut);
+                requestConfigBuilder.setSocketTimeout(socketTimeOut);
+                requestConfigBuilder.setConnectionRequestTimeout(connectionRequestTimeOut);
+                return requestConfigBuilder;
+            }
+        });
+        // Конфигурация номера асинхронного подключения httpclient
+        builder.setHttpClientConfigCallback(new HttpClientConfigCallback() {
+            @Override
+            public HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder httpClientBuilder) {
+                httpClientBuilder.setMaxConnTotal(maxConnectNum);
+                httpClientBuilder.setMaxConnPerRoute(maxConnectPerRoute);
+                return httpClientBuilder;
+            }
+        });
+        RestHighLevelClient client = new RestHighLevelClient(builder);
+        return client;
     }
-
-    @Bean
-    public SimpleElasticsearchMappingContext elasticsearchMappingContext() {
-        return new SimpleElasticsearchMappingContext();
-    }
-
-    @Bean
-    public ReactiveElasticsearchOperations reactiveElasticsearchOperations() {
-        return new ReactiveElasticsearchTemplate(reactiveElasticsearchClient(), elasticsearchConverter());
-    }
-
-    @Value("${spring.data.elasticsearch.client.reactive.endpoints}")
-    private String elassandraHostAndPort;
-
 }

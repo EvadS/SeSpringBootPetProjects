@@ -1,7 +1,14 @@
 # Getting Started
+### base elastic steps 
+download and run elastic 
+```
+./bin/elasticsearch
+```
 
-https://piotrminkowski.com/2019/10/25/reactive-elasticsearch-with-spring-boot/
+disabling the x-pack security using  in elasticsearch.yml
+```
+xpack.security.enabled: false
+```
 
 
-
-https://piotrminkowski.com/2019/03/29/elasticsearch-with-spring-boot/
+https://medium.com/@sourav.pati09/how-to-use-java-high-level-rest-client-with-spring-boot-to-talk-to-aws-elasticsearch-2b6106f2e2c
