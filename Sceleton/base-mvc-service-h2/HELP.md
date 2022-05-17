@@ -1,5 +1,5 @@
 # Getting Started
-
+Spring, JPA, h2, Security
 
 ## Run 
 
