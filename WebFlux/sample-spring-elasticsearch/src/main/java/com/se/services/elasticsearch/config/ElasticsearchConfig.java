@@ -19,14 +19,12 @@ public class ElasticsearchConfig {
     private static final String hosts = "127.0.0.1"; // адрес кластера, используется для нескольких, разделенных
     private static final int port = 9200; // номер используемого порта
     private static final String schema = "http"; // Используемый протокол
-    private static ArrayList<HttpHost> hostList = null;
-
     private static final int connectTimeOut = 1000; // тайм-аут соединения
     private static final int socketTimeOut = 30000; // тайм-аут соединения
     private static final int connectionRequestTimeOut = 500; // Получить тайм-аут соединения
-
     private static final int maxConnectNum = 100; // Максимальное количество подключений
     private static final int maxConnectPerRoute = 100; // Максимальное количество соединений маршрутизации
+    private static ArrayList<HttpHost> hostList = null;
 
     static {
         hostList = new ArrayList<>();

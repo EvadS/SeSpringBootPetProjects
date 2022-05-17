@@ -32,7 +32,7 @@ public class ProfileController {
         return new ResponseEntity(service.updateProfile(document), HttpStatus.CREATED);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public List<ProfileDocument> findAll() throws Exception {
 
         return service.findAll();
