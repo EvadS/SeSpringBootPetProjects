@@ -24,3 +24,24 @@ xpack.security.enabled: false
        - [x] open api 
        - [x] authorize token
        - [x] grouped swagger api  
+       
+### Elastic api 
+#### get all products 
+```GET
+    http://localhost:9200/product/_search
+```
+
+#### Search by name 
+```GET
+
+``` 
+body 
+```json
+{
+  "query": {
+    "match_all": {
+      "_name" : "name2"
+    }
+  }
+}    
+```

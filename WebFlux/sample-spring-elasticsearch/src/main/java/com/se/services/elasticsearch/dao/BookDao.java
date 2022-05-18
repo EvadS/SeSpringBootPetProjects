@@ -1,8 +1,8 @@
 package com.se.services.elasticsearch.dao;
 
+import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.se.services.elasticsearch.document.ProfileDocument;
 import com.se.services.elasticsearch.model.Book;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,8 +27,8 @@ import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
-import static com.se.services.elasticsearch.util.Constants.INDEX;
 import static com.se.services.elasticsearch.util.Constants.TYPE;
 
 
@@ -45,7 +45,8 @@ public class BookDao {
     public Book insertBook(Book book){
         book.setId(UUID.randomUUID().toString());
         Map dataMap = objectMapper.convertValue(book, Map.class);
-        IndexRequest indexRequest = new IndexRequest(INDEX, TYPE, book.getId())
+        IndexRequest indexRequest = new IndexRequest(INDEX)
+
                 .source(dataMap);
         try {
             IndexResponse response = restHighLevelClient.index(indexRequest, RequestOptions.DEFAULT);
@@ -57,11 +58,15 @@ public class BookDao {
         return book;
     }
 
+
+
     public Map<String, Object> getBookById(String id){
-        GetRequest getRequest = new GetRequest(INDEX, TYPE, id);
+        GetRequest getRequest = new GetRequest(INDEX, TYPE);
+        getRequest.id(id);
         GetResponse getResponse = null;
         try {
             getResponse = restHighLevelClient.get(getRequest, RequestOptions.DEFAULT);
+
         } catch (java.io.IOException e){
             e.getLocalizedMessage();
         }
@@ -70,8 +75,10 @@ public class BookDao {
     }
 
     public Map<String, Object> updateBookById(String id, Book book){
-        UpdateRequest updateRequest = new UpdateRequest(INDEX, TYPE, id)
+        UpdateRequest updateRequest = new UpdateRequest(INDEX, TYPE);
+                updateRequest.id(id)
                 .fetchSource(true);    // Fetch Object after its update
+
         Map<String, Object> error = new HashMap<>();
         error.put("Error", "Unable to update book");
         try {
@@ -90,7 +97,9 @@ public class BookDao {
 
 
     public void deleteBookById(String id) {
-        DeleteRequest deleteRequest = new DeleteRequest(INDEX, TYPE, id);
+        DeleteRequest deleteRequest = new DeleteRequest(INDEX);
+        deleteRequest.id(id);
+
         try {
             DeleteResponse deleteResponse = restHighLevelClient.delete(deleteRequest, RequestOptions.DEFAULT);
         } catch (java.io.IOException e){
@@ -100,15 +109,31 @@ public class BookDao {
 
     public List<Book>findAll() throws IOException {
 
-        SearchRequest searchRequest = buildSearchRequest(INDEX,TYPE);
+//        SearchRequest searchRequest = buildSearchRequest(INDEX,TYPE);
+//        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+//        searchSourceBuilder.query(QueryBuilders.matchAllQuery());
+//        searchRequest.source(searchSourceBuilder);
+//
+//        SearchResponse searchResponse =
+//                restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+//
+//        return null;
+
+        SearchRequest searchRequest = new SearchRequest(INDEX);
+        searchRequest.types(TYPE);
+
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.query(QueryBuilders.matchAllQuery());
         searchRequest.source(searchSourceBuilder);
 
-        SearchResponse searchResponse =
-                restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+        SearchResponse  response = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+        SearchHit[] searchHits = response.getHits().getHits();
+        List<Book> results =
+                Arrays.stream(searchHits)
+                        .map(hit -> JSON.parseObject(hit.getSourceAsString(), Book.class))
+                        .collect(Collectors.toList());
 
-        return getSearchResult(searchResponse);
+        return results;
     }
 
     private SearchRequest buildSearchRequest(String index, String type) {
