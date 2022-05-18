@@ -46,7 +46,6 @@ public class BookDao {
         book.setId(UUID.randomUUID().toString());
         Map dataMap = objectMapper.convertValue(book, Map.class);
         IndexRequest indexRequest = new IndexRequest(INDEX)
-
                 .source(dataMap);
         try {
             IndexResponse response = restHighLevelClient.index(indexRequest, RequestOptions.DEFAULT);
@@ -61,7 +60,7 @@ public class BookDao {
 
 
     public Map<String, Object> getBookById(String id){
-        GetRequest getRequest = new GetRequest(INDEX, TYPE);
+        GetRequest getRequest = new GetRequest(INDEX, TYPE, id);
         getRequest.id(id);
         GetResponse getResponse = null;
         try {
@@ -75,7 +74,7 @@ public class BookDao {
     }
 
     public Map<String, Object> updateBookById(String id, Book book){
-        UpdateRequest updateRequest = new UpdateRequest(INDEX, TYPE);
+        UpdateRequest updateRequest = new UpdateRequest(INDEX, TYPE,id);
                 updateRequest.id(id)
                 .fetchSource(true);    // Fetch Object after its update
 

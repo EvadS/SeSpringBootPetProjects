@@ -1,6 +1,9 @@
 package com.se.services.elasticsearch.dao;
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.se.services.elasticsearch.document.Product;
 import lombok.RequiredArgsConstructor;
@@ -48,13 +51,17 @@ public class ProductDao {
     private final RestHighLevelClient restHighLevelClient;
     private final ObjectMapper objectMapper;
 
-    public Product createProduct(Product product) {
+    public Product createProduct(Product product) throws JsonProcessingException {
         IndexRequest indexRequest = new IndexRequest(PRODUCT_INDEX);
         indexRequest.id(product.getId());
-        indexRequest.source(product, XContentType.JSON);
+        indexRequest.type("_doc");
+        //indexRequest.source(product, XContentType.JSON);
+
+        indexRequest.source(new ObjectMapper().writeValueAsString(product), XContentType.JSON);
 
         try {
-            IndexResponse indexResponse = restHighLevelClient.index(indexRequest, RequestOptions.DEFAULT);
+            IndexResponse indexResponse = restHighLevelClient.index(indexRequest,
+                    RequestOptions.DEFAULT);
             if (indexResponse.status() == RestStatus.ACCEPTED) {
                 return product;
             } else if (indexResponse.status() == RestStatus.OK) {
@@ -88,10 +95,21 @@ public class ProductDao {
             products.add(product);
         }
 
+        for (final SearchHit hit : search.getHits().getHits()) {
+            final String doc = hit.getSourceAsString();
+            try {
+                Product product = JSON.parseObject(doc, Product.class);
+                log.info("Product:{}", product);
+            } catch (JSONException ex) {
+                log.error("failed load data {}, error {}", doc, ex);
+                continue;
+            }
+        }
+
     }
 
     public SearchResponse search(String searchString) throws IOException {
-        QueryBuilder matchQueryBuilder = QueryBuilders.matchQuery("name", "name2");
+        QueryBuilder matchQueryBuilder = QueryBuilders.matchQuery("name", "test5");
 
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
         sourceBuilder.query(matchQueryBuilder);
@@ -100,6 +118,8 @@ public class ProductDao {
         if (StringUtils.hasLength(searchString)) {
             searchRequest.source(sourceBuilder);
         }
+
+
         SearchResponse searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
         return searchResponse;
     }
