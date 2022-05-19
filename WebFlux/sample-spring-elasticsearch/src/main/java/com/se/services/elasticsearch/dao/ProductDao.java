@@ -34,7 +34,6 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -76,29 +75,37 @@ public class ProductDao {
     }
 
 
-    @PostConstruct
-    private void init() throws IOException {
-        SearchResponse search = search("");
-        List<Product> products = new ArrayList<>();
+  //  @PostConstruct
+//    private void init() throws IOException {
+//        SearchResponse search = search("");
+//        List<Product> products = new ArrayList<>();
+//
+//        SearchHit[] hits = search.getHits().getHits();
+//
+//        for (SearchHit hit : hits) {
+//
+//            log.info("hit as map   :{}", hit.getSourceAsMap());
+//            log.info("hit as string:{}", hit.getSourceAsString());
+//
+//            final Product product =
+//                    objectMapper.readValue(hit.getSourceAsString(), Product.class);
+//            product.setId(hit.getId());
+//            log.info("Product: {}", product);
+//            products.add(product);
+//        }
+//
+//    }
 
-        SearchHit[] hits = search.getHits().getHits();
-
-        for (SearchHit hit : hits) {
-
-            log.info("hit as map   :{}", hit.getSourceAsMap());
-            log.info("hit as string:{}", hit.getSourceAsString());
-
-            final Product product =
-                    objectMapper.readValue(hit.getSourceAsString(), Product.class);
-            product.setId(hit.getId());
-            log.info("Product: {}", product);
-            products.add(product);
-        }
+    // TODO: move to stream
+    public List<Product> searchProduct(String field, String value){
+        List<Product> productsList = new ArrayList<>();
+        SearchResponse search = search(field, value);
 
         for (final SearchHit hit : search.getHits().getHits()) {
             final String doc = hit.getSourceAsString();
             try {
                 Product product = JSON.parseObject(doc, Product.class);
+                productsList.add(product);
                 log.info("Product:{}", product);
             } catch (JSONException ex) {
                 log.error("failed load data {}, error {}", doc, ex);
@@ -106,21 +113,29 @@ public class ProductDao {
             }
         }
 
+        return productsList;
     }
 
-    public SearchResponse search(String searchString) throws IOException {
-        QueryBuilder matchQueryBuilder = QueryBuilders.matchQuery("name", "test5");
+    public SearchResponse search(String field, String value)  {
+       //QueryBuilder matchQueryBuilder = QueryBuilders.matchQuery("name", "test5");
+       QueryBuilder matchQueryBuilder = QueryBuilders.matchQuery(field, value);
 
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
         sourceBuilder.query(matchQueryBuilder);
 
         SearchRequest searchRequest = new SearchRequest(PRODUCT_INDEX);
-        if (StringUtils.hasLength(searchString)) {
+        if (StringUtils.hasLength(value)) {
             searchRequest.source(sourceBuilder);
         }
 
+        SearchResponse searchResponse = null;
+        try {
+            searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
 
-        SearchResponse searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            log.error("Search error: {}", e.getMessage());
+            e.printStackTrace();
+        }
         return searchResponse;
     }
 

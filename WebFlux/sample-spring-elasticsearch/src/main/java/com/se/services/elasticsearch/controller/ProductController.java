@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/product")
 @RequiredArgsConstructor
@@ -25,4 +27,11 @@ public class ProductController {
         return productDao.getProduct(id);
     }
 
+    @ResponseBody
+    @GetMapping("/search")
+    public List<Product> search(
+            @RequestParam(name = "field", defaultValue = "") String field,
+            @RequestParam(name = "value", defaultValue = "") String value){
+        return productDao.searchProduct( field,  value);
+    }
 }
