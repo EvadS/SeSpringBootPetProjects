@@ -31,6 +31,8 @@ import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -250,5 +252,25 @@ public class ProductDao {
     }
 
 
+    public Page<Product> fetch(PageRequest pageable, String filter, String sort) {
+        log.trace("fetch,filter={}", filter);
+
+        if (org.apache.commons.lang3.StringUtils.isEmpty(filter)){
+            return findAll( pageable,  filter);
+        }
+        else{
+           return findAllByFilter(pageable, filter);
+        }
+    }
+
+    private Page<Product> findAll(PageRequest pageable, String filter) {
+        // TODO:
+        return Page.empty();
+    }
+
+    private Page<Product> findAllByFilter(PageRequest pageable, String filter) {
+        // TODO:
+        return Page.empty();
+    }
 }
 
