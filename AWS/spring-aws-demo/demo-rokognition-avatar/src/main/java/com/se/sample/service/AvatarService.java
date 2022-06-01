@@ -132,12 +132,6 @@ public class AvatarService {
         } catch (AmazonRekognitionException | IOException e) {
             e.printStackTrace();
         }
-
-
-//        DetectFacesRequest request = new DetectFacesRequest()
-//                .withImage(image)
-//                .withAttributes(attributes);
-//        return rekognitionClient.detectLabels(request);
     }
 
 
