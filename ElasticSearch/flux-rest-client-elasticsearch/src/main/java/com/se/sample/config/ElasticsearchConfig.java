@@ -29,11 +29,11 @@ public class ElasticsearchConfig {
     private String ES_HOST;
 
 
-    @Value("${es.password:#{null}}")
-    private String password;
+   // @Value("${es.password:#{null}}")
+    private String password="changeme";
 
-    @Value("${es.user:#{null}}")
-    private String user;
+//    @Value("${es.user:#{null}}")
+    private String user="elastic";
 
     private static final String host = "127.0.0.1";
     private static final int port = 9200;
