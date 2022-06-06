@@ -17,6 +17,7 @@ import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.fetch.subphase.FetchSourceContext;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -152,6 +153,35 @@ public class ElasticAdapter {
                     sink.error(e);
                 }
             });
+        });
+    }
+
+
+    public Mono<IndexResponse> updateAsync(String index, String id, Object documentObject) {
+        return Mono.create(sink -> {
+
+            UpdateRequest request = new UpdateRequest(index, id)
+                    .fetchSource(true);
+            request.doc(documentObject, XContentType.JSON);
+
+            esClient.updateAsync(request, RequestOptions.DEFAULT, new ActionListener<UpdateResponse>() {
+                @Override
+                public void onResponse(UpdateResponse updateResponse) {
+                    if (!updateResponse.status().equals(RestStatus.ACCEPTED)) {
+                        log.warn("Get unsuccessful. Response Code: {}", updateResponse.status());
+                    } else {
+                        log.debug("Get completed: {}", updateResponse.getGetResult());
+                    }
+                }
+
+                @Override
+                public void onFailure(Exception e) {
+                    sink.error(e);
+                }
+
+            });
+
+
         });
     }
 

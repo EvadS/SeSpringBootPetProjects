@@ -26,6 +26,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 
         Map<String, Object> stringObjectMap = convertProductToMap(product);
         return elasticAdapter.indexAsync(INDEX_NAME, String.valueOf(product.getId()), stringObjectMap);
+
     }
 
 
