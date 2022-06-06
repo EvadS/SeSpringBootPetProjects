@@ -20,4 +20,12 @@ spring data
 
 User manuals 
 
-Start elastic 
+##Start elastic 
+### get all indexes 
+```
+http://localhost:9200/_cat/indices?format=json&pretty
+```
+info about index 
+```
+ http://localhost:9200/_cat/indices/users?v=true
+```

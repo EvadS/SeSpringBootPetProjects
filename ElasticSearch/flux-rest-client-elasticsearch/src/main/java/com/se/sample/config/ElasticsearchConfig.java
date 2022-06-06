@@ -1,15 +1,12 @@
 package com.se.sample.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.elasticsearch.client.RestHighLevelClient;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig.Builder;
+import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
@@ -20,43 +17,21 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-
 @Configuration
 public class ElasticsearchConfig {
 
-    @Value("${es.host}")
-    private String ES_HOST;
-
-
-   // @Value("${es.password:#{null}}")
-    private String password="changeme";
-
-//    @Value("${es.user:#{null}}")
-    private String user="elastic";
-
-    private static final String host = "127.0.0.1";
-    private static final int port = 9200;
-
-    private static final String schema = "http";
     private static final int connectTimeOut = 1000;
     private static final int socketTimeOut = 30000;
     private static final int connectionRequestTimeOut = 500;
     private static final int maxConnectNum = 100;
     private static final int maxConnectPerRoute = 100;
-    private static HttpHost httpHost = null;
-
-    static {
-        httpHost = new HttpHost(host, port, schema);
-    }
-
 
     @Bean
-    public RestHighLevelClient esClient() {
+    public RestHighLevelClient esClient(ElasticsearchProperties elasticsearchProperties) {
 
-        RestClientBuilder builder = RestClient.builder(httpHost);
-        if (!StringUtils.isEmpty(user) && !StringUtils.isEmpty(password)) {
-            applyAuthentication(builder, user, password);
+        RestClientBuilder builder = RestClient.builder(elasticsearchProperties.hosts());
+        if (!StringUtils.isEmpty(elasticsearchProperties.getUser()) && !StringUtils.isEmpty(elasticsearchProperties.getPassword())) {
+            applyAuthentication(builder, elasticsearchProperties.getUser(), elasticsearchProperties.getPassword());
         }
 
         // Async connection configuration
@@ -80,18 +55,25 @@ public class ElasticsearchConfig {
         });
 
         RestHighLevelClient client = new RestHighLevelClient(builder);
-
-
-        return client;
+          return client;
     }
 
     public void applyAuthentication(RestClientBuilder restClientBuilder, String user, String password) {
         final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-        credentialsProvider.setCredentials(AuthScope.ANY,new UsernamePasswordCredentials(user, password));
+        credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(user, password));
         restClientBuilder.setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
             @Override
             public HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder httpClientBuilder) {
                 return httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
-            }});
+            }
+        });
+    }
+
+    @Bean
+    ObjectMapper objectMapper() {
+        final ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.findAndRegisterModules();
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        return objectMapper;
     }
 }

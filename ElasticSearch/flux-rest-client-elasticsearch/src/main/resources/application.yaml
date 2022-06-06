@@ -1,0 +1,16 @@
+logging.level:
+  com.nurkiewicz: TRACE
+server:
+  port: 8000
+elasticsearch:
+  password: changeme
+  user: elastic
+  hosts:
+    - http://localhost:9200
+  connectTimeout: 10000
+  connectionRequestTimeout: 10000
+  socketTimeout: 10000
+  maxRetryTimeoutMillis: 60000
+
+index:
+  type: _doc
