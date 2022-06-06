@@ -55,7 +55,7 @@ public class ElasticsearchConfig {
         });
 
         RestHighLevelClient client = new RestHighLevelClient(builder);
-          return client;
+        return client;
     }
 
     public void applyAuthentication(RestClientBuilder restClientBuilder, String user, String password) {
