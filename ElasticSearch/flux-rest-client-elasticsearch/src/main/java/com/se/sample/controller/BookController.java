@@ -3,7 +3,9 @@ package com.se.sample.controller;
 
 import com.se.sample.dao.BookDao;
 import com.se.sample.model.Book;
+import org.elasticsearch.action.ActionListener;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.MonoSink;
 
 import java.util.Map;
 
@@ -23,7 +25,7 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public Map<String, Object> getBookById(@PathVariable String id){
+    public Book getBookById(@PathVariable String id){
         return bookDao.getBookById(id);
     }
 
@@ -36,4 +38,6 @@ public class BookController {
     public void deleteBookById(@PathVariable String id){
          bookDao.deleteBookById(id);
     }
+
+
 }
