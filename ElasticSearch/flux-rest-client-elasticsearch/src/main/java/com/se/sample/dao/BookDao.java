@@ -15,10 +15,14 @@ import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
+import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.indices.CreateIndexRequest;
+import org.elasticsearch.client.indices.CreateIndexResponse;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.springframework.stereotype.Repository;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -34,13 +38,25 @@ public class BookDao {
     private final RestHighLevelClient restHighLevelClient;
     private final ObjectMapper objectMapper;
 
-    public Book insertBook(Book book){
+
+    void create() throws IOException {
+        // 1. Создаем индексный запрос
+        CreateIndexRequest request = new CreateIndexRequest("Название индекса");
+        // 2. Клиент выполняет запрос indicatorClient и получает ответ после запроса.
+        CreateIndexResponse createIndexResponse = restHighLevelClient.indices().create(request, RequestOptions.DEFAULT);
+    }
+        public Book insertBook(Book book) throws JsonProcessingException {
         book.setId(UUID.randomUUID().toString());
-        Map<String, Object> dataMap = objectMapper.convertValue(book, Map.class);
-        IndexRequest indexRequest = new IndexRequest(INDEX, TYPE, book.getId())
-                .source(dataMap);
+
+        String jsonString = objectMapper.writeValueAsString(book);
+
+            IndexRequest request = new IndexRequest(INDEX);
+            request.id(book.getId());
+            request.source(jsonString, XContentType.JSON);
+
         try {
-            IndexResponse response = restHighLevelClient.index(indexRequest);
+            IndexResponse response = restHighLevelClient.index(request, RequestOptions.DEFAULT);
+            log.info("insert response: {}", response);
         } catch(ElasticsearchException e) {
             e.printStackTrace();
             log.error(e.getDetailedMessage());
@@ -53,27 +69,30 @@ public class BookDao {
     }
 
     public Map<String, Object> getBookById(String id){
-        GetRequest getRequest = new GetRequest(INDEX, TYPE, id);
+        GetRequest getRequest = new GetRequest(INDEX, id);
         GetResponse getResponse = null;
         try {
-            getResponse = restHighLevelClient.get(getRequest);
+            getResponse = restHighLevelClient.get(getRequest, RequestOptions.DEFAULT);
         } catch (java.io.IOException e){
-            e.getLocalizedMessage();
+            log.error(e.getLocalizedMessage());
+
         }
         Map<String, Object> sourceAsMap = getResponse.getSourceAsMap();
         return sourceAsMap;
     }
 
     public Map<String, Object> updateBookById(String id, Book book){
-        UpdateRequest updateRequest = new UpdateRequest(INDEX, TYPE, id)
+        UpdateRequest updateRequest = new UpdateRequest(INDEX,  id)
                 .fetchSource(true);    // Fetch Object after its update
         Map<String, Object> error = new HashMap<>();
         error.put("Error", "Unable to update book");
         try {
             String bookJson = objectMapper.writeValueAsString(book);
             updateRequest.doc(bookJson, XContentType.JSON);
-            UpdateResponse updateResponse = restHighLevelClient.update(updateRequest);
+            UpdateResponse updateResponse = restHighLevelClient.update(updateRequest, RequestOptions.DEFAULT);
             Map<String, Object> sourceAsMap = updateResponse.getGetResult().sourceAsMap();
+
+            log.info("update response: {}", updateResponse);
             return sourceAsMap;
         }catch (JsonProcessingException e){
             e.getMessage();
@@ -84,9 +103,10 @@ public class BookDao {
     }
 
     public void deleteBookById(String id) {
-        DeleteRequest deleteRequest = new DeleteRequest(INDEX, TYPE, id);
+        DeleteRequest deleteRequest = new DeleteRequest(INDEX,  id);
         try {
-            DeleteResponse deleteResponse = restHighLevelClient.delete(deleteRequest);
+            DeleteResponse deleteResponse = restHighLevelClient.delete(deleteRequest, RequestOptions.DEFAULT);
+            log.info("delete response: {}",deleteResponse);
         } catch (java.io.IOException e){
             e.getLocalizedMessage();
         }

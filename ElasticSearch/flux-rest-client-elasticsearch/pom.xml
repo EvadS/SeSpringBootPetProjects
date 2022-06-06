@@ -15,7 +15,7 @@
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>11</java.version>
-        <version.elasticsearch>6.1.2</version.elasticsearch>
+        <version.elasticsearch>7.3.0</version.elasticsearch>
     </properties>
     <dependencies>
         <dependency>
