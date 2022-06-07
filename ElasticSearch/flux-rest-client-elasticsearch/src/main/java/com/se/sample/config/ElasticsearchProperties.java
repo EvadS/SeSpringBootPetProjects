@@ -20,6 +20,10 @@ public class ElasticsearchProperties {
     private String password;
     private String user;
 
+    private String indexBook;
+    private String indexProduct;
+
+
     HttpHost[] hosts() {
         return hosts
                 .stream()

@@ -1,9 +1,9 @@
 logging.level:
-  com.nurkiewicz: TRACE
+  com.com.se.sample.dao: TRACE
 server:
   port: 8000
 elasticsearch:
-  password: changeme
+  password: 31323334
   user: elastic
   hosts:
     - http://localhost:9200
@@ -13,4 +13,5 @@ elasticsearch:
   maxRetryTimeoutMillis: 60000
 
 index:
-  type: _doc
+  book: book
+  product: product

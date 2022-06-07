@@ -2,6 +2,7 @@ package com.se.sample.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import lombok.RequiredArgsConstructor;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
@@ -17,7 +18,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.PreDestroy;
+
 @Configuration
+@RequiredArgsConstructor
 public class ElasticsearchConfig {
 
     private static final int connectTimeOut = 1000;
@@ -26,15 +30,29 @@ public class ElasticsearchConfig {
     private static final int maxConnectNum = 100;
     private static final int maxConnectPerRoute = 100;
 
+    private final ElasticsearchProperties elasticsearchProperties;
+
     @Bean
-    public RestHighLevelClient esClient(ElasticsearchProperties elasticsearchProperties) {
+    public RestHighLevelClient esClient() {
 
         RestClientBuilder builder = RestClient.builder(elasticsearchProperties.hosts());
-        if (!StringUtils.isEmpty(elasticsearchProperties.getUser()) && !StringUtils.isEmpty(elasticsearchProperties.getPassword())) {
-            applyAuthentication(builder, elasticsearchProperties.getUser(), elasticsearchProperties.getPassword());
-        }
+//        if (!StringUtils.isEmpty(elasticsearchProperties.getUser()) && !StringUtils.isEmpty(elasticsearchProperties.getPassword())) {
+//            applyAuthentication(builder, elasticsearchProperties.getUser(), elasticsearchProperties.getPassword());
+//        }
 
-        // Async connection configuration
+        CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+        credentialsProvider.setCredentials(AuthScope.ANY,
+                new UsernamePasswordCredentials(elasticsearchProperties.getUser(), elasticsearchProperties.getPassword()));
+
+        builder.setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
+            @Override
+            public HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder httpClientBuilder) {
+                return httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
+            }
+        });
+
+        // TODO: resolve when crds present
+       // Async connection configuration
         builder.setRequestConfigCallback(new RequestConfigCallback() {
             @Override
             public Builder customizeRequestConfig(Builder requestConfigBuilder) {
@@ -50,6 +68,8 @@ public class ElasticsearchConfig {
             public HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder httpClientBuilder) {
                 httpClientBuilder.setMaxConnTotal(maxConnectNum);
                 httpClientBuilder.setMaxConnPerRoute(maxConnectPerRoute);
+                //// TODO: resolve when crds present
+                httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
                 return httpClientBuilder;
             }
         });

@@ -44,3 +44,39 @@ insert as map
     "{id=6000169e-1cc8-49f4-a1f2-eddcf3962d38, title=Java Always9, author=JournalDev9, price=199.1}": "JSON"
 }
 ```
+
+
+## Elastic
+
+step1 
+download 
+
+sys env
+
+minimal config 
+## Add security
+To make Elasticsearch require credentials you need to add toconfig/elasticsearch.yml 
+```
+xpack.security.enabled: true
+xpack.security.authc.api_key.enabled: true
+```
+
+run elastic 
+run in additional tab 
+```cmd
+./bin/elasticsearch-setup-passwords interactive
+```
+set pwd. Default user _elastic_
+
+
+## Create indexes 
+```http request
+PUT http://localhost:9200/book
+```
+```http request
+PUT http://localhost:9200/product
+```
+### check indexes exists 
+```
+http://localhost:9200/_cat/indices
+```
