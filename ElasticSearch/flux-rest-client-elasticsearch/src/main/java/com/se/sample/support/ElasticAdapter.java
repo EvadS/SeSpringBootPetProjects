@@ -1,5 +1,7 @@
 package com.se.sample.support;
 
+import com.se.sample.controller.advice.FluxRestException;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.ActionListener;
@@ -20,6 +22,7 @@ import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.CreateIndexRequest;
 import org.elasticsearch.client.indices.CreateIndexResponse;
 import org.elasticsearch.client.indices.GetIndexRequest;
+import org.elasticsearch.client.indices.GetIndexResponse;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.fetch.subphase.FetchSourceContext;
@@ -27,7 +30,6 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.MonoSink;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -140,7 +142,6 @@ public class ElasticAdapter {
     }
 
 
-
     public Mono<IndexResponse> indexAsync(String index, String id, Object documentObject) {
         return Mono.create(sink -> {
 
@@ -155,14 +156,12 @@ public class ElasticAdapter {
                 }
 
                 @Override
-                public void onFailure(Exception e){
+                public void onFailure(Exception e) {
                     sink.error(e);
                 }
             });
         });
     }
-
-
 
 
     public Mono<IndexResponse> updateAsync(String index, String id, Object documentObject) {
@@ -194,12 +193,9 @@ public class ElasticAdapter {
     public Mono<DeleteResponse> deleteAsync(String index, String id) throws IOException {
         return Mono.create(sink -> {
             DeleteRequest request = new DeleteRequest(index, id);
-             esClient.deleteAsync(request, RequestOptions.DEFAULT, new EduAppDeleteListen());
+            esClient.deleteAsync(request, RequestOptions.DEFAULT, new EduAppDeleteListen());
         });
     }
-
-    public static final String MYMODEL_ES_INDEX = "my_model";
-    public static final String DEFAULT_ES_DOC_TYPE = "_doc";
 
 
     private <T> ActionListener<T> listenerToSink(MonoSink<T> sink) {
@@ -216,50 +212,19 @@ public class ElasticAdapter {
         };
     }
 
-    private static class EduAppDeleteListen implements ActionListener<DeleteResponse> {
-       @Override
-        public void onResponse(DeleteResponse deleteResponse) {
-            log.debug("Asynchronous modification succeeded ："+deleteResponse);
-        }
-
-        @Override
-        public void onFailure(Exception e) {
-
-            System.out.println(" Asynchronous modification failed ："+e.getMessage());
-        }
-    }
-
-
-//    private void checkIndexExists(){
+    // @PostConstruct
+    private void init() {
+//        //createIndex("indexName");
+//        boolean exists = exists("index-name");
 //
-//       GetIndexRequest request = new GetIndexRequest(MYMODEL_ES_INDEX);
-//        esClient.indices().exists(request, RequestOptions.DEFAULT)
-//        esClient.indices()
-//                .exists(request)
-//                .doOnError(throwable -> log.error(throwable.getMessage(), throwable))
-//                .flatMap(indexExists -> {
-//                    logger.info("Index {} exists: {}", MYMODEL_ES_INDEX, indexExists);
-//                    if (!indexExists)
-//                        return createIndex();
-//                    else
-//                        return Mono.empty();
-//                })
-//                .block();
-//    }
-
-    @PostConstruct
-    private void init(){
-        //createIndex("indexName");
-
-        boolean exists = exists("index-name");
-
-        if(!exists){
-            createIndex("index-name");
-        }
-        deleteIndex("index-name");
+//        if (!exists) {
+//            createIndex("index-name");
+//        }
+//        deleteIndex("index-name");
     }
 
-    public boolean exists(String indexName){
+
+    public boolean exists(String indexName) {
         GetIndexRequest getIndexRequest = new GetIndexRequest(indexName);
         boolean exists = false;
         try {
@@ -272,20 +237,21 @@ public class ElasticAdapter {
 
     /**
      * check is index exists
+     *
      * @param indexName
      * @return
      */
-    public Mono<Boolean> existsAsync(String indexName){
+    public Mono<Boolean> existsAsync(String indexName) {
         return Mono.create(sink -> {
             GetIndexRequest getIndexRequest = new GetIndexRequest(indexName);
             esClient.indices().existsAsync(getIndexRequest, RequestOptions.DEFAULT, new ExistsAsyncListen());
         });
     }
 
-    public Mono<CreateIndexResponse> createIndexAsync(String index){
+    public Mono<CreateIndexResponse> createIndexAsync(String index) {
         return Mono.create(sink -> {
             CreateIndexRequest createIndexRequest = new CreateIndexRequest(index);
-             esClient.indices().createAsync(createIndexRequest, RequestOptions.DEFAULT, new CreateActionListener<CreateIndexResponse>() );
+            esClient.indices().createAsync(createIndexRequest, RequestOptions.DEFAULT, new CreateActionListener<CreateIndexResponse>(sink));
         });
 
     }
@@ -297,25 +263,84 @@ public class ElasticAdapter {
         DeleteIndexRequest deleteIndexRequest = new DeleteIndexRequest(indexName);
         try {
             AcknowledgedResponse deleteResponse = esClient.indices().delete(deleteIndexRequest, RequestOptions.DEFAULT);
-
-            log.info("Index deleted:{}",deleteResponse);
-            return true;
-        } catch ( IOException e) {
+            log.info("Index deleted:{}", deleteResponse);
+            return deleteResponse.isAcknowledged();
+        } catch (IOException e) {
             log.info("No such index: " + indexName);
             return false;
         }
     }
 
-    private CreateIndexResponse createIndex(String indexName) {
+    public Mono<Boolean> deleteIndexAsync(String indexName) {
+
+        return Mono.create(sink -> {
+            log.info("Deleting index " + indexName);
+            DeleteIndexRequest deleteIndexRequest = new DeleteIndexRequest(indexName);
+            esClient.indices().deleteAsync(deleteIndexRequest, RequestOptions.DEFAULT, new ActionListener<AcknowledgedResponse>() {
+                @Override
+                public void onResponse(AcknowledgedResponse response) {
+                    sink.success(response.isAcknowledged());
+                }
+
+                @Override
+                public void onFailure(Exception e) {
+                    sink.error(e);
+                }
+            });
+        });
+
+    }
+
+    public Boolean createIndex(String indexName) {
 
         org.elasticsearch.client.indices.CreateIndexRequest request = new org.elasticsearch.client.indices.CreateIndexRequest(indexName);
         try {
 
             CreateIndexResponse createIndexResponse = esClient.indices().create(request, RequestOptions.DEFAULT);
-            return  createIndexResponse;
-        }catch (Exception e){
+            return createIndexResponse.isAcknowledged();
+        } catch (Exception e) {
             log.error("[createIndex]", e);
-            return null;
+            return false;
+        }
+    }
+
+    public String[] getAllIndexes() throws IOException {
+        GetIndexRequest request = new GetIndexRequest("*");
+        GetIndexResponse response = esClient.indices().get(request, RequestOptions.DEFAULT);
+        return response.getIndices();
+    }
+
+    public Mono<String[]> getAllIndexesAsync() {
+
+        return Mono.create(sink -> {
+            GetIndexRequest request = new GetIndexRequest("*");
+
+            esClient.indices().getAsync(request, RequestOptions.DEFAULT,
+                    new ActionListener<GetIndexResponse>() {
+                        @Override
+                        public void onResponse(GetIndexResponse response) {
+                            sink.success(response.getIndices());
+                        }
+
+                        @Override
+                        public void onFailure(Exception e) {
+                            sink.error(e.getCause());
+                        }
+                    });
+        });
+    }
+
+
+    private static class EduAppDeleteListen implements ActionListener<DeleteResponse> {
+        @Override
+        public void onResponse(DeleteResponse deleteResponse) {
+            log.debug("Asynchronous modification succeeded ：" + deleteResponse);
+        }
+
+        @Override
+        public void onFailure(Exception e) {
+
+            System.out.println(" Asynchronous modification failed ：" + e.getMessage());
         }
     }
 
@@ -333,15 +358,28 @@ public class ElasticAdapter {
         }
     }
 
+    @Slf4j
+    @AllArgsConstructor
     private static class CreateActionListener<T> implements ActionListener<CreateIndexResponse> {
-        @Override
-        public void onResponse(CreateIndexResponse createIndexResponse) {
 
+        private MonoSink<CreateIndexResponse> sink;
+
+        @Override
+        public void onResponse(CreateIndexResponse response) {
+
+            if (!response.isAcknowledged()) {
+                log.error("Execution failed, result={}", response.toString());
+                sink.error(new FluxRestException("Elasticsearch execution failed. result=" +  response.toString()));
+            } else {
+                log.debug("Execution complete");
+                sink.success(response);
+            }
         }
 
         @Override
         public void onFailure(Exception e) {
-
+            sink.error(e);
         }
     }
+
 }

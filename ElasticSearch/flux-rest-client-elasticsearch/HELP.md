@@ -87,3 +87,6 @@ use from system variables or  http://localhost
 ${ELASTIC_ADDRESS:http://localhost}
 
 http://localhost:8000/swagger-ui.html
+
+## References 
+https://springdoc.org/#sponsor
