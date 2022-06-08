@@ -89,6 +89,24 @@ public class ProfileService {
 
     }
 
+ /*   private Mono<IndexResponse> indexDoc(Doc doc) {
+        return Mono.create(sink -> {
+            IndexRequest indexRequest = new IndexRequest("people", "person", doc.getUsername());
+            indexRequest.source(doc.getJson(), XContentType.JSON);
+            client.indexAsync(indexRequest, new ActionListener<IndexResponse>() {
+                @Override
+                public void onResponse(IndexResponse indexResponse) {
+                    sink.success(indexResponse);
+                }
+
+                @Override
+                public void onFailure(Exception e) {
+                    sink.error(e);
+                }
+            });
+        });
+    }
+*/
     public List<ProfileDocument> findAll() throws IOException {
 
         SearchRequest searchRequest = new SearchRequest(INDEX);

@@ -44,3 +44,14 @@ check by elastic
 ```
 http://localhost:9200/example1/product
 ```
+
+
+check settings 
+```
+http://localhost:9200/profile/_settings
+```
+
+check the mappings:
+```
+http://localhost:9200/profile/_mappings
+```
