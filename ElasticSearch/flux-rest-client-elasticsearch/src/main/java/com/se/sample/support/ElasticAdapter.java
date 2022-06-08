@@ -12,6 +12,7 @@ import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.support.master.AcknowledgedResponse;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -248,8 +249,14 @@ public class ElasticAdapter {
 
     @PostConstruct
     private void init(){
-        createIndex("indexName");
+        //createIndex("indexName");
 
+        boolean exists = exists("index-name");
+
+        if(!exists){
+            createIndex("index-name");
+        }
+        deleteIndex("index-name");
     }
 
     public boolean exists(String indexName){
@@ -286,10 +293,12 @@ public class ElasticAdapter {
     public boolean deleteIndex(String indexName) {
         log.info("Deleting index " + indexName);
         DeleteRequest request = new DeleteRequest(indexName);
-        try {
-            DeleteResponse response =  esClient.delete(request, RequestOptions.DEFAULT);
 
-            log.info("Index deleted");
+        DeleteIndexRequest deleteIndexRequest = new DeleteIndexRequest(indexName);
+        try {
+            AcknowledgedResponse deleteResponse = esClient.indices().delete(deleteIndexRequest, RequestOptions.DEFAULT);
+
+            log.info("Index deleted:{}",deleteResponse);
             return true;
         } catch ( IOException e) {
             log.info("No such index: " + indexName);

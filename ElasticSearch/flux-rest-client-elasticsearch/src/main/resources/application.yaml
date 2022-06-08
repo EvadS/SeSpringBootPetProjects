@@ -7,6 +7,7 @@ elasticsearch:
   user: elastic
   hosts:
     - http://localhost:9200
+    - ${ELASTIC_ADDRESS:http://localhost}:${ELASTIC_PORT:9200}
   connectTimeout: 10000
   connectionRequestTimeout: 10000
   socketTimeout: 10000

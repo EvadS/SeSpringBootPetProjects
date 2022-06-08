@@ -80,3 +80,10 @@ PUT http://localhost:9200/product
 ```
 http://localhost:9200/_cat/indices
 ```
+
+
+spring 
+use from system variables or  http://localhost
+${ELASTIC_ADDRESS:http://localhost}
+
+http://localhost:8000/swagger-ui.html

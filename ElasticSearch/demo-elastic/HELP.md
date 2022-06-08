@@ -1,5 +1,8 @@
 # sat-elk
-
+3 way how to use elastic 
+- hight level client 
+- eleastic template 
+- spring data 
 ## Getting started 
 1. Download elastic and set ELASTIC_HOME
 2. run %ELASTIC_HOME%\bin -> elasticsearch.bat 
