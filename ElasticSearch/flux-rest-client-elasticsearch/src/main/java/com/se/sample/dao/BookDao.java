@@ -13,16 +13,21 @@ import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateResponse;
+import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Repository
@@ -34,30 +39,9 @@ public class BookDao {
     @Value("${index.book}")
     private String bookIndex;
 
-    public Book createBook(Book book) throws JsonProcessingException {
-        UUID uuid = UUID.randomUUID();
-        book.setId(uuid.toString());
-        Map<String, Object> documentMapper = objectMapper.convertValue(book, Map.class);
-        IndexRequest request = new IndexRequest(bookIndex);
-        request.id(book.getId());
-        request.source(documentMapper, XContentType.JSON);
 
-        try {
-            // IndexResponse response = restHighLevelClient.index(request, RequestOptions.DEFAULT);
-            IndexResponse indexResponse = elasticAdapter.create(bookIndex, book.getId(), documentMapper);
-            log.info("insert response: {}", indexResponse);
-        } catch (ElasticsearchException e) {
-            e.printStackTrace();
-            log.error(e.getDetailedMessage());
-        } catch (java.io.IOException ex) {
-            ex.getLocalizedMessage();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return book;
-    }
 
-    public Book insertBook(Book book) throws JsonProcessingException {
+    public Book insertBook(Book book)   {
         book.setId(UUID.randomUUID().toString());
         Map<String, Object> documentMapper = objectMapper.convertValue(book, Map.class);
 
@@ -116,4 +100,6 @@ public class BookDao {
             e.getLocalizedMessage();
         }
     }
+
+
 }

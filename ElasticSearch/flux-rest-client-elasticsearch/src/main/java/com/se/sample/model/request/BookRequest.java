@@ -1,22 +1,15 @@
-package com.se.sample.model;
+package com.se.sample.model.request;
 
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-@Builder(toBuilder = true)
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class Book {
-    private String id;
+public class BookRequest {
     @NotNull(message = "Title cannot be null")
     @NotBlank(message = "Title cannot be Empty")
     private String title;
     private String author;
     private float price;
-
 }

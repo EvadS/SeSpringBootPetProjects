@@ -108,16 +108,6 @@ public class BookDao {
 
     public List<Book>findAll() throws IOException {
 
-//        SearchRequest searchRequest = buildSearchRequest(INDEX,TYPE);
-//        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-//        searchSourceBuilder.query(QueryBuilders.matchAllQuery());
-//        searchRequest.source(searchSourceBuilder);
-//
-//        SearchResponse searchResponse =
-//                restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
-//
-//        return null;
-
         SearchRequest searchRequest = new SearchRequest(INDEX);
         searchRequest.types(TYPE);
 

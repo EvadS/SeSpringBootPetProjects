@@ -1,6 +1,7 @@
 package com.se.sample.support;
 
 import com.se.sample.controller.advice.FluxRestException;
+import jdk.jfr.ContentType;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -53,7 +54,7 @@ public class ElasticAdapter {
     public IndexResponse create(String index, String id, Object documentObject) throws IOException {
         IndexRequest request = new IndexRequest(index)
                 .id(id)
-                .source(documentObject, XContentType.JSON);
+                .source(XContentType.JSON, documentObject );
 
         log.debug("Saving document in index {}: {}", index, documentObject);
         return esClient.index(request, RequestOptions.DEFAULT);
@@ -164,6 +165,24 @@ public class ElasticAdapter {
     }
 
 
+    public Mono<GetResponse> getAsync(String index, String id) {
+        return Mono.create(monoSink -> {
+            GetRequest request = new GetRequest(index, id);
+            esClient.getAsync(request, RequestOptions.DEFAULT, new ActionListener<GetResponse>() {
+                @Override
+                public void onResponse(GetResponse result) {
+                    monoSink.success(result);
+                }
+
+                @Override
+                public void onFailure(Exception ex) {
+                    log.error("Exception while executing get: {}", ex.getMessage());
+                    monoSink.error(ex);
+                }
+            });
+        });
+    }
+
     public Mono<IndexResponse> updateAsync(String index, String id, Object documentObject) {
         return Mono.create(sink -> {
 
@@ -210,17 +229,6 @@ public class ElasticAdapter {
                 sink.error(e);
             }
         };
-    }
-
-    // @PostConstruct
-    private void init() {
-//        //createIndex("indexName");
-//        boolean exists = exists("index-name");
-//
-//        if (!exists) {
-//            createIndex("index-name");
-//        }
-//        deleteIndex("index-name");
     }
 
 
@@ -362,14 +370,14 @@ public class ElasticAdapter {
     @AllArgsConstructor
     private static class CreateActionListener<T> implements ActionListener<CreateIndexResponse> {
 
-        private MonoSink<CreateIndexResponse> sink;
+        private final MonoSink<CreateIndexResponse> sink;
 
         @Override
         public void onResponse(CreateIndexResponse response) {
 
             if (!response.isAcknowledged()) {
                 log.error("Execution failed, result={}", response.toString());
-                sink.error(new FluxRestException("Elasticsearch execution failed. result=" +  response.toString()));
+                sink.error(new FluxRestException("Elasticsearch execution failed. result=" + response.toString()));
             } else {
                 log.debug("Execution complete");
                 sink.success(response);

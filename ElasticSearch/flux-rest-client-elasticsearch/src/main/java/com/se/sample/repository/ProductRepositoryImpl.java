@@ -29,13 +29,9 @@ public class ProductRepositoryImpl implements ProductRepository {
     public Mono<IndexResponse> create(Product product) throws IOException {
         Map<String, Object> stringObjectMap = convertProductToMap(product);
         return elasticAdapter.indexAsync(INDEX_NAME, String.valueOf(product.getId()), stringObjectMap);
-
     }
 
-    private Map<String, Object> convertProductToMap(Product product) throws JsonProcessingException {
-        String json = objectMapper.writeValueAsString(product);
-        return objectMapper.readValue(json, Map.class);
-    }
+
 
     @Override
     public Mono<IndexResponse> update(String id, Product product) {
@@ -48,7 +44,31 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public Mono<IndexResponse> getById(String id) {
+    public Mono<Product> getById(String id) {
+
         return null;
+//       return elasticAdapter.getAsync(INDEX_NAME, id)
+//                .filter(result -> {
+//
+//                    if (result == null || !result.isExists() || result.isSourceEmpty()) {
+//                        log.warn("No document found with id: {}", id);
+//                        return result;
+//                    }
+//
+//                    Product product = null;
+//                    try {
+//                        product = objectMapper.readValue(result.getSourceAsBytes(), Product.class);
+//                        return product;
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                        return null;
+//                    }
+//                })
+//                ;
+    }
+
+    private Map<String, Object> convertProductToMap(Product product) throws JsonProcessingException {
+        String json = objectMapper.writeValueAsString(product);
+        return objectMapper.readValue(json, Map.class);
     }
 }
