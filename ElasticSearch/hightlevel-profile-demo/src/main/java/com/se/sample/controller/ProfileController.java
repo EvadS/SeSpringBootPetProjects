@@ -43,7 +43,6 @@ public class ProfileController {
             throws Exception {
 
         return service.deleteProfileDocument(id);
-
     }
 
     @GetMapping(value = "/search")

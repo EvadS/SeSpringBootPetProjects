@@ -20,14 +20,22 @@ import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.CreateIndexRequest;
 import org.elasticsearch.client.indices.CreateIndexResponse;
 import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.unit.Fuzziness;
+import org.elasticsearch.common.unit.TimeValue;
+import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.search.sort.FieldSortBuilder;
+import org.elasticsearch.search.sort.ScoreSortBuilder;
+import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static com.se.sample.util.Constant.INDEX;
@@ -89,24 +97,6 @@ public class ProfileService {
 
     }
 
- /*   private Mono<IndexResponse> indexDoc(Doc doc) {
-        return Mono.create(sink -> {
-            IndexRequest indexRequest = new IndexRequest("people", "person", doc.getUsername());
-            indexRequest.source(doc.getJson(), XContentType.JSON);
-            client.indexAsync(indexRequest, new ActionListener<IndexResponse>() {
-                @Override
-                public void onResponse(IndexResponse indexResponse) {
-                    sink.success(indexResponse);
-                }
-
-                @Override
-                public void onFailure(Exception e) {
-                    sink.error(e);
-                }
-            });
-        });
-    }
-*/
     public List<ProfileDocument> findAll() throws IOException {
 
         SearchRequest searchRequest = new SearchRequest(INDEX);
@@ -142,15 +132,13 @@ public class ProfileService {
                 .name();
     }
 
-    // TODO: bulk operation
+
+
 
     public List<ProfileDocument> searchByTechnology(String technology) throws Exception {
 
         SearchRequest searchRequest = new SearchRequest(INDEX);
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-
-
-
 
         SearchResponse response =
                 client.search(searchRequest, RequestOptions.DEFAULT);
@@ -180,4 +168,72 @@ public class ProfileService {
         }
         return false;
     }
+
+    @PostConstruct
+    private void init() throws IOException {
+        log.info("-------------------------------------------------------------------------");
+        //точное совпадение
+        SearchResponse searchResponse = search1();
+        Arrays.stream(searchResponse.getHits().getHits()).forEach(i-> log.info(i.toString()));
+
+        log.info("Search with pagging ");
+        SearchResponse searchResponse2 = search2();
+        Arrays.stream(searchResponse2.getHits().getHits()).forEach(i-> log.info(i.toString()));
+
+        log.info("---- search5");
+        SearchResponse searchResponse5  =search5();
+        Arrays.stream(searchResponse5.getHits().getHits()).forEach(i-> log.info(i.toString()));
+        log.info("-------------------------------------------------------------------------");
+
+        int a =0;
+    }
+
+    public SearchResponse search1() throws IOException {
+        QueryBuilder matchQueryBuilder = QueryBuilders.matchQuery("firstName", "firstName4");
+
+        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+        sourceBuilder.query(matchQueryBuilder);
+
+        SearchRequest searchRequest = new SearchRequest(INDEX);
+        searchRequest.source(sourceBuilder);
+
+        SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
+        return searchResponse;
+    }
+
+    public SearchResponse search2() throws IOException {
+        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+        sourceBuilder.query(QueryBuilders.matchQuery("firstName", "firstName4"))
+                .from(0)
+                .size(100)
+                .timeout(new TimeValue(3, TimeUnit.MINUTES))
+                .sort(new FieldSortBuilder("_id").order(SortOrder.ASC))
+                .sort(new ScoreSortBuilder().order(SortOrder.DESC));
+
+        SearchRequest searchRequest = new SearchRequest();
+        searchRequest.indices(INDEX);
+        searchRequest.source(sourceBuilder);
+
+        SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
+        return searchResponse;
+    }
+
+    public SearchResponse search5() throws IOException {
+        MatchQueryBuilder matchQueryBuilder = new MatchQueryBuilder("firstName", "firstName");
+        matchQueryBuilder
+                .fuzziness(Fuzziness.AUTO)
+                .prefixLength(3)
+                .maxExpansions(10);
+
+        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+        sourceBuilder.query(matchQueryBuilder);
+        SearchRequest searchRequest = new SearchRequest();
+        searchRequest.indices(INDEX);
+        searchRequest.source(sourceBuilder);
+
+        SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
+
+        return searchResponse;
+    }
+
 }

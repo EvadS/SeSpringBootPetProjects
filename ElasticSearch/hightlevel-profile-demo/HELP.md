@@ -55,3 +55,6 @@ check the mappings:
 ```
 http://localhost:9200/profile/_mappings
 ```
+
+search samples
+https://zengcode.medium.com/elasticsearch-java-rest-client-7-10-java-high-level-rest-client-search-apis-f2e24676a80d

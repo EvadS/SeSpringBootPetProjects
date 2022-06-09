@@ -6,6 +6,7 @@ import com.se.sample.dto.FilterRequestDto;
 import com.se.sample.dto.RangeFilterDto;
 import com.se.sample.dto.SearchQueryDto;
 import lombok.extern.slf4j.Slf4j;
+import org.elasticsearch.action.ActionListener;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.index.IndexRequest;
@@ -21,8 +22,11 @@ import org.elasticsearch.index.query.RangeQueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -129,5 +133,49 @@ public class ProductRepositoryImpl  implements ProductRepository {
     private Map<String, Object> convertProductToMap(Product product) throws JsonProcessingException {
         String json = objectMapper.writeValueAsString(product);
         return objectMapper.readValue(json, Map.class);
+    }
+
+   // @PostConstruct
+    private void init () throws IOException {
+        SearchRequest searchRequest = new SearchRequest(INDEX_NAME);
+
+        final var searchSourceBuilder = new SearchSourceBuilder();
+        searchSourceBuilder.query(QueryBuilders.matchAllQuery());
+        searchRequest.source(searchSourceBuilder);
+
+        searchRequest.source(searchSourceBuilder);
+        SearchResponse searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+
+        log.info("---------------------------------");
+        log.info("searchResponse:{}", searchResponse.getHits());
+;
+        log.info("---------------------------------");
+        int a =10;
+    }
+
+    private  void callASynchronously(final SearchRequest searchRequest) {
+        restHighLevelClient.searchAsync(searchRequest, RequestOptions.DEFAULT,
+                new ActionListener<SearchResponse>() {
+                    @Override
+                    public void onResponse(final SearchResponse searchResponse) {
+
+                        Arrays.stream(searchResponse.getHits().getHits()).forEach(i-> log.info(i.toString()));
+                        try {
+                            restHighLevelClient.close();
+                        } catch (IOException e) {
+                          log.error("Failed to close client {0}", e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(final Exception e) {
+                        log.error( "Failed to get results {0}", e.getMessage());
+                        try {
+                            restHighLevelClient.close();
+                        } catch (IOException ioe) {
+                            log.error( "Failed to close client {0}", ioe.getMessage());
+                        }
+                    }
+                });
     }
 }
