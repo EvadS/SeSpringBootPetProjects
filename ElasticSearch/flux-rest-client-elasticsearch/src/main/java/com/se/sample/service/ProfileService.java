@@ -2,14 +2,12 @@ package com.se.sample.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.se.sample.dao.ProfileDocument;
-import com.se.sample.model.dto.FilterRequestDto;
-import com.se.sample.model.dto.RangeFilterDto;
 import com.se.sample.model.dto.SearchQueryDto;
+import com.se.sample.support.ElasticAdapter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.delete.DeleteResponse;
-import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
@@ -20,7 +18,10 @@ import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.Requests;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.index.query.*;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.WildcardQueryBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,7 @@ import static com.se.sample.Constant.INDEX;
 @RequiredArgsConstructor
 public class ProfileService {
     private final ObjectMapper objectMapper;
-    private final RestHighLevelClient client;
+    private final ElasticAdapter elasticAdapter;
 
     public String createProfileDocument(ProfileDocument document) throws IOException {
 
@@ -49,11 +50,7 @@ public class ProfileService {
         //String in the form of JSON is not readable and looks messy
         Map<String, Object> documentMapper = objectMapper.convertValue(document, Map.class);
 
-        IndexRequest indexRequest = new IndexRequest(INDEX)
-                .id(document.getId())
-                .source(documentMapper);
-
-        IndexResponse indexResponse = client.index(indexRequest, RequestOptions.DEFAULT);
+        IndexResponse indexResponse = elasticAdapter.create(INDEX, uuid.toString(), documentMapper);
 
         log.info("new index response:{}", indexResponse.getResult());
         return indexResponse.getId();
@@ -61,44 +58,32 @@ public class ProfileService {
 
     public ProfileDocument findById(String id) throws IOException {
         log.info("get by id:{}", id);
-        GetRequest getRequest = new GetRequest(INDEX).id(id);
 
-        GetResponse getResponse = client.get(getRequest, RequestOptions.DEFAULT);
+        GetResponse getResponse = elasticAdapter.get(INDEX, id);
         Map<String, Object> resultMap = getResponse.getSource();
+
+        if(resultMap== null || resultMap.isEmpty()){
+            throw  new RuntimeException("Not found");
+        }
 
         return objectMapper.convertValue(resultMap, ProfileDocument.class);
     }
 
-    public String updateProfile(ProfileDocument document) throws Exception {
+    public String updateProfile(String id, ProfileDocument document) throws Exception {
+        Map<String, Object> documentMapper = objectMapper.convertValue(document, Map.class);
 
-        ProfileDocument resultDocument = findById(document.getId());
-
-        UpdateRequest updateRequest = new UpdateRequest(INDEX, resultDocument.getId());
-
-        Map<String, Object> documentMapper =
-                objectMapper.convertValue(document, Map.class);
-
-        updateRequest.doc(documentMapper);
-
-        UpdateResponse updateResponse =
-                client.update(updateRequest, RequestOptions.DEFAULT);
+        UpdateResponse updateResponse = elasticAdapter.update(INDEX ,id ,documentMapper, false);
 
         return updateResponse
                 .getResult()
                 .name();
-
     }
 
     public List<ProfileDocument> findAll() throws IOException {
-
-        SearchRequest searchRequest = new SearchRequest(INDEX);
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
         searchSourceBuilder.query(QueryBuilders.matchAllQuery());
-        searchRequest.source(searchSourceBuilder);
-
-        SearchResponse searchResponse =
-                client.search(searchRequest, RequestOptions.DEFAULT);
+        SearchResponse searchResponse = elasticAdapter.search(searchSourceBuilder, INDEX);
 
         return getSearchResult(searchResponse);
     }
@@ -116,26 +101,21 @@ public class ProfileService {
 
     public String deleteProfileDocument(String id) throws IOException {
         DeleteRequest deleteRequest = new DeleteRequest(INDEX).id(id);
-        DeleteResponse response =
-                client.delete(deleteRequest, RequestOptions.DEFAULT);
 
+        DeleteResponse response = elasticAdapter.delete(INDEX, id);
         return response
                 .getResult()
                 .name();
     }
 
     public List<ProfileDocument> searchByTechnology(String technology) throws Exception {
-        SearchRequest searchRequest = new SearchRequest(INDEX);
-
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-        QueryBuilder query =  QueryBuilders.boolQuery()
-                .should(new WildcardQueryBuilder("technologies.name", "*"+technology+"*"));
+        QueryBuilder query = QueryBuilders.boolQuery()
+                .should(new WildcardQueryBuilder("technologies.name", "*" + technology + "*"));
         searchSourceBuilder.query(query);
-        searchRequest.source(searchSourceBuilder);
 
-        SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
-
-        return getSearchResult(searchResponse);
+        SearchResponse search = elasticAdapter.search(searchSourceBuilder, INDEX);
+        return getSearchResult(search);
     }
 
     public SearchResponse search(SearchQueryDto searchQuery) throws IOException {
@@ -144,9 +124,9 @@ public class ProfileService {
         // bool query
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery()
                 .should(QueryBuilders.matchQuery("firstName", searchQuery.getQuery()))
-             //   .should(QueryBuilders.matchQuery("description", searchQuery.getQuery()))
-             //   .should(QueryBuilders.matchQuery("category", searchQuery.getQuery()))
-        ;
+                //   .should(QueryBuilders.matchQuery("description", searchQuery.getQuery()))
+                //   .should(QueryBuilders.matchQuery("category", searchQuery.getQuery()))
+                ;
 
         // demo with range query
         // facet query
@@ -194,6 +174,6 @@ public class ProfileService {
 
         log.info("searchSourceBuilder: {}", searchSourceBuilder);
         searchRequest.source(searchSourceBuilder);
-        return client.search(searchRequest, RequestOptions.DEFAULT);
+        return elasticAdapter.search(searchSourceBuilder, INDEX);
     }
 }

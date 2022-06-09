@@ -26,13 +26,17 @@ import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.client.indices.GetIndexResponse;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.rest.RestStatus;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.FetchSourceContext;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.MonoSink;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Optional;
+
+import static com.se.sample.Constant.INDEX;
 
 @Slf4j
 @Service
@@ -40,7 +44,6 @@ import java.util.Optional;
 public class ElasticAdapter {
 
     private final RestHighLevelClient esClient;
-
 
     /**
      * create new item
@@ -51,10 +54,10 @@ public class ElasticAdapter {
      * @return response
      * @throws IOException
      */
-    public IndexResponse create(String index, String id, Object documentObject) throws IOException {
+    public IndexResponse create(String index, String id, Map<String, Object> documentObject) throws IOException {
         IndexRequest request = new IndexRequest(index)
                 .id(id)
-                .source(XContentType.JSON, documentObject );
+                .source(documentObject);
 
         log.debug("Saving document in index {}: {}", index, documentObject);
         return esClient.index(request, RequestOptions.DEFAULT);
@@ -65,10 +68,10 @@ public class ElasticAdapter {
         return esClient.get(request, RequestOptions.DEFAULT);
     }
 
-    public UpdateResponse update(String index, String id, Object documentObject, boolean fetchSource) throws IOException {
+    public UpdateResponse update(String index, String id,  Map<String, Object> documentObject, boolean fetchSource) throws IOException {
         UpdateRequest updateRequest = new UpdateRequest(index, id)
                 .fetchSource(fetchSource);
-        updateRequest.doc(documentObject, XContentType.JSON);
+        updateRequest.doc(documentObject);
         return esClient.update(updateRequest, RequestOptions.DEFAULT);
     }
 
@@ -336,6 +339,12 @@ public class ElasticAdapter {
                         }
                     });
         });
+    }
+
+    public SearchResponse search(SearchSourceBuilder searchSourceBuilder, String indexName) throws IOException {
+        SearchRequest searchRequest = new SearchRequest(indexName);
+        searchRequest.source(searchSourceBuilder);
+      return esClient.search(searchRequest, RequestOptions.DEFAULT);
     }
 
 

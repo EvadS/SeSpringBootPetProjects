@@ -2,6 +2,7 @@ package com.se.sample.controller;
 
 
 import com.se.sample.dao.ProfileDocument;
+import com.se.sample.model.Product;
 import com.se.sample.model.dto.SearchQueryDto;
 import com.se.sample.service.ProfileService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,6 +12,7 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.util.List;
@@ -34,9 +36,10 @@ public class ProfileController {
         return service.findById(id);
     }
 
-    @PutMapping
-    public ResponseEntity updateProfile(@RequestBody ProfileDocument document) throws Exception {
-        return new ResponseEntity(service.updateProfile(document), HttpStatus.ACCEPTED);
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> updateById(@PathVariable String id, @RequestBody ProfileDocument document) throws Exception {
+        return new ResponseEntity(service.updateProfile(id, document), HttpStatus.ACCEPTED);
     }
 
     @GetMapping
