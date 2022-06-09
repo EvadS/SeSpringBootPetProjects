@@ -58,3 +58,37 @@ http://localhost:9200/profile/_mappings
 
 search samples
 https://zengcode.medium.com/elasticsearch-java-rest-client-7-10-java-high-level-rest-client-search-apis-f2e24676a80d
+
+
+snipplets 
+### get all
+```java
+SearchRequest searchRequest = new SearchRequest(INDEX);
+SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+searchSourceBuilder.query(QueryBuilders.matchAllQuery());
+searchRequest.source(searchSourceBuilder);
+
+SearchResponse response =
+        client.search(searchRequest, RequestOptions.DEFAULT);
+
+return getSearchResult(response);
+```
+
+### search Rest ES api
+```
+curl --location --request POST 'http://localhost:9200/profile/_search?pretty' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "query": {
+        "bool": {
+            "should": [
+                {
+                    "wildcard": {
+                        "technologies.name": "*ava*"
+                    }
+                }
+            ]
+        }
+    }
+}'
+```

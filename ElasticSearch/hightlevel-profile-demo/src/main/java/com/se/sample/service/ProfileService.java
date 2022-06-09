@@ -25,6 +25,7 @@ import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.WildcardQueryBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.FieldSortBuilder;
@@ -133,17 +134,25 @@ public class ProfileService {
     }
 
 
-
+    @PostConstruct
+    private void testSearch() throws Exception {
+        List<ProfileDocument> java = searchByTechnology("java");
+        int a =0;
+    }
 
     public List<ProfileDocument> searchByTechnology(String technology) throws Exception {
-
         SearchRequest searchRequest = new SearchRequest(INDEX);
+
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        QueryBuilder query =  QueryBuilders.boolQuery().should(new WildcardQueryBuilder("technologies.name", "*"+technology+"*"))
+                //.should(new WildcardQueryBuilder("tag.keyword", "*Employee*"))
+                ;
+        searchSourceBuilder.query(query);
+        searchRequest.source(searchSourceBuilder);
 
-        SearchResponse response =
-                client.search(searchRequest, RequestOptions.DEFAULT);
+        SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
 
-        return getSearchResult(response);
+        return getSearchResult(searchResponse);
     }
 
     public boolean createProductIndex() {
@@ -169,7 +178,7 @@ public class ProfileService {
         return false;
     }
 
-    @PostConstruct
+  //  @PostConstruct
     private void init() throws IOException {
         log.info("-------------------------------------------------------------------------");
         //точное совпадение
