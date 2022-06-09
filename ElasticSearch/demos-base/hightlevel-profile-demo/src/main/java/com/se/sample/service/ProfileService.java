@@ -77,7 +77,6 @@ public class ProfileService {
         return objectMapper.convertValue(resultMap, ProfileDocument.class);
     }
 
-
     public String updateProfile(ProfileDocument document) throws Exception {
 
         ProfileDocument resultDocument = findById(document.getId());

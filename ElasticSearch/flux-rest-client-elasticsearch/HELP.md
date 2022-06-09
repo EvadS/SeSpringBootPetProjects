@@ -90,3 +90,25 @@ http://localhost:8000/swagger-ui.html
 
 ## References 
 https://springdoc.org/#sponsor
+
+
+profile request
+http://localhost:8088/product/search
+```
+{
+  "query": "firstName4",
+  "filter": {
+    "match" : {
+      "category" : "laptop"
+    },
+    "range" : {
+      "price" : {
+        "lte" : 80000,
+        "gte" : 20000
+      }
+    }
+  },
+  "page": 0,
+  "size": 20
+}
+```
