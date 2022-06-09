@@ -17,6 +17,9 @@ import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.indices.CreateIndexRequest;
+import org.elasticsearch.client.indices.CreateIndexResponse;
+import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
@@ -24,10 +27,7 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.se.sample.util.Constant.INDEX;
@@ -142,26 +142,42 @@ public class ProfileService {
                 .name();
     }
 
+    // TODO: bulk operation
+
     public List<ProfileDocument> searchByTechnology(String technology) throws Exception {
 
         SearchRequest searchRequest = new SearchRequest(INDEX);
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
-        QueryBuilder queryBuilder = QueryBuilders
-                .boolQuery()
-                .must(QueryBuilders
-                        .matchQuery("technologies.name", technology));
 
-        searchSourceBuilder.query(QueryBuilders
-                .nestedQuery("technologies",
-                        queryBuilder,
-                        ScoreMode.Avg));
 
-        searchRequest.source(searchSourceBuilder);
 
         SearchResponse response =
                 client.search(searchRequest, RequestOptions.DEFAULT);
 
         return getSearchResult(response);
+    }
+
+    public boolean createProductIndex() {
+        CreateIndexRequest createIndexRequest = new CreateIndexRequest("product");
+        createIndexRequest.settings(Settings.builder()
+                .put("number_of_shards", 1)
+                .put("number_of_replicas", 0)
+                .put("index.requests.cache.enable", false)
+                .build());
+        Map<String, Map<String, String>> mappings = new HashMap<>();
+
+        mappings.put("name", Collections.singletonMap("type", "text"));
+        mappings.put("category", Collections.singletonMap("type", "keyword"));
+        mappings.put("price", Collections.singletonMap("type", "long"));
+        createIndexRequest.mapping(Collections.singletonMap("properties", mappings));
+        try {
+            CreateIndexResponse createIndexResponse = client.indices()
+                    .create(createIndexRequest, RequestOptions.DEFAULT);
+            return createIndexResponse.isAcknowledged();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
