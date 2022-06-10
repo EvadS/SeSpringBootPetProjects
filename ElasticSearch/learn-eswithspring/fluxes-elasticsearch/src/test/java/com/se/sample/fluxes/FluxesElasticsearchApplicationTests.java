@@ -1,13 +1,13 @@
-package com.se.sample;
+package com.se.sample.fluxes;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class LearnEsWithSpringApplicationTests {
+class FluxesElasticsearchApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+    }
 
 }
