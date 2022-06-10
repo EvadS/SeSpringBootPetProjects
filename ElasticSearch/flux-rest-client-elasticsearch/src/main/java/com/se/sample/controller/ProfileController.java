@@ -12,14 +12,14 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.util.List;
+
 @Tag(name = "Profile API",
         description = "Provide demo with base operation with elastic ...")
 @RestController
-@RequestMapping("/api/v1/profiles")
+@RequestMapping("/api/v1/profile")
 @RequiredArgsConstructor
 public class ProfileController {
 

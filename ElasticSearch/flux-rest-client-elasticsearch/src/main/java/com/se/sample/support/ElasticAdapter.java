@@ -1,7 +1,6 @@
 package com.se.sample.support;
 
 import com.se.sample.controller.advice.FluxRestException;
-import jdk.jfr.ContentType;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,8 +34,6 @@ import reactor.core.publisher.MonoSink;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
-
-import static com.se.sample.Constant.INDEX;
 
 @Slf4j
 @Service

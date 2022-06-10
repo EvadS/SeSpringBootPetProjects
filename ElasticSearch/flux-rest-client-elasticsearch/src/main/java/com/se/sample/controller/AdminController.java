@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/v1/admin")
+@RequestMapping("/api/v1/admin")
 @Tag(name = "Admin API",
         description = "operation with indexes ..."
 )
@@ -21,52 +21,52 @@ public class AdminController {
 
     @ResponseBody
     @GetMapping("/async/indexes-all")
-    public Mono<String[]> allIndexesAsync(){
-        return  indexService.getAllIndexesAsync();
+    public Mono<String[]> allIndexesAsync() {
+        return indexService.getAllIndexesAsync();
     }
 
     @ResponseBody
     @GetMapping("/async/index/exists/{index}")
-    public Mono<Boolean> indexExistsAsync(@PathVariable (value = "index") String indexName){
+    public Mono<Boolean> indexExistsAsync(@PathVariable(value = "index") String indexName) {
         return indexService.indexExistsAsync(indexName);
     }
 
     @ResponseBody
     @GetMapping("/async/index/create/{index}")
-    public Mono<Boolean> indexCreateAsync(@PathVariable (value = "index") String indexName){
+    public Mono<Boolean> indexCreateAsync(@PathVariable(value = "index") String indexName) {
         return indexService.createIndexAsync(indexName)
                 .doOnError(error -> ResponseEntity.status(HttpStatus.CONFLICT)
-                .body(error.getMessage()));
+                        .body(error.getMessage()));
     }
 
     @ResponseBody
     @GetMapping("/async/index/drop/{index}")
-    public Mono<Boolean> indexDropAsync(@PathVariable (value = "index") String indexName){
+    public Mono<Boolean> indexDropAsync(@PathVariable(value = "index") String indexName) {
         return indexService.dropIndexAsync(indexName);
     }
 
     @ResponseBody
     @Operation(summary = "indexes", description = "all indexes")
     @GetMapping("/indexes-all")
-    public String[] allIndexes(){
+    public String[] allIndexes() {
         return indexService.getAllIndexes();
     }
 
     @ResponseBody
     @GetMapping("/index/exists/{index}")
-    public Boolean indexExists(@PathVariable (value = "index") String indexName){
-       return indexService.indexExists(indexName);
+    public Boolean indexExists(@PathVariable(value = "index") String indexName) {
+        return indexService.indexExists(indexName);
     }
 
     @ResponseBody
     @GetMapping("/index/create/{index}")
-    public Boolean indexCreateExists(@PathVariable (value = "index") String indexName){
+    public Boolean indexCreateExists(@PathVariable(value = "index") String indexName) {
         return indexService.createIndex(indexName);
     }
 
     @ResponseBody
     @GetMapping("/index/drop/{index}")
-    public Boolean indexDrop(@PathVariable (value = "index") String indexName){
+    public Boolean indexDrop(@PathVariable(value = "index") String indexName) {
         return indexService.dropIndex(indexName);
     }
 }

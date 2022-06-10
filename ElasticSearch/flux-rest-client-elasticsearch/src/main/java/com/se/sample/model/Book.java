@@ -1,6 +1,5 @@
 package com.se.sample.model;
 
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;

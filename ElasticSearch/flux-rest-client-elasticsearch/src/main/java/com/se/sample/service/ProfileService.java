@@ -6,18 +6,13 @@ import com.se.sample.model.dto.SearchQueryDto;
 import com.se.sample.support.ElasticAdapter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;
-import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
-import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.Requests;
-import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -33,7 +28,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static com.se.sample.Constant.INDEX;
+import static com.se.sample.support.Constant.INDEX;
 
 @Slf4j
 @Service
@@ -62,8 +57,8 @@ public class ProfileService {
         GetResponse getResponse = elasticAdapter.get(INDEX, id);
         Map<String, Object> resultMap = getResponse.getSource();
 
-        if(resultMap== null || resultMap.isEmpty()){
-            throw  new RuntimeException("Not found");
+        if (resultMap == null || resultMap.isEmpty()) {
+            throw new RuntimeException("Not found");
         }
 
         return objectMapper.convertValue(resultMap, ProfileDocument.class);
@@ -72,7 +67,7 @@ public class ProfileService {
     public String updateProfile(String id, ProfileDocument document) throws Exception {
         Map<String, Object> documentMapper = objectMapper.convertValue(document, Map.class);
 
-        UpdateResponse updateResponse = elasticAdapter.update(INDEX ,id ,documentMapper, false);
+        UpdateResponse updateResponse = elasticAdapter.update(INDEX, id, documentMapper, false);
 
         return updateResponse
                 .getResult()
@@ -100,7 +95,7 @@ public class ProfileService {
     }
 
     public String deleteProfileDocument(String id) throws IOException {
-    DeleteResponse response = elasticAdapter.delete(INDEX, id);
+        DeleteResponse response = elasticAdapter.delete(INDEX, id);
         return response
                 .getResult()
                 .name();

@@ -1,9 +1,8 @@
 package com.se.sample.controller;
 
 import com.google.common.collect.ImmutableMap;
-import com.se.sample.service.PersonService;
-import io.codearte.jfairy.producer.company.Company;
 import com.se.sample.dao.Person;
+import com.se.sample.service.PersonService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.elasticsearch.action.index.IndexResponse;
@@ -14,14 +13,13 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Map;
 
 @Tag(name = "Person API",
         description = "Provide async base operation with elastic ...")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/person")
+@RequestMapping("/api/v1/person")
 public class PersonController {
 
     private static final Mono<ResponseEntity<Person>> NOT_FOUND = Mono.just(ResponseEntity.notFound().build());
@@ -45,30 +43,28 @@ public class PersonController {
     }
 
 
-
-
     @PutMapping("/{id}")
-    public Mono<ResponseEntity<Person>> updateById(@PathVariable(value = "id") String id, @RequestBody Person user){
-        return personService.updatePerson(id,user)
+    public Mono<ResponseEntity<Person>> updateById(@PathVariable(value = "id") String id, @RequestBody Person user) {
+        return personService.updatePerson(id, user)
                 .map(updatedUser -> ResponseEntity.ok(updatedUser))
                 .defaultIfEmpty(ResponseEntity.badRequest().build());
     }
 
     @DeleteMapping("/{id}")
-    public Mono<ResponseEntity<Void>> deleteById(@PathVariable String id){
+    public Mono<ResponseEntity<Void>> deleteById(@PathVariable String id) {
         return personService.delete(id)
-                .map( r -> ResponseEntity.ok().<Void>build())
+                .map(r -> ResponseEntity.ok().<Void>build())
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
 
     @GetMapping("/search/company/{name}")
-    public Flux<Person> searchByCompanyName(@PathVariable(value = "name") String companyName){
+    public Flux<Person> searchByCompanyName(@PathVariable(value = "name") String companyName) {
         return personService.searchByCompanyName(companyName);
     }
 
     @GetMapping("/all")
-    public Flux<Person> getAll(){
+    public Flux<Person> getAll() {
         return personService.findAll();
     }
 

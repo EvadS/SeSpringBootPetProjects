@@ -35,14 +35,14 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static com.se.sample.Constant.INDEX;
+import static com.se.sample.support.Constant.PEOPLE_INDEX;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 
 public class PersonService {
-    public static final String PEOPLE_INDEX = "people";
+
     private final RestHighLevelClient client;
     private final ObjectMapper objectMapper;
 
@@ -109,7 +109,6 @@ public class PersonService {
             });
         });
     }
-
     private void doIndex(Person doc, ActionListener<IndexResponse> listener) throws JsonProcessingException {
 
         UUID uuid = UUID.randomUUID();
