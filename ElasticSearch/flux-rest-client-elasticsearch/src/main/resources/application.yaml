@@ -14,5 +14,5 @@ elasticsearch:
   maxRetryTimeoutMillis: 60000
 
 index:
-  book: book
+
   product: product

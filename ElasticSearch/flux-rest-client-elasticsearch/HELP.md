@@ -112,3 +112,39 @@ http://localhost:8088/product/search
   "size": 20
 }
 ```
+
+person api 
+```java
+{
+  "address": {
+    "street": "string",
+    "streetNumber": "1",
+    "apartmentNumber": "2",
+    "postalCode": "string",
+    "city": "zp",
+    "lines": [
+      "lines1"
+    ]
+  },
+  "firstName": "first Name",
+  "middleName": "middle Name",
+  "lastName": "last Name",
+  "email": "evad-se@mail.ru",
+  "companyEmail": "string",
+  "username": "string",
+  "password": "string",
+  "sex": "string",
+  "telephoneNumber": "string",
+  "dateOfBirth": "2022-06-10",
+  "company": {
+    "name": "string",
+    "domain": "string",
+    "email": "string",
+    "url": "http://localhost:8080",
+    "vatIdentificationNumber": "string"
+  },
+  "nationalIdentityCardNumber": "string",
+  "nationalIdentificationNumber": "string",
+  "passportNumber": "string"
+}
+```

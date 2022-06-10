@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequestMapping("/v1/admin")
 @Tag(name = "Admin API",
-        description = "euismod in pellentesque ..."
+        description = "operation with indexes ..."
 )
 @RequiredArgsConstructor
 public class AdminController {

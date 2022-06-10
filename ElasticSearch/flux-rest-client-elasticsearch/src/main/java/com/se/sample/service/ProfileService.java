@@ -100,9 +100,7 @@ public class ProfileService {
     }
 
     public String deleteProfileDocument(String id) throws IOException {
-        DeleteRequest deleteRequest = new DeleteRequest(INDEX).id(id);
-
-        DeleteResponse response = elasticAdapter.delete(INDEX, id);
+    DeleteResponse response = elasticAdapter.delete(INDEX, id);
         return response
                 .getResult()
                 .name();

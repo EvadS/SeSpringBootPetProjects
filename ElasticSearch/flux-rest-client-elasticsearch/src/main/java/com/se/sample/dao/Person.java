@@ -1,4 +1,4 @@
-package com.se.sample.fluxes;
+package com.se.sample.dao;
 
 
 import lombok.Value;
@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Value
-class Person {
+public class Person {
     @NotNull
     @Valid
     private final Address address;

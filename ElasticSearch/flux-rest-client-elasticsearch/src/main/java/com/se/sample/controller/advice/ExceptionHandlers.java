@@ -1,4 +1,4 @@
-package com.se.sample.fluxes;
+package com.se.sample.controller.advice;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.slf4j.Logger;
