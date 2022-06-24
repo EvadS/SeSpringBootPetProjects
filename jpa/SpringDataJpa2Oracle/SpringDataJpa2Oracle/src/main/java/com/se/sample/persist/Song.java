@@ -17,7 +17,6 @@ import java.time.YearMonth;
         defaultForType = YearMonth.class
 )
 public class Song extends BaseEntity {
-
     private Long length = 0L;
 
     @Type(type = "json")
@@ -25,8 +24,7 @@ public class Song extends BaseEntity {
     private Artist artist;
 
     @Column(
-            name = "recorded_on",
-            columnDefinition = "mediumint"
+            name = "recorded_on"
     )
     private YearMonth recordedOn = YearMonth.now();
 
@@ -52,5 +50,14 @@ public class Song extends BaseEntity {
 
     public void setRecordedOn(YearMonth recordedOn) {
         this.recordedOn = recordedOn;
+    }
+
+    @Override
+    public String toString() {
+        return "Song{" +
+                "length=" + length +
+                ", artist=" + artist +
+                ", recordedOn=" + recordedOn +
+                '}';
     }
 }

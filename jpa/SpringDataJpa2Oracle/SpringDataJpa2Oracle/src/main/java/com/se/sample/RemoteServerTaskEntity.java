@@ -19,10 +19,10 @@ import java.util.UUID;
 //@Entity(name = "am_remote_server_task")
 //@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 public class RemoteServerTaskEntity {
-//    @Id
-//    @Type(type="org.hibernate.type.UUIDCharType")
-//    @Column(name = "ID", length = 36, unique = true, nullable = false)
-//    protected UUID id = UUID.randomUUID();
+    @Id
+    @Type(type="org.hibernate.type.UUIDCharType")
+    @Column(name = "ID", length = 36, unique = true, nullable = false)
+    protected UUID id = UUID.randomUUID();
 
     @Type(type="org.hibernate.type.UUIDCharType")
     @Column(length = 36)
