@@ -1,0 +1,14 @@
+version: '3.5'
+
+services:
+
+  oracle01:
+    image: oracleinanutshell/oracle-xe-11g:latest
+    container_name: oracle01
+    privileged: true
+    restart: always
+    ports:
+      - "1521:1521"
+      - "8090:8080"
+    volumes:
+      - /home/oracle/oradata:/u01/app/oracle/product/11.2.0/xe/oradata
