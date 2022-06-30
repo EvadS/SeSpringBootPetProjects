@@ -1,5 +1,7 @@
-package com.se.sample;
+package com.se.sample.persist;
 
+import com.se.sample.Audit;
+import com.se.sample.TaskConfiguration;
 import com.se.sample.enums.TaskLog;
 import com.se.sample.enums.TaskStatus;
 import com.se.sample.enums.TaskType;
@@ -13,11 +15,11 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
-//@NoArgsConstructor
-//@AllArgsConstructor
-//@Table(name = "am_remote_server_task")
-//@Entity(name = "am_remote_server_task")
-//@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "cm_remote_server_task")
+@Entity(name = "cm_remote_server_task")
+@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 public class RemoteServerTaskEntity {
     @Id
     @Type(type="org.hibernate.type.UUIDCharType")
@@ -39,7 +41,7 @@ public class RemoteServerTaskEntity {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private TaskType type;
-//
+
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private TaskStatus status;
@@ -51,7 +53,7 @@ public class RemoteServerTaskEntity {
     @Column(nullable = false)
     private boolean notified;
 //
-//    @Embedded
-//    @Builder.Default
-//    private Audit audit = new Audit();
+    @Embedded
+    @Builder.Default
+    private Audit audit = new Audit();
 }

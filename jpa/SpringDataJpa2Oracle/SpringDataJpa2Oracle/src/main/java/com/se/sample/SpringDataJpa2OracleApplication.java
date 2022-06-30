@@ -1,10 +1,12 @@
 package com.se.sample;
 
+import com.se.sample.enums.TaskStatus;
+import com.se.sample.enums.TaskType;
 import com.se.sample.persist.Artist;
+import com.se.sample.persist.RemoteServerTaskEntity;
 import com.se.sample.persist.Song;
-import com.se.sample.repository.CertificateUrlRepository;
+import com.se.sample.repository.RemoteServerRepository;
 import com.se.sample.repository.SongRepository;
-import com.se.sample.repository.StudentRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
@@ -13,6 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.time.YearMonth;
+import java.util.UUID;
 
 @Slf4j
 @SpringBootApplication
@@ -21,12 +24,16 @@ public class SpringDataJpa2OracleApplication {
 //	@Autowired
 //	private StudentRepository studentRepository;
 
-//	@Autowired
-//	private CertificateUrlRepository certificateUrlRepository;
+	//@Autowired
+	//private CertificateUrlRepository certificateUrlRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringDataJpa2OracleApplication.class, args);
 	}
+
+
+	@Autowired
+	RemoteServerRepository remoteServerRepository;
 
 	@Autowired
 	SongRepository songRepository;
@@ -34,10 +41,11 @@ public class SpringDataJpa2OracleApplication {
 	@Bean
 	ApplicationRunner init() {
 		return args ->{
-			testSong();
-			//testCertificateUrlEntity();
+			//testSong();
 
-			//testCustomer();
+			testCertificateUrlEntity();
+
+		//	testCustomer();
 		};
 	}
 
@@ -74,19 +82,22 @@ public class SpringDataJpa2OracleApplication {
 
 
 
-//	private void testCertificateUrlEntity() {
-//		CertificateUrlEntity certificateUrl = new CertificateUrlEntity();
-//
-//		TaskConfiguration configuration = TaskConfiguration.builder()
-//				.test("test")
-//				.build();
-//
-//		certificateUrl.setConfiguration(configuration);
-//
-//		certificateUrlRepository.save(certificateUrl);
-//
-//		certificateUrlRepository.findAll().forEach(i-> log.info(i.toString()));
-//	}
+	private void testCertificateUrlEntity() {
+		RemoteServerTaskEntity certificateUrl = new RemoteServerTaskEntity();
+
+		TaskConfiguration configuration = TaskConfiguration.builder()
+				.test("test")
+				.build();
+
+		//certificateUrl.setConfiguration(null);
+
+		certificateUrl.setServerId(UUID.randomUUID());
+		certificateUrl.setStatus(TaskStatus.CREATED);
+		certificateUrl.setType(TaskType.AUTO_UPDATE);
+		remoteServerRepository.save(certificateUrl);
+
+		remoteServerRepository.findAll().forEach(i-> log.info(i.toString()));
+	}
 
 
 }
