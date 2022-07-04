@@ -6,9 +6,13 @@ import com.se.sample.enums.TaskLog;
 import com.se.sample.enums.TaskStatus;
 import com.se.sample.enums.TaskType;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import com.vladmihalcea.hibernate.type.json.JsonBlobType;
+import com.vladmihalcea.hibernate.type.json.JsonStringType;
 import lombok.*;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
+
 import javax.persistence.*;
 import java.util.UUID;
 
@@ -19,7 +23,10 @@ import java.util.UUID;
 @AllArgsConstructor
 @Table(name = "cm_remote_server_task")
 @Entity(name = "cm_remote_server_task")
-@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
+@TypeDefs({
+        @TypeDef(name = "json", typeClass = JsonStringType.class),
+        @TypeDef(name = "jsonb", typeClass = JsonBlobType.class)
+})
 public class RemoteServerTaskEntity {
     @Id
     @Type(type="org.hibernate.type.UUIDCharType")
@@ -34,7 +41,7 @@ public class RemoteServerTaskEntity {
     @Column(length = 36, nullable = false)
     private UUID serverId;
 
-    @Type(type = "jsonb")
+    @Type(type = "jsonb-lob")
     @Column(name = "configuration", columnDefinition = "json")
     private TaskConfiguration configuration;
 
@@ -46,13 +53,15 @@ public class RemoteServerTaskEntity {
     @Enumerated(EnumType.STRING)
     private TaskStatus status;
 
-    @Type(type = "jsonb")
+    @Type(type = "jsonb-lob")
     @Column(name = "log", columnDefinition = "json")
     private TaskLog log;
 
     @Column(nullable = false)
     private boolean notified;
 //
+
+
     @Embedded
     @Builder.Default
     private Audit audit = new Audit();

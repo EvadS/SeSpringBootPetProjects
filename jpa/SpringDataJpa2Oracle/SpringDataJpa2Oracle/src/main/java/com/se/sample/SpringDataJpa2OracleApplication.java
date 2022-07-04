@@ -3,6 +3,7 @@ package com.se.sample;
 import com.se.sample.enums.TaskStatus;
 import com.se.sample.enums.TaskType;
 import com.se.sample.persist.Artist;
+import com.se.sample.persist.CommonConfig;
 import com.se.sample.persist.RemoteServerTaskEntity;
 import com.se.sample.persist.Song;
 import com.se.sample.repository.RemoteServerRepository;
@@ -13,11 +14,13 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.time.YearMonth;
 import java.util.UUID;
 
 @Slf4j
+@EnableJpaAuditing
 @SpringBootApplication
 public class SpringDataJpa2OracleApplication {
 
@@ -48,6 +51,20 @@ public class SpringDataJpa2OracleApplication {
 		//	testCustomer();
 		};
 	}
+
+//	private void tesCommon() {
+//		CommonConfig commonConfig = new CommonConfig();
+//
+//		commonConfig.setId(UUID.randomUUID());
+//		commonConfig.setConfigData("date");
+//
+//		try {
+//			commonConfigRepo.save(commonConfig);
+//			int a = 0;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	private void testSong() {
 		Song song = new Song();
