@@ -25,7 +25,7 @@ public class Scheduler {
         testGauge = meterRegistry.gauge("custom_gauge", new AtomicInteger(0));
         testCounter = meterRegistry.counter("custom_counter");
 
-        Gauge.build()
+
 
 
     }
