@@ -51,9 +51,24 @@ custom metric named custom_gauge
 
 
 https://grafana.com/grafana/dashboards/4701
+---
 
+step3
+orders_created_total
 ------
 дополнительно
 https://github.com/Kirya522/medium-posts/tree/main/java/spring-metrics/src/metricsdemo/scripts
 ---
 https://mokkapps.de/blog/monitoring-spring-boot-application-with-micrometer-prometheus-and-grafana-using-custom-metrics/
+---
+https://www.innoq.com/en/blog/prometheus-counters/
+---
+
+
+Мы можем добавить некоторые 
+* теги (как они называются в Micrometer) 
+* метки (та же концепция в Prometheus) к нашему 
+счетчику и устанавливать соответствующие значения атрибутов каждый раз, когда мы его увеличиваем.
+  
+коунтеры
+* orders_created_total

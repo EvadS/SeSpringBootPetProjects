@@ -17,6 +17,8 @@ public class Scheduler {
     private final AtomicInteger testGauge;
     private final Counter testCounter;
 
+    private final Counter ordersCreatedCounter;
+
     private Gauge guage;
 
     public Scheduler(MeterRegistry meterRegistry) {
@@ -24,6 +26,8 @@ public class Scheduler {
         // https://prometheus.io/docs/practices/instrumentation/#counter-vs-gauge-summary-vs-histogram
         testGauge = meterRegistry.gauge("custom_gauge", new AtomicInteger(0));
         testCounter = meterRegistry.counter("custom_counter");
+
+        ordersCreatedCounter = meterRegistry.counter("orders.created");
 
 
 
@@ -47,5 +51,11 @@ public class Scheduler {
 
         Random r = new Random();
         return r.nextInt((max - min) + 1) + min;
+    }
+
+    @Scheduled(fixedDelay = 5000)
+    public void increaseCounter() {
+        log.info("orders counter");
+        ordersCreatedCounter.increment();
     }
 }
