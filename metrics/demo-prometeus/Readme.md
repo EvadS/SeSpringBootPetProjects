@@ -89,6 +89,64 @@ orders_country_total
 |orders_country_total{country="UA", instance="172.17.0.1:8081", job="spring_micrometer"} |111|
 |orders_country_total{country="US", instance="172.17.0.1:8081", job="spring_micrometer"} |99 |
 
+
+##Campaign 
+
+### all campaign 
+```
+campaign_status_total
+```
+
+### campaign with status PENDING
+```
+    campaign_status_counter_total{campaign_state="PENDING"}
+```
+
+### campaign by name 
+```
+ campaign_status_counter_total{company="test"}
+```
+
+
+### Postman
+
+#### Multi counter 
+<img src="img/multi_counter.jpg" style="height: 300px; width:300px;">
+
+```
+curl --location --request POST 'http://localhost:8081/campaign-counter/increment' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "campaignName":"test",
+    "campaignStatus":"DEPLOYED"
+}'
+```
+
+### Gauages
+
+<img src="img/guage_prometeus.jpg" style="height: 300px; width:300px;">
+
+все данные по кампаниям
+change gauge : campaign_status_gauge
+```
+    curl --location --request POST 'http://localhost:8081/campaign-gauge/set-value' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "value":"62",
+    "campaignName":"se3",
+    "campaignStatus":"PENDING"
+}'
+```
+
+
+данные по имени 
+```
+campaign_status_gauge{company_gauge="se"}
+```
+campaign_status_gauge{company_gauge="se2",campaign_state_gauge="PENDING" }
+
+
+
 ## Prometheus queries 
 *rate*  function, which calculates the per-second average rate of increase of the time series in the range vector
 
@@ -120,7 +178,7 @@ sum aggregation by country
 rate(orders_created_total{country="RU"}[1h]) * 60
 
 
-
+rate(per_customer_per_type_total{customer="RU"}[black]) * 60
 
 
 
