@@ -1,6 +1,8 @@
 package com.se.sample;
 
+import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -31,14 +33,18 @@ public class IncreaseCounterJob {
     @Scheduled(fixedDelay = 15000)
     public void simulateNewOrderDE() {
     log.info("simulateNewOrderDE");
-        String s = randomPaymentMethod();
-        String s1 = randomShippingMethod();
-        log.info(" simulateNewOrderDE PaymentMethod: {},ShippingMethod:{}", s, s1);
+        String paymentMethod = randomPaymentMethod();
+        String shippingMethod = randomShippingMethod();
+        log.info("New order. PaymentMethod:{}, ShippingMethod:{}", paymentMethod, shippingMethod);
 
-        meterRegistry.counter("orders.created",
-                "country", "DE",
-                "payment_method", s,
-                "shipping_method", s1)
+
+       // Tag tag = Tag.
+
+        Counter.builder("orders.created")
+                .tags("country", "DE",
+                        "payment_method", paymentMethod,
+                        "shipping_method", shippingMethod)
+                .register(meterRegistry)
                 .increment();
     }
 
@@ -46,7 +52,7 @@ public class IncreaseCounterJob {
     public void simulateNewOrderAT() {
         String paymentMethod = randomPaymentMethod();
         String shippingMethod = randomShippingMethod();
-        log.info("simulateNewOrderAT PaymentMethod: {}, ShippingMethod:{}", paymentMethod, shippingMethod);
+        log.info("New order. PaymentMethod:{}, ShippingMethod:{}", paymentMethod, shippingMethod);
 
         meterRegistry.counter("orders.created",
                 "country", "AT",
@@ -55,21 +61,34 @@ public class IncreaseCounterJob {
                 .increment();
     }
 
+    @Scheduled(fixedDelay = 15000)
+    public void simulateNewOrderRU() {
+        String paymentMethod = randomPaymentMethod();
+        String shippingMethod = randomShippingMethod();
+        log.info("New order. PaymentMethod:{}, ShippingMethod:{}", paymentMethod, shippingMethod);
+
+        meterRegistry.counter("orders.created",
+                        "country", "RU",
+                        "payment_method", paymentMethod,
+                        "shipping_method", shippingMethod)
+                .increment();
+    }
+
     @Scheduled(fixedDelay =6000)
     public void country_metric() {
         String country = randomCountry();
-        log.info(" country_metric country:{}", country);
+        log.info("Country metric:{}", country);
 
         meterRegistry.counter("orders.country",
                 "country", country )
                 .increment();
     }
 
-
     private String randomCountry() {
         int randomIndex = new Random().nextInt(availablePaymentMethods.size());
         return availableCountryMethods.get(randomIndex);
     }
+
 
     private String randomPaymentMethod() {
         int randomIndex = new Random().nextInt(availablePaymentMethods.size());
