@@ -5,6 +5,8 @@ import com.se.sample.components.MultiTaggedCounter;
 import com.se.sample.config.ProjectConstants;
 import com.se.sample.models.CampaignIncrement;
 import io.micrometer.core.instrument.MeterRegistry;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,11 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/campaign-counter")
 public class CampaignCounterController {
-
-    @Autowired
-    private MeterRegistry meterRegistry;
-
-    private final MultiTaggedCounter multiTaggedCounter;
+    private  MultiTaggedCounter multiTaggedCounter;
 
     public CampaignCounterController(MeterRegistry meterRegistry) {
         multiTaggedCounter = new MultiTaggedCounter(ProjectConstants.FIRST_COUNTER_NAME_COUNTER,
