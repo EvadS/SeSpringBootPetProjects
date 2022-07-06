@@ -13,13 +13,9 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class Scheduler {
-
     private final AtomicInteger testGauge;
     private final Counter testCounter;
-
     private final Counter ordersCreatedCounter;
-
-    private Gauge guage;
 
     public Scheduler(MeterRegistry meterRegistry) {
         // Counter vs. gauge, summary vs. histogram
@@ -28,10 +24,6 @@ public class Scheduler {
         testCounter = meterRegistry.counter("custom_counter");
 
         ordersCreatedCounter = meterRegistry.counter("orders.created");
-
-
-
-
     }
 
     @Scheduled(fixedRateString = "10000", initialDelayString = "0")

@@ -63,6 +63,12 @@ https://mokkapps.de/blog/monitoring-spring-boot-application-with-micrometer-prom
 ---
 https://www.innoq.com/en/blog/prometheus-counters/
 ---
+https://tomgregory.com/the-four-types-of-prometheus-metrics/#counters
+
+---
+https://dzone.com/articles/spring-boot-metrics-with-dynamic-tag-values
+( https://github.com/firedome/dynamic-actuator-metrics)
+----
 
 
 Мы можем добавить некоторые 
@@ -72,3 +78,19 @@ https://www.innoq.com/en/blog/prometheus-counters/
   
 коунтеры
 * orders_created_total
+
+
+### Guage 
+CollectorRegistry as the central place where all the metrics are stored.
+
+CounterController check in actuator
+```
+# HELP request_count Number of times requested hello.
+# TYPE request_count counter
+request_count 15.0
+```
+
+```promatheus
+rate(request_count[5m])
+```
+
