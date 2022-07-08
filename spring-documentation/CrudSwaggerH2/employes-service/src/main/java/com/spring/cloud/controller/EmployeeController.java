@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.spring.cloud.exception.CustomErrorDetails;
+import com.spring.cloud.exception.ErrorDetails;
 import com.spring.cloud.exception.ResourceNotFoundException;
 import com.spring.cloud.model.Employee;
 import com.spring.cloud.repository.EmployeeRepository;
@@ -35,7 +37,7 @@ public class EmployeeController {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    @ApiOperation(value = "View a list of available employees", response = List.class)
+    @ApiOperation(value = "View a list of available employees",response = Employee.class,  responseContainer = "List")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved list"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
@@ -45,7 +47,20 @@ public class EmployeeController {
         return employeeRepository.findAll();
     }
 
-    @ApiOperation(value = "Get an employee by Id")
+
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Get an employee by Id",
+            response = Employee.class,  responseContainer = "List"),
+
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource",
+                    response = ErrorDetails.class),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden",
+                    response = ErrorDetails.class),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found",
+                    response = ErrorDetails.class) ,
+            @ApiResponse(code = 415, message = "The has incorrect format",
+                    response = CustomErrorDetails.class)
+    })
     @GetMapping("/employees/{id}")
     public ResponseEntity<Employee> getEmployeeById(
             @ApiParam(value = "Employee id from which employee object will retrieve", required = true)

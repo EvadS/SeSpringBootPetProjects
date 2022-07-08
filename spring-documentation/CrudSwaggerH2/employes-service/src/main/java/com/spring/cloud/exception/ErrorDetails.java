@@ -1,7 +1,10 @@
 package com.spring.cloud.exception;
 
+import io.swagger.annotations.ApiModel;
+
 import java.util.Date;
 
+@ApiModel(value = "provide base error information")
 public class ErrorDetails {
     private Date timestamp;
     private String message;
