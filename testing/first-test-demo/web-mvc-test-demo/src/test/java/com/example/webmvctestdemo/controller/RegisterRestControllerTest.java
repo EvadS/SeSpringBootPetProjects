@@ -76,12 +76,20 @@ class RegisterRestControllerTest {
                         .content(objectMapper.writeValueAsString(user)))
                 .andExpect(status().isOk());
 
+
+        // fter the call to the controller has been performed, we use an ArgumentCaptor
+        // to capture the User object that was passed to the RegisterUseCase.registerUser() and assert
+        // that it contains the expected values.
         ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
         verify(registerUseCase, times(1)).registerUser(userCaptor.capture(), eq(true));
         assertThat(userCaptor.getValue().getName()).isEqualTo("Zaphod");
         assertThat(userCaptor.getValue().getEmail()).isEqualTo("zaphod@galaxy.net");
     }
 
+    /**
+     * Verifying Output Serialization
+     * @throws Exception
+     */
     @Test
     void whenValidInput_thenReturnsUserResource() throws Exception {
 
