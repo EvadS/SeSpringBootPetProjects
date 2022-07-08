@@ -1,4 +1,5 @@
-package org.toomuch2learn.crud.catalogue.model;
+package com.se.sample.model;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,5 +15,6 @@ public enum Category {
     COMPUTERS("Computers"),
     OFFICE("Office");
 
-    @Getter private String value;
+    @Getter
+    private String value;
 }

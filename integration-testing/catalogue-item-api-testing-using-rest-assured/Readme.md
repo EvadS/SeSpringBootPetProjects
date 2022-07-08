@@ -43,6 +43,10 @@ Below are the tests that we are planning to include as part of this Test class:
 
 ## Executing from Maven Build
 
+change in application.yaml
+file:
+upload-location:
+
 Run the below command to execute the tests by maven
 
 ```bash
@@ -59,8 +63,8 @@ If tests are successful, something like this should be displayed.
 [INFO] -------------------------------------------------------
 [INFO]  T E S T S
 [INFO] -------------------------------------------------------
-[INFO] Running org.toomuch2learn.crud.catalogue.RestAssuredCatalogueCRUDTest
-[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.373 s - in org.toomuch2learn.crud.catalogue.RestAssuredCatalogueCRUDTest
+[INFO] Running RestAssuredCatalogueCRUDTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.373 s - in RestAssuredCatalogueCRUDTest
 [INFO]
 [INFO] Results:
 [INFO]
@@ -73,3 +77,7 @@ If tests are successful, something like this should be displayed.
 [INFO] Finished at: 2020-02-22T21:30:04+11:00
 [INFO] ------------------------------------------------------------------------
 ```
+
+
+### Testing 
+TestRestTemplate 
