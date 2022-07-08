@@ -12,7 +12,7 @@ import lombok.Value;
 public class ErrorResult {
   private final List<FieldValidationError> fieldErrors = new ArrayList<>();
 
-  ErrorResult(String field, String message) {
+  public ErrorResult(String field, String message) {
     this.fieldErrors.add(new FieldValidationError(field, message));
   }
 }

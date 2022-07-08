@@ -6,12 +6,12 @@ import lombok.Data;
 @Data
 public class FieldValidationError {
 
-  private String field;
+    private String field;
 
-  private String message;
+    private String message;
 
-  public FieldValidationError(@JsonProperty("field") String field, @JsonProperty("message") String message) {
-    this.field = field;
-    this.message = message;
-  }
+    public FieldValidationError(@JsonProperty("field") String field, @JsonProperty("message") String message) {
+        this.field = field;
+        this.message = message;
+    }
 }

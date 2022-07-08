@@ -1,7 +1,8 @@
-package com.example.webmvctestdemo.web;
+package com.example.webmvctestdemo.controller;
 
 import com.example.webmvctestdemo.domain.RegisterUseCase;
 import com.example.webmvctestdemo.domain.User;
+import com.example.webmvctestdemo.web.UserResource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
