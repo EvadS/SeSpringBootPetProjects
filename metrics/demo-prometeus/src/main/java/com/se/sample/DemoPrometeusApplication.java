@@ -2,15 +2,22 @@ package com.se.sample;
 
 import com.se.sample.components.MultiTaggedCounter;
 import com.se.sample.models.CampaignState;
+import com.se.sample.service.BeerService;
+import com.se.sample.service.Order;
 import io.micrometer.core.instrument.MeterRegistry;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.time.Duration;
 
 @SpringBootApplication
 @RestController
@@ -28,9 +35,9 @@ public class DemoPrometeusApplication {
 
 
         // TODO: for develop
-//    @Bean
-//    ApplicationRunner init(MeterRegistry meterRegistry){
-//        return args -> {
+    @Bean
+    ApplicationRunner init(MeterRegistry meterRegistry){
+        return args -> {
 //            MultiTaggedCounter multiTaggedCounter = new MultiTaggedCounter("per-customer-per-type", meterRegistry, "company", "campaign-state");
 //
 //            multiTaggedCounter.increment("black",  CampaignState.PENDING.getState());
@@ -42,7 +49,20 @@ public class DemoPrometeusApplication {
 //            multiTaggedCounter.increment("white", CampaignState.REMOVED.getState());
 //            multiTaggedCounter.increment("brown", CampaignState.REGISTER_FAILED.getState());
 //
-//            log.info("finished initialisation");
-//        };
-//    }
+
+
+            log.info("finished initialisation");
+        };
+    }
+
+        @Autowired
+        private BeerService beerService;
+
+
+
+    private static Order toOrder(Long l) {
+        Long amount = l % 5;
+        String type = l % 2 == 0 ? "ale" : "light";
+        return new Order(amount.intValue(), type);
+    }
 }

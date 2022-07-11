@@ -70,7 +70,7 @@ labels (e.g. country='DE', payment_method='INVOICE' and shipping_method='STANDAR
 ```
 # HELP orders_country_total  
 # TYPE orders_country_total counter
-orders_country_total{country="RU",} 8.0
+у {country="RU",} 8.0
 orders_country_total{country="UA",} 11.0
 orders_country_total{country="US",} 11.0
 ```
