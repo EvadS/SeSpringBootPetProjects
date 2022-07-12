@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MyMetricsCustomBean {
 
+    public static final String FIRST_COUNTER ="low.inventory2.count";// "PENDING.count";
     Logger logger = LoggerFactory.getLogger(MyMetricsCustomBean.class);
 
     // REST controller for metrics
@@ -65,7 +66,7 @@ public class MyMetricsCustomBean {
         lowInventoryCounts.register(
                 productRepository.findProductWithLowInventoryCount().stream().
                         map(
-                                (Product p) -> MultiGauge.Row.of(Tags.of("pid",""+p.getId(),"pname",p.getName()),p.getCount())
+                                (Product p) -> MultiGauge.Row.of(Tags.of("id",""+p.getId(),"pname",p.getName()),p.getCount())
                         ).
                         collect(Collectors.toList()
                         )
@@ -103,7 +104,7 @@ public class MyMetricsCustomBean {
 
         // dynamically sized dimensions from database
         // rely on updateLowInventoryGauges() to populate because data is not available here
-        lowInventoryCounts = MultiGauge.builder("low.inventory2.count").tag("pid","pname").register(registry);
+        lowInventoryCounts = MultiGauge.builder(FIRST_COUNTER).tag("pid","pname").register(registry);
 
         // multi-dimenstional environment keys
         sysEnvKeys = MultiGauge.builder("sys.env").tag("key","value").register(registry);
