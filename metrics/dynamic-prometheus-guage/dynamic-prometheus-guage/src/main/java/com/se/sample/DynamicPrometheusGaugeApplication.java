@@ -39,62 +39,58 @@ public class DynamicPrometheusGaugeApplication {
     @Bean
     ApplicationRunner init(MeterRegistry meterRegistry) {
         return args -> {
-            List<StatusItem> items = new ArrayList<StatusItem>();
-
-            items.add(new StatusItem("dirty", "OPEN", 10));
-            items.add(new StatusItem("dirty", "DELAYED", 3));
-            items.add(new StatusItem("dirty", "RUNNING", 80));
-
-            MultiGauge statuses = MultiGauge.builder("statuses")
-                    .tag("job", "dirty")
-                    .description("The number of widgets in various statuses")
-                    .baseUnit("widgets")
-                    .register(meterRegistry);
-
-            items.stream().map(
-                    result -> MultiGauge.Row.of(Tags.of("status", result.getStatus()),result.getCount()));
-
-            String testKey1 = "key1";
-            AtomicInteger testValue1 = new AtomicInteger(1);
-            String testKey2 = "key2";
-            AtomicInteger testValue2 = new AtomicInteger(2);
-
-            Map<String, AtomicInteger> mapItem = new ConcurrentHashMap<>();
-            mapItem.put(testKey1, testValue1);
-            mapItem.put(testKey2, testValue2);
-
-            String meterName = "my";
-
-             this.gauge = MultiGauge.builder(meterName).register(meterRegistry);
-
-
-            this.gauge.register(items.stream().map(t -> MultiGauge.Row.of(
-                    Tags.of(
-                            TAG1, t.getStatus(),
-                            TAG2, t.getStatus(),
-                            TAG3, t.getStatus()
-                    ),
-                    t.getCount())).collect(Collectors.toList()), true);
-
-           //Thread.sleep(5000l);
-
-//            this.gauge.register(items.stream()
-//                    .map(t -> MultiGauge.Row.of(Tags.of(TAG3, t.getStatus()) ,t.getCount())).collect(Collectors.toList()), true);
-
-
-            Search search = Metrics.globalRegistry.find(meterName);
-
-
-            this.gauge.register(items.stream().map(t -> MultiGauge.Row.of(
-                    Tags.of(
-                            TAG1, t.getStatus(),
-                            TAG2, t.getStatus()
-
-                    ),
-                    t.getCount())).collect(Collectors.toList()), true);
-
-            int a =0;
+            //extracted(meterRegistry);
         };
+    }
+
+
+    private void extracted(MeterRegistry meterRegistry) {
+        List<StatusItem> items = new ArrayList<StatusItem>();
+
+        items.add(new StatusItem("dirty", "OPEN", 10));
+        items.add(new StatusItem("dirty", "DELAYED", 3));
+        items.add(new StatusItem("dirty", "RUNNING", 80));
+
+        MultiGauge statuses = MultiGauge.builder("statuses")
+                .tag("job", "dirty")
+                .description("The number of widgets in various statuses")
+                .baseUnit("widgets")
+                .register(meterRegistry);
+
+        items.stream().map(
+                result -> MultiGauge.Row.of(Tags.of("status", result.getStatus()),result.getCount()));
+
+        String testKey1 = "key1";
+        AtomicInteger testValue1 = new AtomicInteger(1);
+        String testKey2 = "key2";
+        AtomicInteger testValue2 = new AtomicInteger(2);
+
+        Map<String, AtomicInteger> mapItem = new ConcurrentHashMap<>();
+        mapItem.put(testKey1, testValue1);
+        mapItem.put(testKey2, testValue2);
+
+        String meterName = "my";
+
+        this.gauge = MultiGauge.builder(meterName).register(meterRegistry);
+
+
+        this.gauge.register(items.stream().map(t -> MultiGauge.Row.of(
+                Tags.of(
+                        TAG1, t.getStatus(),
+                        TAG2, t.getStatus(),
+                        TAG3, t.getStatus()
+                ),
+                t.getCount())).collect(Collectors.toList()), true);
+
+        this.gauge.register(items.stream().map(t -> MultiGauge.Row.of(
+                Tags.of(
+                        TAG1, t.getStatus(),
+                        TAG2, t.getStatus()
+
+                ),
+                t.getCount())).collect(Collectors.toList()), true);
+
+        int a =0;
     }
 
 }
