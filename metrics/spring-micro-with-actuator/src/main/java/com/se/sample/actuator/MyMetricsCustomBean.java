@@ -10,6 +10,7 @@ import io.micrometer.core.instrument.MultiGauge;
 import io.micrometer.core.instrument.Tags;
 
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
@@ -23,7 +24,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class MyMetricsCustomBean {
 
-    public static final String FIRST_COUNTER ="low.inventory2.count";// "PENDING.count";
+    private static AtomicLong atomicLong = new AtomicLong(0);
+    public static final String FIRST_COUNTER ="TENDLC_application_address_request_metric";// "PENDING.count";
+
+    private final static String METRICS_NAME_PREFIX = "TENDLC_";
+
     Logger logger = LoggerFactory.getLogger(MyMetricsCustomBean.class);
 
     // REST controller for metrics
@@ -61,17 +66,18 @@ public class MyMetricsCustomBean {
         boolean overWrite = true;
 
         //low_inventory2_count
+        logger.info("Product count: {}",     productRepository.count());
 
         // create MultiGauge.Row for each product with low inventory count
         lowInventoryCounts.register(
-                productRepository.findProductWithLowInventoryCount().stream().
+                //  productRepository.findProductWithLowInventoryCount().stream().
+                productRepository.findAll().stream().
                         map(
-                                (Product p) -> MultiGauge.Row.of(Tags.of("id",""+p.getId(),"pname",p.getName()),p.getCount())
+                                (Product p) -> MultiGauge.Row.of(Tags.of("id",""+p.getId(),"name:",p.getStatus()),p.getCount())
                         ).
                         collect(Collectors.toList()
                         )
                 ,overWrite);
-
     }
 
     public Supplier<Number> fetchSalesCounter() {
@@ -105,6 +111,7 @@ public class MyMetricsCustomBean {
         // dynamically sized dimensions from database
         // rely on updateLowInventoryGauges() to populate because data is not available here
         lowInventoryCounts = MultiGauge.builder(FIRST_COUNTER).tag("pid","pname").register(registry);
+
 
         // multi-dimenstional environment keys
         sysEnvKeys = MultiGauge.builder("sys.env").tag("key","value").register(registry);

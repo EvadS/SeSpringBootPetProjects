@@ -1,6 +1,7 @@
 package com.se.sample;
 
 import io.micrometer.core.aop.TimedAspect;
+import io.micrometer.core.instrument.Gauge;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Timer;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +9,8 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
+import java.util.List;
 
 @Slf4j
 @SpringBootApplication
@@ -27,14 +30,35 @@ public class SpringMicroWithActuatorApplication {
         return new TimedAspect(registry);
     }
 
+
+    List<String> list = List.of(
+            "one"
+            ,"two"
+            ,"three"
+            ,"four"
+            ,"five"
+            ,"six"
+            ,"seven"
+            ,"eight"
+            ,"nine"
+            , "ten"
+            ,"eleven"
+            ,"twelve");
+
+
     @Bean
     ApplicationRunner init(MeterRegistry registry){
         return args -> {
-            Timer t1 = Timer.builder("a-timer").tag("a-tag-name", "a-tag-value").register(registry);
-            Timer t2 = Timer.builder("a-timer").tag("a-tag-name", "another-tag-value").register(registry);
-            Timer t3 = Timer.builder("a-timer").tag("a-tag-name", "yet-another-tag-value").register(registry);
+            Gauge.builder("a1.gauge", list, l -> l.stream().filter(s -> s.length() <= 3).count())
+                    .tag("chars", "max-3")
+                    .register(registry);
 
-            log.info("Completed ============================================ ");
+// Count the number of strings with more than 3 characters
+            Gauge.builder("a1.gauge", list, l -> l.stream().filter(s -> s.length() > 3).count())
+                    .tag("chars", "over-3")
+                    .register(registry);
+
+                log.info("implemented ===============");
         };
         }
 

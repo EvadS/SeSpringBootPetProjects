@@ -75,6 +75,8 @@ public class ProductController {
     @Operation(summary = "create product")
     @PostMapping
     public ResponseEntity<Product> saveProduct(@Validated @RequestBody Product product) {
+
+
         productService.save(product);
         return ResponseEntity.ok().body(product);
     }

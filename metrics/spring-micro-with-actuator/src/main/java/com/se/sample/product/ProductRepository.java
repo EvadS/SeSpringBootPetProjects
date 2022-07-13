@@ -16,4 +16,7 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
     //@Query(value="SELECT * FROM Products p WHERE p.count<=3",nativeQuery = true)
     Collection<Product> findProductWithLowInventoryCount();
 
+
+    Collection<Product> findAll();
+
 }

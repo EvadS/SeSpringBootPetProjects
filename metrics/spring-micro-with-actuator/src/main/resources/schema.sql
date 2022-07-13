@@ -8,7 +8,7 @@ drop sequence if exists hibernate_sequence;
 create table products (
                           id bigint not null,
                           count integer not null,
-                          name varchar(120),
+                          STATUS varchar(120),
                           price double,
                           primary key (id)
 )

@@ -9,11 +9,11 @@ import javax.persistence.*;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+   // @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @Column(length=120)
-    private String name;
+    private String status;
 
     private int count;
 
@@ -23,15 +23,15 @@ public class Product {
 
     }
 
-    public Product(String name, int count, Double price) {
-        this.name = name;
+    public Product(String status, int count, Double price) {
+        this.status = status;
         this.count = count;
         this.price = price;
     }
 
     @Override
     public String toString() {
-        return "Product [count=" + count + ", id=" + id + ", name=" + name + ", price=" + price + "]";
+        return "Product [count=" + count + ", id=" + id + ", name=" + status + ", price=" + price + "]";
     }
 
     public long getId() {
@@ -40,11 +40,11 @@ public class Product {
     public void setId(long id) {
         this.id = id;
     }
-    public String getName() {
-        return name;
+    public String getStatus() {
+        return status;
     }
-    public void setName(String name) {
-        this.name = name;
+    public void setStatus(String name) {
+        this.status = name;
     }
     public int getCount() {
         return count;

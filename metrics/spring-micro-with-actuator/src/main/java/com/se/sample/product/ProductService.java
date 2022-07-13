@@ -33,7 +33,7 @@ public class ProductService {
         }else {
             logger.error("Need to update product: " + productInDB.get().toString());
             // do copy of params into DB object
-            productInDB.get().setName(product.getName());
+            productInDB.get().setStatus(product.getStatus());
             productInDB.get().setCount(product.getCount());
             productInDB.get().setPrice(product.getPrice());
             productRepository.save(productInDB.get());
@@ -59,7 +59,7 @@ public class ProductService {
             if (current_count>0) {
                 product.get().setCount(current_count-1);
                 productRepository.save(product.get());
-                logger.warn("New count for " + product.get().getName() + ": " + current_count);
+                logger.warn("New count for " + product.get().getStatus() + ": " + current_count);
                 return true;
             }
         }
