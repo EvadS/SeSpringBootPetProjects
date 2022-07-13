@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -56,28 +58,27 @@ public class MetricServiceImpl implements MetricService {
 
         initRemovedCounter( );
     }
+
+    private static  String NAME_1 = "counter_name";
+    private static  String NAME_2 = "counter_name2";
+
     private  MultiTaggedCounter removedCounter;
     private  MultiTaggedCounter removedCounter2;
     private void initRemovedCounter( ){
 
-        List<String> collect = Arrays.stream(CampaignTags.values()).map(j -> j.getTag()).collect(Collectors.toList());
 
-        removedCounter = new MultiTaggedCounter(METRICS_NAME_PREFIX + "campaign_state",
+        removedCounter = new MultiTaggedCounter("counter_name",
                 meterRegistry,
-                collect);
+                new String[]{});
+        removedCounter.increment(new String[]{});
 
-        removedCounter.increment(CampaignState.REMOVED.getState() , Arrays.asList(new String []{"1", "test", CampaignState.REMOVED.getState()}));
-
-
-        removedCounter2 = new MultiTaggedCounter(METRICS_NAME_PREFIX + "campaign_state",
+        removedCounter2 = new MultiTaggedCounter("counter_name2",
                 meterRegistry,
-                collect);
+                new  String[]{"tag"});
 
-        removedCounter2.increment(CampaignState.REMOVED.getState() , Arrays.asList(new String []{"1", "test", CampaignState.REMOVE_FAILED.getState()}));
-
-
-
-        log.info("created counter: {} ", removedCounter);
+        removedCounter2.increment(new String[]{"tag_value_1"});
+        removedCounter2.increment(new String[]{"tag_value_2"});
+        log.info("created counter: {} ", removedCounter2);
     }
 
     private Double getInitialValue() {

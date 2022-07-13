@@ -1,0 +1,9 @@
+#spring:
+#  data:
+#    elasticsearch:
+#      cluster-name: docker-cluster
+#      cluster-nodes: ${ELASTIC_ADDRESS:localhost}:${ELASTIC_PORT:9200}
+spring:
+  elasticsearch:
+    rest:
+      uris: http://192.168.99.100:9200
