@@ -43,3 +43,11 @@ curl --header "content-type: text/xml" -d @request.xml http://localhost:8080/ws
 
 * body 
 ![Body_settings](./soap_2.png)
+
+
+https://howtodoinjava.com/spring-boot/spring-boot-soap-webservice-example/
+
+– Spring-WS использует его для обработки запросов SOAP. Нам нужно внедрить 
+ApplicationContext в этот сервлет, чтобы Spring-WS нашел другие bean-компоненты.
+Он также объявляет сопоставление URL-адресов для запросов.
+
