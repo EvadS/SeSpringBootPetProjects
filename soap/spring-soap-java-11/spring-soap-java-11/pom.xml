@@ -21,15 +21,15 @@
 		<maven.compiler.target>11</maven.compiler.target>
 	</properties>
 	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.boot</groupId>-->
+<!--			<artifactId>spring-boot-starter-actuator</artifactId>-->
+<!--		</dependency>-->
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.boot</groupId>-->
+<!--			<artifactId>spring-boot-starter-web</artifactId>-->
+<!--		</dependency>-->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -106,7 +106,7 @@
 <!--						<xjbSource>src/main/resources/global.xjb</xjbSource>-->
 <!--					</xjbSources>-->
 					<sources>
-						<source>src/main/resources/student.xsd</source>
+						<source>src/main/resources/school.xsd</source>
 					</sources>
 					<outputDirectory>${basedir}/src/main/java</outputDirectory>
 					<clearOutputDir>false</clearOutputDir>

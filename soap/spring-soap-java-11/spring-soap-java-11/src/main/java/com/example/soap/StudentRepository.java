@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 
-import com.example.soap.school.Student;
+
+import com.howtodoinjava.xml.school.*;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 

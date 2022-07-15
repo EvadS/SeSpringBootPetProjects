@@ -1,13 +1,13 @@
 package com.example.soap;
 
-
-import com.example.soap.school.StudentDetailsRequest;
-import com.example.soap.school.StudentDetailsResponse;
+import com.howtodoinjava.xml.school.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
+import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
+
+import javax.annotation.PostConstruct;
 
 
 @Endpoint

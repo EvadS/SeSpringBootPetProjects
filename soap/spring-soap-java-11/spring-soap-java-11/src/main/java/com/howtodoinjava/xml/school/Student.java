@@ -1,5 +1,5 @@
 
-package com.example.soap.school;
+package com.howtodoinjava.xml.school;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

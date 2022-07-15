@@ -1,5 +1,5 @@
 
-package com.example.soap.school;
+package com.howtodoinjava.xml.school;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="Student" type="{http://www.soap.example.com/school}Student"/&gt;
+ *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -29,36 +29,36 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "student"
+    "name"
 })
-@XmlRootElement(name = "StudentDetailsResponse")
-public class StudentDetailsResponse {
+@XmlRootElement(name = "StudentDetailsRequest")
+public class StudentDetailsRequest {
 
-    @XmlElement(name = "Student", required = true)
-    protected Student student;
+    @XmlElement(required = true)
+    protected String name;
 
     /**
-     * Gets the value of the student property.
+     * Gets the value of the name property.
      * 
      * @return
      *     possible object is
-     *     {@link Student }
+     *     {@link String }
      *     
      */
-    public Student getStudent() {
-        return student;
+    public String getName() {
+        return name;
     }
 
     /**
-     * Sets the value of the student property.
+     * Sets the value of the name property.
      * 
      * @param value
      *     allowed object is
-     *     {@link Student }
+     *     {@link String }
      *     
      */
-    public void setStudent(Student value) {
-        this.student = value;
+    public void setName(String value) {
+        this.name = value;
     }
 
 }
