@@ -25,9 +25,15 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web-services</artifactId>
 		</dependency>
 
 		<dependency>
@@ -52,6 +58,11 @@
 			<artifactId>jakarta.activation</artifactId>
 			<version>1.2.1</version>
 			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>wsdl4j</groupId>
+			<artifactId>wsdl4j</artifactId>
 		</dependency>
 
 		<dependency>
@@ -83,17 +94,19 @@
 				<executions>
 					<execution>
 						<id>xjc</id>
+						<phase>compile</phase>
 						<goals>
 							<goal>xjc</goal>
 						</goals>
 					</execution>
+
 				</executions>
 				<configuration>
 <!--					<xjbSources>-->
 <!--						<xjbSource>src/main/resources/global.xjb</xjbSource>-->
 <!--					</xjbSources>-->
 					<sources>
-						<source>src/main/resources/user.xsd</source>
+						<source>src/main/resources/student.xsd</source>
 					</sources>
 					<outputDirectory>${basedir}/src/main/java</outputDirectory>
 					<clearOutputDir>false</clearOutputDir>
