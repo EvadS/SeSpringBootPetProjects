@@ -77,4 +77,36 @@ xmlns:sch="http://www.howtodoinjava.com/xml/school">
    </soapenv:Body>
 </soapenv:Envelope>
 ```
+
+```xml
+<soap:Envelope 
+xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" 
+xmlns:sch="http://www.howtodoinjava.com/xml/school">
+   <soap:Header/>
+   <soap:Body>
+      <sch:StudentDetailsRequest>
+         <sch:name>Sajal</sch:name>
+      </sch:StudentDetailsRequest>
+   </soap:Body>
+</soap:Envelope>
+```
+
+```xml
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
+>
+   <soapenv:Header/>
+   <soapenv:Body>
+       <sch:StudentDetailsRequest xmlns:sch="http://www.howtodoinjava.com/xml/school">
+           <sch:name>Sajal</sch:name>
+      </sch:StudentDetailsRequest>
+   </soapenv:Body>
+</soapenv:Envelope>
+
+```
 .setLocationUri("/service/student-details");
+
+
+@Endpoint – регистрирует класс с помощью Spring WS в качестве конечной точки веб-службы
+@PayloadRoot – определяет метод обработчика в соответствии с атрибутами namespace и localPart
+@ResponsePayload – указывает, что этот метод возвращает значение, которое будет сопоставлено с полезной нагрузкой ответа
+@RequestPayload – указывает, что этот метод принимает параметр, который будет сопоставлен с входящим запросом
