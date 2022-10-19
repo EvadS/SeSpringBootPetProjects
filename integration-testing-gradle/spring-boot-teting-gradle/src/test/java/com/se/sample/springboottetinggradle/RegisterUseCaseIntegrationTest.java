@@ -24,8 +24,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
+// to enable Spring support
 @ExtendWith(SpringExtension.class)
+
 @SpringBootTest
+
+//to add a MockMvc instance to the application context.s
 @AutoConfigureMockMvc
 class RegisterUseCaseIntegrationTest {
 
