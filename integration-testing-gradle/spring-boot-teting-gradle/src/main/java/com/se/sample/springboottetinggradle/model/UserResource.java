@@ -12,6 +12,8 @@ import javax.validation.constraints.NotNull;
 @Value
 public class UserResource {
 
+  //  private Long id;
+
     @NotNull
     private final String name;
 

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-class RegisterRestController {
+public class RegisterRestController {
 
     private final RegisterUseCase registerUseCase;
 
@@ -30,6 +30,7 @@ class RegisterRestController {
         Long userId = registerUseCase.registerUser(user, sendWelcomeMail);
 
         return new UserResource(
+
                 user.getName(),
                 user.getEmail());
     }
