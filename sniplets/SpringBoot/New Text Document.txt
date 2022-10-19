@@ -1,0 +1,24 @@
+Run the below maven command to start the application.
+
+```
+ mvn clean spring-boot:run
+```
+
+```
+mvn clean spring-boot:run -Drun.arguments="--server.port=9000"
+```
+
+
+```
+ mvn clean package
+```
+
+Run with java 
+```
+ java -jar target/catalogue-crud-0.0.1-SNAPSHOT.jar
+```
+
+
+```
+ java -jar -Dserver.port=9000 target/catalogue-crud-0.0.1-SNAPSHOT.jar
+```
