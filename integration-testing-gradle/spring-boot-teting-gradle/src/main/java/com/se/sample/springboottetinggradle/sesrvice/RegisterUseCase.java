@@ -1,8 +1,9 @@
-package com.se.sample.springboottetinggradle.web;
+package com.se.sample.springboottetinggradle.sesrvice;
 
 
 import java.time.LocalDateTime;
 
+import com.se.sample.springboottetinggradle.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

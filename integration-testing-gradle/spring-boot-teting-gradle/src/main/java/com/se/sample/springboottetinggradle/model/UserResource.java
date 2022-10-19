@@ -1,4 +1,4 @@
-package com.se.sample.springboottetinggradle.web;
+package com.se.sample.springboottetinggradle.model;
 
 
 

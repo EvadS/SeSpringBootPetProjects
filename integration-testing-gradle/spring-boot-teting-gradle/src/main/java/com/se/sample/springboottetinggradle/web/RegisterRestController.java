@@ -1,6 +1,10 @@
 package com.se.sample.springboottetinggradle.web;
 
 import javax.validation.Valid;
+
+import com.se.sample.springboottetinggradle.model.User;
+import com.se.sample.springboottetinggradle.model.UserResource;
+import com.se.sample.springboottetinggradle.sesrvice.RegisterUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
