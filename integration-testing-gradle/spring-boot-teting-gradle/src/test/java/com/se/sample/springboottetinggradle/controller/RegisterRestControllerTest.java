@@ -3,27 +3,45 @@ package com.se.sample.springboottetinggradle.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import com.se.sample.springboottetinggradle.config.SecurityConfig;
 import com.se.sample.springboottetinggradle.exception.ErrorResult;
 import com.se.sample.springboottetinggradle.model.User;
 import com.se.sample.springboottetinggradle.model.UserResource;
 import com.se.sample.springboottetinggradle.sesrvice.RegisterUseCase;
 import com.se.sample.springboottetinggradle.web.RegisterRestController;
+import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+
 import static org.assertj.core.api.Java6Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-@WebMvcTest(controllers = RegisterRestController.class)
+@WebMvcTest(
+        value = RegisterRestController.class,
+        excludeAutoConfiguration = SecurityConfig.class,
+        excludeFilters = @ComponentScan.Filter(
+                type = FilterType.ASSIGNABLE_TYPE,
+                classes = WebSecurityConfigurer.class))
+@AutoConfigureMockMvc(addFilters = false)
+
+//@WebMvcTest(controllers = RegisterRestController.class)
 public class RegisterRestControllerTest {
 
     // to mock away the business logic
@@ -35,6 +53,7 @@ public class RegisterRestControllerTest {
 
     @MockBean
     private RegisterUseCase registerUseCase;
+
 
     /**
      * Verifying HTTP Request Matching

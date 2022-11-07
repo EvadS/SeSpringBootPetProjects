@@ -11,19 +11,19 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class RegisterUseCase {
 
-    private final SaveUserPort saveUserPort;
+   // private final SaveUserPort saveUserPort;
 
-    private final SendMailPort sendMailPort;
+   // private final SendMailPort sendMailPort;
 
     public Long registerUser(User user, boolean sendWelcomeMail) {
         user.setRegistrationDate(LocalDateTime.now());
 
        if(sendWelcomeMail){
-            sendMailPort.sendMail("Welcome!", "Thanks for registering.");
+        //    sendMailPort.sendMail("Welcome!", "Thanks for registering.");
         }
 
-        return saveUserPort.saveUser(user);
-        //        return Long.valueOf(1);
+      //  return saveUserPort.saveUser(user);
+                return Long.valueOf(1);
     }
 
 }
