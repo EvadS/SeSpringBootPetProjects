@@ -5,11 +5,12 @@ import com.se.sample.gql.domain.Employee;
 import com.se.sample.gql.domain.Organization;
 import com.se.sample.gql.repository.DepartmentRepository;
 
+
 import graphql.schema.DataFetchingEnvironment;
 import graphql.schema.DataFetchingFieldSelectionSet;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
-
+import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 
 import javax.persistence.criteria.Fetch;
 import javax.persistence.criteria.Join;
@@ -17,10 +18,10 @@ import javax.persistence.criteria.JoinType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import graphql.kickstart.tools.GraphQLQueryResolver;
+
 
 @Component
-public class DepartmentQueryResolver  implements GraphQLQueryResolver {
+public class DepartmentQueryResolver implements GraphQLQueryResolver {
 
     private DepartmentRepository repository;
 

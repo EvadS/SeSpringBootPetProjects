@@ -1,19 +1,30 @@
 package com.se.sample.gql.resolver;
 
+import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import com.se.sample.gql.domain.Employee;
 import com.se.sample.gql.filter.EmployeeFilter;
 import com.se.sample.gql.filter.FilterField;
 import com.se.sample.gql.repository.EmployeeRepository;
-import graphql.kickstart.tools.GraphQLQueryResolver;
+
+
+
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 
+
+import javax.persistence.criteria.Fetch;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+
 @Component
 public class EmployeeQueryResolver implements GraphQLQueryResolver {
-
+//
     private EmployeeRepository repository;
-
+//
     EmployeeQueryResolver(EmployeeRepository repository) {
         this.repository = repository;
     }
