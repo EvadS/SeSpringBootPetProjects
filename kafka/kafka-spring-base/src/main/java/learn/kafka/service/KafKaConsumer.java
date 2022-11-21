@@ -1,5 +1,6 @@
 package learn.kafka.service;
 
+import learn.kafka.model.User;
 import learn.kafka.utils.AppConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +14,9 @@ public class KafKaConsumer {
 
     @KafkaListener(topics = AppConstants.TOPIC_NAME,
             groupId = AppConstants.GROUP_ID)
-    public void consume(String message){
-        LOGGER.info(String.format("Message received -> %s", message));
+    public void consume(User data){
+        LOGGER.info("-----------------------------------------------------------");
+        LOGGER.info(String.format("Message received -> %s", data.toString()));
+        LOGGER.info("-----------------------------------------------------------");
     }
-
 }

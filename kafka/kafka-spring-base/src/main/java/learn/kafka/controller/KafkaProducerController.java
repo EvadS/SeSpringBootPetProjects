@@ -1,6 +1,7 @@
 package learn.kafka.controller;
 
 
+import learn.kafka.model.User;
 import learn.kafka.service.KafkaProducer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +15,15 @@ public class KafkaProducerController {
         this.kafkaProducer = kafkaProducer;
     }
 
-    @GetMapping("/publish")
-    public ResponseEntity<String> publish(@RequestParam("message") String message){
-        kafkaProducer.sendMessage(message);
+//    @GetMapping("/publish")
+//    public ResponseEntity<String> publish(@RequestParam("message") String message){
+//        kafkaProducer.sendMessage(message);
+//        return ResponseEntity.ok("Message sent to kafka topic");
+//    }
+
+    @PostMapping("/publish")
+    public ResponseEntity<String> publish(@RequestBody User user){
+        kafkaProducer.sendMessage(user);
         return ResponseEntity.ok("Message sent to kafka topic");
     }
 }

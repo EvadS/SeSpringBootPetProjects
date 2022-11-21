@@ -1,3 +1,4 @@
+# KafkaTemplate demos
 
 ## KAFKA minimal setup
 ### Download 
@@ -6,14 +7,12 @@
 ```
 
 ###  Start the ZooKeeper service
-```
+```bash
   bin/zookeeper-server-start.sh config/zookeeper.properties
 ```
 
-in new teminal tab
-
+### in new terminal tab
 ### Start the Kafka broker service
-
 ```bash
   bin/kafka-server-start.sh config/server.properties
 ```
@@ -32,8 +31,6 @@ in new teminal tab
 ```bash
    bin/kafka-server-start.sh config/kraft/server.properties
 ```
----
-
 
 ### My kafka location 
 ```bash
@@ -50,7 +47,7 @@ javaguides
 ./bin/kafka-topics.sh --delete --topic topic-1p --bootstrap-server localhost:9092
 ```
 
-See Topic Messages via Command Line:
+## See Topic Messages via Command Line:
 ```
     bin/kafka-console-consumer.sh --topic javaguides --from-beginning --bootstrap-server localhost:9092
 ```
@@ -64,3 +61,21 @@ Test
 
 link
 https://www.javaguides.net/2022/06/spring-boot-apache-kafka-tutorial.html
+step2
+    * https://www.javaguides.net/2022/05/spring-boot-kafka-jsonserializer-and-Jsondeserializer-example.html
+(How to send and receive a Java Object as a JSON byte[] to and from Apache Kafka.)
+
+## Test
+Postman -> post
+```
+    http://localhost:8080/api/v1/kafka/publish
+```
+
+body
+```
+{   
+    "id":1,
+    "firstName": "Ramesh",
+    "lastName": "Fadatare"
+}
+```
