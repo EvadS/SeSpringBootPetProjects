@@ -39,12 +39,16 @@ cd  /home/evgeniyskiba/software/kafka/kafka_2.13-3.3.1
 javaguides
 ### Create topics
 ```bash
- bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic javaguides
+ bin/kafka-topics.sh --create \
+  --bootstrap-server localhost:9092  \
+  --replication-factor 1 \
+  --partitions 1 \
+  --topic javaguides
 ```
 
 ### Delete topic 
 ```bash
-./bin/kafka-topics.sh --delete --topic topic-1p --bootstrap-server localhost:9092
+./bin/kafka-topics.sh --delete --topic 'javaguides' --bootstrap-server localhost:9092
 ```
 
 ## See Topic Messages via Command Line:

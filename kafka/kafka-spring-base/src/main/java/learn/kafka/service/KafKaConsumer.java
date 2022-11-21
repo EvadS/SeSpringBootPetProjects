@@ -14,6 +14,9 @@ public class KafKaConsumer {
 
     @KafkaListener(topics = AppConstants.TOPIC_NAME,
             groupId = AppConstants.GROUP_ID)
+
+    @KafkaListener(topics = "#{'${spring.kafka.consumer.topic}'}",
+            groupId = "#{'${spring.kafka.consumer.groupid}'}")
     public void consume(User data){
         LOGGER.info("-----------------------------------------------------------");
         LOGGER.info(String.format("Message received -> %s", data.toString()));
