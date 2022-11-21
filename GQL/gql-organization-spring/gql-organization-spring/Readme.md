@@ -1,9 +1,15 @@
+# Graphiql 
+## How to use GraphQLMutationResolver and  GraphQLQueryResolver for  filtering or relationship fetching.
 
 Technologies
 Java 11
 Spring Boot 
 maven
 GraphQL Java
+
+
+GraphQLMutationResolver -> @MutationMapping
+GraphQLQueryResolver -> @QueryMapping
 
 # Filter implementation
 ```
