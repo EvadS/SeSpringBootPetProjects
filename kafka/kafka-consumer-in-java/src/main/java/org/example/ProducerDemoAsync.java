@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Properties;
 
 public class ProducerDemoAsync {
-    public static final String DEMO_JAVA_TOPIC_NAME = "demo_java";
+    public static final String DEMO_JAVA_TOPIC_NAME = "javaguides2";
     private static final Logger log = LoggerFactory.getLogger(ProducerDemoAsync.class);
 
     public static void main(String[] args) {
@@ -28,7 +28,7 @@ public class ProducerDemoAsync {
         for (int i=0; i<10; i++ ) {
             // create a producer record
             ProducerRecord<String, String> producerRecord =
-                    new ProducerRecord<String, String>("demo_java", "hello world " + Integer.toString(i));
+                    new ProducerRecord<String, String>(DEMO_JAVA_TOPIC_NAME, "hello world " + Integer.toString(i));
 
             // send data - asynchronous
             producer.send(producerRecord, new Callback() {
