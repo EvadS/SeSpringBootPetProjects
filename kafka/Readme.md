@@ -78,6 +78,56 @@ Format Log Directories
 
 
 
-LINUX WINDOWS
+## WINDOWS
+
+### STEP 0. my kafka location
+```
+    cd  C:\JavaSoftware\kafka_2.13-3.3.1
+```
+### STEP 1 zookeeper
+```
+	.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
+```
 
 
+### STEP 1.1 Generate a Cluster UUID
+```bash 
+
+ ./bin/windows/kafka-storage.bat random-uuid
+ 
+```
+use from previous step
+
+Format Log Directories
+```bash
+   bin/windows/kafka-storage.bat format -t lTy1hlrYS-K0PsLbNgIPQg -c config/kraft/server.properties
+```
+
+
+### STEP2  Start the Kafka broker service
+```
+	.\bin\windows\kafka-server-start.bat .\config\server.properties
+```
+
+#### STEP 3 STEP 3: CREATE A TOPIC TO STORE YOUR EVENTS
+
+
+```
+	.\bin\windows\kafka-topics.bat --create --topic topic-demo --bootstrap-server localhost:9092
+```
+
+###  STEP 4: WRITE SOME EVENTS INTO THE TOPIC
+```
+	.\bin\windows\kafka-console-producer.bat --topic  topic-demo  --bootstrap-server localhost:9092
+```
+
+### STEP 5:  READ THE EVENTS
+```
+ .\bin\windows\kafka-console-consumer.bat --topic topic-demo --from-beginning --bootstrap-server localhost:9092
+```
+
+### STEP 4.1: See Topic Messages via Command Line:
+
+```bash
+    bin/kafka-console-consumer.sh --topic topic-demo --from-beginning --bootstrap-server localhost:9092
+```

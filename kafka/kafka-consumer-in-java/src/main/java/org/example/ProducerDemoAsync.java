@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Properties;
 
 public class ProducerDemoAsync {
-    public static final String DEMO_JAVA_TOPIC_NAME = "javaguides2";
+    public static final String DEMO_JAVA_TOPIC_NAME = "topic-demo";
     private static final Logger log = LoggerFactory.getLogger(ProducerDemoAsync.class);
 
     public static void main(String[] args) {
