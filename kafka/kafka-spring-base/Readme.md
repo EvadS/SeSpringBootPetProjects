@@ -79,6 +79,11 @@ cd C:\JavaSoftware\kafka_2.13-3.3.1
 	.\bin\windows\kafka-topics.bat --create --topic topic_demo --bootstrap-server localhost:9092
 ```
 
+kafka-topics.sh --bootstrap-server localhost:9092 --topic demo_java --create --partitions 3 --replication-factor 1
+
+
+
+
 C:\Users\RAMESH\Downloads\kafka>.\bin\windows\kafka-topics.bat --create --topic topic_demo --bootstrap-server localhost:9092
 
 ## STEP 4: WRITE INTO  THE TOPIC
@@ -108,6 +113,7 @@ Test
 
 link
 https://www.javaguides.net/2022/06/spring-boot-apache-kafka-tutorial.html
+
 step2
     * https://www.javaguides.net/2022/05/spring-boot-kafka-jsonserializer-and-Jsondeserializer-example.html
 (How to send and receive a Java Object as a JSON byte[] to and from Apache Kafka.)
