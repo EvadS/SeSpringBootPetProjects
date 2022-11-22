@@ -1,5 +1,7 @@
 # KafkaTemplate demos
 
+LINUX 
+
 ## KAFKA minimal setup
 ### Download 
 ```
@@ -74,5 +76,8 @@ Format Log Directories
  rm -rf /tmp/kafka-logs /tmp/zookeeper /tmp/kraft-combined-logs
 ```
 
+
+
+LINUX WINDOWS
 
 
