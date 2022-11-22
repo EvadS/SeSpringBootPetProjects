@@ -26,4 +26,15 @@ public class KafkaProducerController {
         kafkaProducer.sendMessage(user);
         return ResponseEntity.ok("Message sent to kafka topic");
     }
+
+    @GetMapping("/publish2")
+    public ResponseEntity<String> publish(){
+        User user = new User();
+        user.setId(9999);
+        user.setFirstName("FIRST NAME");
+        user.setLastName("LAST NAME");
+
+        kafkaProducer.sendMessage(user);
+        return ResponseEntity.ok("Message sent to kafka topic");
+    }
 }

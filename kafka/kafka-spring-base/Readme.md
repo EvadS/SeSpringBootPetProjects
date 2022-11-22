@@ -56,8 +56,51 @@ javaguides
     bin/kafka-console-consumer.sh --topic javaguides --from-beginning --bootstrap-server localhost:9092
 ```
 
+## WINDOWS 
+
+	
+--------------------------
+## STEP 1 start kakfa
+```
+cd  C:\JavaSoftware\kafka_2.13-3.3.1
+ .\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
+```
+
+## STEP 2 Start the Kafka broker service
+```
+cd C:\JavaSoftware\kafka_2.13-3.3.1
+
+    .\bin\windows\kafka-server-start.bat .\config\server.properties
+```
+
+## STEP 3: CREATE A TOPIC TO STORE YOUR EVENTS
+```
+ cd C:\JavaSoftware\kafka_2.13-3.3.1
+	.\bin\windows\kafka-topics.bat --create --topic topic_demo --bootstrap-server localhost:9092
+```
+
+C:\Users\RAMESH\Downloads\kafka>.\bin\windows\kafka-topics.bat --create --topic topic_demo --bootstrap-server localhost:9092
+
+## STEP 4: WRITE INTO  THE TOPIC
+
+```
+ cd C:\JavaSoftware\kafka_2.13-3.3.1
+ 
+.\bin\windows\kafka-console-producer.bat --topic topic_demo --bootstrap-server localhost:9092
+```
+>hello world
+>topic demo
 
 
+## STEP 5: READ FROM THE TOPIC
+```
+ cd C:\JavaSoftware\kafka_2.13-3.3.1
+ .\bin\windows\kafka-console-consumer.bat --topic topic_demo --from-beginning --bootstrap-server localhost:9092
+```
+
+
+
+-------------
 Test
 ```bash
     http://localhost:8080/api/v1/kafka/publish?message=hello%20world
@@ -83,3 +126,6 @@ body
     "lastName": "Fadatare"
 }
 ```
+
+Hard-coded value
+    http://localhost:8080/api/v1/kafka/publish2
