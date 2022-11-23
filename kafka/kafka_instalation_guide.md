@@ -128,3 +128,9 @@ Format Log Directories
 ```bash
     bin/kafka-console-consumer.sh --topic topic-demo --from-beginning --bootstrap-server localhost:9092
 ```
+
+
+### Usefull links 
+ 
+ Installing Kafka on Windows
+ https://www.learningjournal.guru/article/kafka/installing-kafka-on-windows/
