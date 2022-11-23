@@ -12,11 +12,10 @@ import java.util.Properties;
 public class ProducerDemo {
     private static final Logger log = LoggerFactory.getLogger(ProducerDemo.class);
     public static final String DEMO_JAVA_TOPIC_NAME = "demo_java";
-
+    public static final String bootstrapServers = "127.0.0.1:9092";
     public static void main(String[] args) {
-        log.info("I am a Kafka Producer");
+        log.info("I am sync Kafka Producer");
 
-        String bootstrapServers = "127.0.0.1:9092";
 
         // create Producer properties
         Properties properties = new Properties();
@@ -34,8 +33,6 @@ public class ProducerDemo {
         sendDataToTopic(producer, "hello world2");
         sendDataToTopic(producer, "hello world3");
         sendDataToTopic(producer, "hello world4");
-
-
     }
 
     private static void sendDataToTopic(KafkaProducer<String, String> producer, String value) {

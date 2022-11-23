@@ -14,14 +14,13 @@
 
 ###  Generate a Cluster UUID
 ```bash
-   ="$(bin/kafka-storage.sh random-uuid)"
+   $KAFKA_CLUSTER_ID="$(bin/kafka-storage.sh random-uuid)"
 ```
 
-Format Log Directories
+#### Format Log Directories
 ```
    bin/kafka-storage.sh format -t $KAFKA_CLUSTER_ID -c config/kraft/server.properties
 ```
-
 
 ### Start the Kafka Server
 ```bash
@@ -46,25 +45,20 @@ Format Log Directories
 ```
     bin/kafka-console-consumer.sh --topic javaguides --from-beginning --bootstrap-server localhost:9092
 ```
-
-
-
-
+-------------------------------
 ## WINDOWS 
-
 	
---------------------------
-## STEP 1 start kakfa
-```
+## STEP 1 start kafka
+```bash
 cd  C:\JavaSoftware\kafka_2.13-3.3.1
  .\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
 ```
 
 ## STEP 2 Start the Kafka broker service
-```
-cd C:\JavaSoftware\kafka_2.13-3.3.1
+```bash
+  cd C:\JavaSoftware\kafka_2.13-3.3.1
 
-    .\bin\windows\kafka-server-start.bat .\config\server.properties
+  .\bin\windows\kafka-server-start.bat .\config\server.properties
 ```
 
 ## STEP 3: CREATE A TOPIC TO STORE YOUR EVENTS
@@ -72,13 +66,6 @@ cd C:\JavaSoftware\kafka_2.13-3.3.1
  cd C:\JavaSoftware\kafka_2.13-3.3.1
 	.\bin\windows\kafka-topics.bat --create --topic topic_demo --bootstrap-server localhost:9092
 ```
-
-kafka-topics.sh --bootstrap-server localhost:9092 --topic demo_java --create --partitions 3 --replication-factor 1
-
-
-
-
-C:\Users\RAMESH\Downloads\kafka>.\bin\windows\kafka-topics.bat --create --topic topic_demo --bootstrap-server localhost:9092
 
 ## STEP 4: WRITE INTO  THE TOPIC
 
@@ -97,9 +84,6 @@ C:\Users\RAMESH\Downloads\kafka>.\bin\windows\kafka-topics.bat --create --topic 
  .\bin\windows\kafka-console-consumer.bat --topic topic_demo --from-beginning --bootstrap-server localhost:9092
 ```
 
-
-
--------------
 Test
 ```bash
     http://localhost:8080/api/v1/kafka/publish?message=hello%20world

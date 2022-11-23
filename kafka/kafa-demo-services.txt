@@ -1,0 +1,9 @@
+# Kafka learning demo
+
+## Current seervices 
+	1. kafka-consumer-in-java
+		The maven  base project on quick-start archtype. Describe how to work with KafkaProducer to send  data to kafkaserver 
+	2. kafka-spring-base. 
+		Describe work with kafkaTemplate on spring boot. Uses Json Serialiser for now. String serialiser presented on git commit logs 
+	3. apache-kafka-stream-avro-serialized
+	   How to work with with avro schemas. Contains docker compose file  with minimal confluent servces 

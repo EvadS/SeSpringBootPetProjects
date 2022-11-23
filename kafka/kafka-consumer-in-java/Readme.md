@@ -44,6 +44,8 @@
  cd C:\JavaSoftware\kafka_2.13-3.3.1
  .\bin\windows\kafka-console-producer.bat --topic topic-demo2 --bootstrap-server localhost:9092
 ```
+
+Put to test on current termnal
 >hello world
 >topic demo
 
@@ -61,16 +63,12 @@
 	.\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic demo_java
 ```
 
-https://www.geeksforgeeks.org/how-to-install-and-run-apache-kafka-on-windows/
 
+## Aditional link 
+ * https://www.geeksforgeeks.org/how-to-install-and-run-apache-kafka-on-windows/
+ * https://www.confluent.io/blog/set-up-and-run-kafka-on-windows-linux-wsl
 
-
-
-https://www.confluent.io/blog/set-up-and-run-kafka-on-windows-linux-wsl
-
-WSL
-
+### working on WSL
+#### Download and unzip
 wget https://ftp.wayne.edu/apache/kafka/2.8.2/kafka_2.12-2.8.2.tgz
-
-
 tar -xzf kafka_2.12-2.8.2.tgz

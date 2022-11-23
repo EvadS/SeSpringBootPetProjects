@@ -1,14 +1,13 @@
-# KafkaTemplate demos
+# Kafka installation settings
 
-LINUX 
+## LINUX 
 
-## KAFKA minimal setup
 ### Download 
 ```
     https://www.apache.org/dyn/closer.cgi?path=/kafka/3.3.1/kafka_2.13-3.3.1.tgz
 ```
 
-### location
+### My location
 ```bash
   cd /home/evgeniyskiba/software/kafka/kafka_2.13-3.3.1/
 ```
@@ -24,11 +23,10 @@ LINUX
   KAFKA_CLUSTER_ID="$(bin/kafka-storage.sh random-uuid)"
 ```
 
-Format Log Directories
+### STEP 1.2 Format Log Directories
 ```bash
    bin/kafka-storage.sh format -t $KAFKA_CLUSTER_ID -c config/kraft/server.properties
 ```
-
 
 ### STEP 2  Start the Kafka Server
 ```bash
@@ -65,25 +63,27 @@ Format Log Directories
     bin/kafka-console-consumer.sh --topic javaguides2 --from-beginning --bootstrap-server localhost:9092
 ```
 
-### STEP 5 DEscribe topic 
+
+### STEP 5 Describe topic 
 ```bash
    bin/kafka-topics.sh --describe --topic javaguides2 --bootstrap-server localhost:9092
 
 ```
 
-### step 6 
+### STEP 6 Clear settings
 ```bash
  rm -rf /tmp/kafka-logs /tmp/zookeeper /tmp/kraft-combined-logs
 ```
-
-
+-----
 
 ## WINDOWS
 
-### STEP 0. my kafka location
+
+### My location
 ```
     cd  C:\JavaSoftware\kafka_2.13-3.3.1
 ```
+
 ### STEP 1 zookeeper
 ```
 	.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
@@ -97,10 +97,9 @@ Format Log Directories
  
 ```
 use from previous step
-
 Format Log Directories
 ```bash
-   bin/windows/kafka-storage.bat format -t lTy1hlrYS-K0PsLbNgIPQg -c config/kraft/server.properties
+   bin/windows/kafka-storage.bat format -t PWPR79PVT4qHfczhI3gEew -c config/kraft/server.properties
 ```
 
 
@@ -110,20 +109,18 @@ Format Log Directories
 ```
 
 #### STEP 3 STEP 3: CREATE A TOPIC TO STORE YOUR EVENTS
-
-
 ```
-	.\bin\windows\kafka-topics.bat --create --topic topic-demo --bootstrap-server localhost:9092
+	.\bin\windows\kafka-topics.bat --create --topic topic-demo4 --bootstrap-server localhost:9092
 ```
 
 ###  STEP 4: WRITE SOME EVENTS INTO THE TOPIC
 ```
-	.\bin\windows\kafka-console-producer.bat --topic  topic-demo  --bootstrap-server localhost:9092
+	.\bin\windows\kafka-console-producer.bat --topic  topic-demo4  --bootstrap-server localhost:9092
 ```
 
 ### STEP 5:  READ THE EVENTS
 ```
- .\bin\windows\kafka-console-consumer.bat --topic topic-demo --from-beginning --bootstrap-server localhost:9092
+ .\bin\windows\kafka-console-consumer.bat --topic topic-demo4 --from-beginning --bootstrap-server localhost:9092
 ```
 
 ### STEP 4.1: See Topic Messages via Command Line:
