@@ -2,14 +2,16 @@ package org.example;
 
 import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.StringSerializer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 import java.util.Properties;
 
 public class ProducerDemoAsync {
     public static final String DEMO_JAVA_TOPIC_NAME = "topic-demo4";
-    private static final Logger log = LoggerFactory.getLogger(ProducerDemoAsync.class);
+
+    private static final Logger log = LogManager.getLogger(ProducerDemoAsync.class);
 
     public static void main(String[] args) {
         log.info("I am a Kafka async Producer");
