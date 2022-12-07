@@ -20,4 +20,12 @@ docker exec -it cc0198017177 /bin/bash
 ```
 
 
+-------------------
+https://www.baeldung.com/spring-boot-embedded-mongodb
+
+
 uri: mongodb+srv://mongoadmin:31323334@localhost:27017/primary?retryWrites=true&w=majority
+
+
+links
+https://www.baeldung.com/spring-boot-embedded-mongodb

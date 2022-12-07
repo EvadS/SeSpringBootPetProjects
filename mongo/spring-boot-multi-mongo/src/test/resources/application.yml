@@ -1,0 +1,22 @@
+mongodb:
+  primary:
+    #    uri: mongodb://localhost:27017/primary?retryWrites=true&w=majority
+    uri: mongodb://localhost:27017/primary?retryWrites=true&w=majority
+  #    uri: mongodb+srv://${MONGO_USER}:${MONGO_PWD}@acquisition-unsharded-pri.cc8sf.mongodb.net/product-data?retryWrites=true&w=majority
+
+  secondary:
+    #    uri: mongodb://mongoadmin:31323334@localhost:27017/second?retryWrites=true&w=majority
+    uri: mongodb://localhost:27017/secondary?retryWrites=true&w=majority
+    host: localhost
+    port: 27017
+    database: second
+#
+#
+#spring:
+#  autoconfigure:
+#    exclude: org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration
+
+#spring:
+#  mongodb:
+#    embedded:
+#      version: 4.0.2
