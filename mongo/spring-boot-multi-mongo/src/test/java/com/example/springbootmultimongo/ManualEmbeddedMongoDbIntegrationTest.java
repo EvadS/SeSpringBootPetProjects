@@ -26,6 +26,9 @@ class ManualEmbeddedMongoDbIntegrationTest {
     private MongodExecutable mongodExecutable;
     private MongoTemplate mongoTemplate;
 
+    private static final MongodStarter starter = MongodStarter.getDefaultInstance();
+
+
     @AfterEach
     void clean() {
         mongodExecutable.stop();
@@ -48,7 +51,7 @@ class ManualEmbeddedMongoDbIntegrationTest {
                 .net(new Net(ip, port, Network.localhostIsIPv6()))
                 .build();
 
-        MongodStarter starter = MongodStarter.getDefaultInstance();
+
         mongodExecutable = null;
 
 
