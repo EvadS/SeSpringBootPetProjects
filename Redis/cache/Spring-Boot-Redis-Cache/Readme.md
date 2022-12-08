@@ -67,4 +67,12 @@ users
 get keys *
 
 
-SELECT 1 KEYS *
+
+-------------
+in root@19c0af6dfeed:/data#
+```bash
+redis-cli keys "*"
+
+```
+
+redis-cli KEYS 'users:'

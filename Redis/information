@@ -1,0 +1,30 @@
+Redis — это высокопроизводительное нереляционное распределённое хранилище данных.
+
+
+данные хранятся в оперативной памяти и сохраняются на диск либо через равные промежутки времени, либо при превышении определённого количества не сохранённых 
+запросов.
+
+
+
+Spring Boot Redis Cache
+---
+https://www.digitalocean.com/community/tutorials/spring-boot-redis-cache
+---
+
+
+Open source in-memory data structure store
+
+@EnableCaching
+
+to put something into the cache, we use @Cacheable annotation:
+
+###Updating Cache
+```
+ @CachePut
+```
+
+
+
+
+
+https://developer.redis.com/develop/java/redis-and-spring-course/
