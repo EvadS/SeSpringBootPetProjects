@@ -5,15 +5,12 @@ import com.mongodb.DBObject;
 import com.mongodb.client.MongoClients;
 import de.flapdoodle.embed.mongo.MongodExecutable;
 import de.flapdoodle.embed.mongo.MongodStarter;
-import de.flapdoodle.embed.mongo.config.IMongodConfig;
-import de.flapdoodle.embed.mongo.config.MongodConfigBuilder;
+
+import de.flapdoodle.embed.mongo.config.MongodConfig;
 import de.flapdoodle.embed.mongo.config.Net;
 import de.flapdoodle.embed.mongo.distribution.Version;
 import de.flapdoodle.embed.process.runtime.Network;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 
@@ -23,15 +20,24 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ManualEmbeddedMongoDbIntegrationTest {
     private static final String CONNECTION_STRING = "mongodb://%s:%d";
 
-    private MongodExecutable mongodExecutable;
+    private static MongodExecutable mongodExecutable;
     private MongoTemplate mongoTemplate;
 
     private static final MongodStarter starter = MongodStarter.getDefaultInstance();
 
 
-    @AfterEach
-    void clean() {
-        mongodExecutable.stop();
+    @AfterAll
+    public  static void clean()
+    {
+        try
+        {
+            mongodExecutable.stop();
+
+        }
+        catch(Exception e)
+        {
+            mongodExecutable = null;
+        }
     }
 
     @BeforeEach
@@ -39,17 +45,18 @@ class ManualEmbeddedMongoDbIntegrationTest {
         String ip = "localhost";
         int port = 27018;
 
-//        IMongodConfig mongodConfig = MongodConfig
-//                .builder()
-//                //.version(Version.Main.PRODUCTION)
-//                .version(Version.Main.V3_4)
-//                .net(new Net(ip, port, Network.localhostIsIPv6()))
-//                .build();
-
-        IMongodConfig mongodConfig = new MongodConfigBuilder()
+        MongodConfig mongodConfig = MongodConfig
+                .builder()
+                //.version(Version.Main.PRODUCTION)
                 .version(Version.Main.V3_4)
                 .net(new Net(ip, port, Network.localhostIsIPv6()))
                 .build();
+
+        //spring 2.7+
+//        IMongodConfig mongodConfig = new MongodConfigBuilder()
+//                .version(Version.Main.V3_4)
+//                .net(new Net(ip, port, Network.localhostIsIPv6()))
+//                .build();
 
 
         mongodExecutable = null;
