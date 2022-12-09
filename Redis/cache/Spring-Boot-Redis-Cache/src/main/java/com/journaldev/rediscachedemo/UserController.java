@@ -8,6 +8,7 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 @RestController
@@ -35,6 +36,7 @@ public class UserController {
         LOG.info("Create user:  {}.", user);
         return userRepository.save(user);
     }
+
 
     @GetMapping("/all")
     public List<User>  getAllUser() {
