@@ -1,6 +1,5 @@
 package com.se.sample.cloudkafkaintro;
 
-import com.se.sample.cloudkafkaintro.binders.MyBinder;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +17,6 @@ import java.util.stream.IntStream;
 @RequiredArgsConstructor
 public class PobSubService {
 
-    private final MyBinder myBinder;
 
     @Value("${server.port:8080}")
     private int port;
@@ -26,35 +24,38 @@ public class PobSubService {
     //counter for every Scheduled attempt
     private int counter;
 
-    @Scheduled(initialDelay = 5_000, fixedDelay = 5_000)
-    public void producer() {
-        //the producer works just for the app that runs at port 8080,
-        //(only one producer app at the time)
-        //alternatively you can use @ConditionalOnProperty
-        if (port == 8080) {
+    //TODO: commented first part
+    // @Scheduled(initialDelay = 5_000, fixedDelay = 5_000)
+//    public void producer() {
+//        //the producer works just for the app that runs at port 8080,
+//        //(only one producer app at the time)
+//        //alternatively you can use @ConditionalOnProperty
+//        if (port == 8080) {
+//
+//            // 10 iterative loop
+//            IntStream.range(0, 10)
+//                    .forEach(value -> {
+//                        //this is our Message payload
+//                        var message = String.format("TestString of %s - %s", counter, value);
+//
+//                        //here is out message publisher in the given channel into topic "scs-099.order"
+//                        myBinder.orderOut().send(MessageBuilder.withPayload(message).build());
+//
+//                        //to show what we have produced in kafka ("WARN" to show in different color on the console)
+//                        log.warn("message produced: {}", message);
+//                    });
+//            //for logging purpose, per Scheduled run
+//            counter++;
+//        }
+//    }
 
-            // 10 iterative loop
-            IntStream.range(0, 10)
-                    .forEach(value -> {
-                        //this is our Message payload
-                        var message = String.format("TestString of %s - %s", counter, value);
+//    @SneakyThrows
+//    @StreamListener(MyBinder.ORDER_IN)
+//    public void consumer(@Payload String message) {
+//        //simulate 200ms delay when consumer is working in some task
+//        Thread.sleep(200);
+//        log.info("message consumed: {}", message);
+//    }
 
-                        //here is out message publisher in the given channel into topic "scs-099.order"
-                        myBinder.orderOut().send(MessageBuilder.withPayload(message).build());
 
-                        //to show what we have produced in kafka ("WARN" to show in different color on the console)
-                        log.warn("message produced: {}", message);
-                    });
-            //for logging purpose, per Scheduled run
-            counter++;
-        }
-    }
-
-    @SneakyThrows
-    @StreamListener(MyBinder.ORDER_IN)
-    public void consumer(@Payload String message) {
-        //simulate 200ms delay when consumer is working in some task
-        Thread.sleep(200);
-        log.info("message consumed: {}", message);
-    }
 }

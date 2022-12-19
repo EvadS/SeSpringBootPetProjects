@@ -37,3 +37,13 @@ Terminal-3
 java -Dspring.profiles.active=test2 -Dserver.port=8082 -jar scs-099-0.0.1-SNAPSHOT.jar
 
 
+
+part 2
+Topic Name	Object	Description
+scs-100.inventoryChecking	Order	Orders need to be processed for Inventory Check Operation
+scs-100.shipping	Order	Orders need to be shipped (Ready to go)
+scs-100.ordering_dlq	Order	Orders need to be canceled (For Unexpected Behaviors)
+
+
+partr3 
+https://tanzu.vmware.com/developer/guides/spring-cloud-stream-kafka-p3/

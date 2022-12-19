@@ -1,38 +1,43 @@
 spring:
   application:
-    name: scs-099
+    name: scs-100
 
-  cloud.stream.bindings:
-    order-out.destination: scs-099.order # Topic Name
-    order-in.destination: scs-099.order # Topic Name
+  cloud.stream:
+    bindings:
+      ##
+      inventoryChecking-out:
+        destination: scs-100.inventoryChecking
+      inventoryChecking-in:
+        destination: scs-100.inventoryChecking
+        group: ${spring.application.name}-inventoryChecking-group
+        consumer:
+          maxAttempts: 1 # on example we are simulating "out of stock" scenario, so there is no point for retrying after it failed in the first attempt
 
-# To see the DEBUG level logs in console
-logging.level.com.ehsaniara.scs_kafka_intro: debug
----
-spring:
-  config:
-    activate:
-      on-profile: "test2"
+      order-dlq:
+        destination: scs-100.ordering_dlq
 
-  cloud.stream.bindings:
-    order-out.producer.partition-count: 10
-    order-in:
-      group: ${spring.application.name}-group
-      consumer.concurrency: 1
+      shipping-out:
+        destination: scs-100.shipping
+      shipping-in:
+        destination: scs-100.shipping
+        group: ${spring.application.name}-shipping-group
 
-  cloud.stream.kafka.binder:
-    autoAddPartitions: true
----
-spring:
-  config:
-    activate:
-      on-profile: "test3"
+    kafka:
+      bindings:
+        # If Inventory Checking fails
+        inventoryChecking-in.consumer:
+          enableDlq: true
+          dlqName: scs-100.ordering_dlq
+          autoCommitOnError: true
+          AutoCommitOffset: true
 
-  cloud.stream.bindings:
-    order-out.producer.partition-count: 10
-    order-in:
-      group: ${spring.application.name}-group
-      consumer.concurrency: 3
+        # If shipping fails
+        shipping-in.consumer:
+          enableDlq: true
+          dlqName: scs-100.ordering_dlq
+          autoCommitOnError: true
+          AutoCommitOffset: true
 
-  cloud.stream.kafka.binder:
-    autoAddPartitions: true
+logging:
+  level:
+    com.ehsaniara.scs_kafka_intro: debug
