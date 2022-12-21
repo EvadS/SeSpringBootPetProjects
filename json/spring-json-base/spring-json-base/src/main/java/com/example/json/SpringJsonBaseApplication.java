@@ -1,13 +1,13 @@
-package com.se.sample;
+package com.example.json;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class JsonDemoApplication {
+public class SpringJsonBaseApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(JsonDemoApplication.class, args);
+        SpringApplication.run(SpringJsonBaseApplication.class, args);
     }
 
 }

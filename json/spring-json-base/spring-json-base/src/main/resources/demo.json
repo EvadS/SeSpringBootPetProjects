@@ -1,0 +1,33 @@
+{
+  "_id": "pg_lighting_candles",
+  "code": "pg_lighting_candles",
+  "label": "Lighting & Candles",
+  "parent": "pg_home_decor",
+  "hasChild": "false",
+  "categoryTree": [
+    {
+      "code": "master",
+      "label": "Master catalog",
+      "position": "0"
+    },
+    {
+      "code": "gifts_keepsakes",
+      "label": "Gifts & Keepsakes",
+      "position": "1"
+    },
+    {
+      "code": "personalized_gifts",
+      "label": "Personalized Gifts",
+      "position": "2"
+    },
+    {
+      "code": "pg_home_decor",
+      "label": "Home & Décor",
+      "position": "3"
+    },
+    {
+      "code": "pg_lighting_candles",
+      "label": "Lighting & Candles"
+    }
+  ]
+}

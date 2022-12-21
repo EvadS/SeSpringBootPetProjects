@@ -1,10 +1,10 @@
-package com.se.sample;
+package com.example.json;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class JsonDemoApplicationTests {
+class SpringJsonBaseApplicationTests {
 
     @Test
     void contextLoads() {
